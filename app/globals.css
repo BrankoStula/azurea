@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────────────────────────
+   TAILWIND v4 THEME — Brand tokens become utility classes automatically.
+   e.g. --color-brand-green → bg-brand-green, text-brand-green, border-brand-green
+   e.g. --font-display       → font-display
+   NOTE: Hex values are visual approximations from VillaVBaliBrand_Draft-1.pdf.
+         Confirm exact values with brand designer (Fifth Avenue Properties)
+         before final production build. Replace values in this block only.
+──────────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* ── Colors ─────────────────────────────────────────────────────────────── */
+
+  /* Primary — Forest / Olive Green. Used for CTAs, logo bg, geometric pattern. */
+  --color-brand-green:    #6B8C35;
+  --color-brand-green-dk: #5A7828; /* hover state: ~15% darkened */
+
+  /* Dark — Near Black / Charcoal. Body text, nav, footer. */
+  --color-brand-black:    #1A1A1A;
+
+  /* Backgrounds */
+  --color-cream:          #F2EFE8; /* primary page background */
+  --color-surface:        #FAFAF7; /* card / panel surface */
+
+  /* Accent */
+  --color-sage:           #B0C4C4; /* muted blue-gray secondary */
+
+  /* Grays */
+  --color-gray-lt:        #D4D4D4; /* borders, dividers */
+  --color-gray-md:        #A8A8A8; /* secondary text, captions */
+
+  /* ── Typography ──────────────────────────────────────────────────────────── */
+  /* Mapped from Next.js font CSS variables injected at the <html> element.
+     Replace var() references when the confirmed brand fonts are loaded.      */
+  --font-display: var(--font-cormorant-display); /* condensed serif — headings */
+  --font-body:    var(--font-inter);             /* geometric sans — body/UI   */
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   @theme inline — Next.js font variables need `inline` so Tailwind resolves
+   the CSS custom property at the point of use rather than extracting a static
+   token (the value is only known at runtime after font injection).
+──────────────────────────────────────────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant-display);
+  --font-body:    var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─────────────────────────────────────────────────────────────────────────────
+   RAW CSS CUSTOM PROPERTIES — These are design tokens consumed via var() in
+   component styles. They do NOT generate Tailwind utility classes.
+──────────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Semantic color aliases ─────────────────────────────────────────────── */
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #A8A8A8;
+  --color-text-on-green:  #FFFFFF;
+  --color-text-on-dark:   #F2EFE8;
+  --color-cta-bg:         #6B8C35;
+  --color-cta-hover:      #5A7828;
+  --color-border:         #D4D4D4;
+
+  /* ── Type scale ─────────────────────────────────────────────────────────── */
+  --text-hero:    clamp(3.5rem, 8vw, 8rem);   /* homepage hero headline       */
+  --text-h1:      clamp(2.5rem, 5vw, 5rem);
+  --text-h2:      clamp(1.75rem, 3vw, 3rem);
+  --text-h3:      clamp(1.25rem, 2vw, 2rem);
+  --text-body-lg: 1.125rem;   /* 18px — primary body */
+  --text-body:    1rem;       /* 16px */
+  --text-sm:      0.875rem;   /* 14px — captions, labels */
+  --text-xs:      0.75rem;    /* 12px — legal, micro-copy */
+
+  /* ── Letter spacing ─────────────────────────────────────────────────────── */
+  --tracking-hero:    0.02em;
+  --tracking-heading: 0.04em;
+  --tracking-caps:    0.15em; /* small-caps labels: "BALI, INDONESIA" */
+
+  /* ── Spacing scale ──────────────────────────────────────────────────────── */
+  --space-1:  0.25rem;   /*   4px */
+  --space-2:  0.5rem;    /*   8px */
+  --space-3:  0.75rem;   /*  12px */
+  --space-4:  1rem;      /*  16px */
+  --space-6:  1.5rem;    /*  24px */
+  --space-8:  2rem;      /*  32px */
+  --space-12: 3rem;      /*  48px */
+  --space-16: 4rem;      /*  64px */
+  --space-24: 6rem;      /*  96px */
+  --space-32: 8rem;      /* 128px */
+
+  /* ── Container widths ───────────────────────────────────────────────────── */
+  --container-max:     1440px;
+  --container-wide:    1280px;
+  --container-default: 1100px;
+  --container-narrow:   720px;
+
+  /* ── Section rhythm ─────────────────────────────────────────────────────── */
+  --section-py: var(--space-24);
+  --section-px: var(--space-8);
+
+  /* ── Border radius ──────────────────────────────────────────────────────── */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+
+  /* ── Transitions ────────────────────────────────────────────────────────── */
+  --transition-fast:    150ms ease;
+  --transition-default: 300ms ease;
+  --transition-slow:    600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Brand decoration ───────────────────────────────────────────────────── */
+  /* Triangle tessellation opacity levels — applied as CSS background overlays */
+  --pattern-opacity-dark:  0.12;
+  --pattern-opacity-light: 0.06;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE STYLES
+──────────────────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F2EFE8;
+  color: #1A1A1A;
+  font-family: var(--font-inter, 'Inter', Helvetica, sans-serif);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cormorant-display, 'Cormorant Display', Georgia, serif);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-heading);
+}
+
+/* Utility: full-bleed section wrapper */
+.section-wrapper {
+  width: 100%;
+  max-width: var(--container-default);
+  margin-inline: auto;
+  padding-block: var(--section-py);
+  padding-inline: var(--section-px);
+}
+
+/* Utility: caps label (e.g. "BALI, INDONESIA" treatment) */
+.label-caps {
+  font-family: var(--font-cormorant-display, Georgia, serif);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+/* Placeholder section baseline — removed in production when real components land */
+[data-placeholder] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  border: 2px dashed #D4D4D4;
+  background-color: #FAFAF7;
+  padding: var(--space-12);
+  text-align: center;
+  gap: var(--space-4);
+}
+
+[data-placeholder] h2 {
+  font-size: var(--text-h2);
+  color: #6B8C35;
+}
+
+[data-placeholder] p {
+  font-size: var(--text-sm);
+  color: #A8A8A8;
+  max-width: 520px;
 }
