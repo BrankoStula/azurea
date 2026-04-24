@@ -69,7 +69,7 @@ useEffect(() => {
       )}
 
       <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-80">
-        <source src="https://d1pjqs5r0ua4f1.cloudfront.net/VILLA_1_VERTICAL_VIDEO-007_web.mp4" type="video/mp4" />
+        <source src="https://d1pjqs5r0ua4f1.cloudfront.net/azurea_render_web.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-brand-black/30 via-transparent to-brand-black/80" />

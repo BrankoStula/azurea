@@ -9,21 +9,20 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 // Elegant easing curve for luxury feel
 const LUXURY = [0.16, 1, 0.3, 1] as const;
 
-// 10 reliable stock IDs for 2 full pages of 5 images
 const GALLERY = [
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_1.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_2.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_4.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_5.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_7.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_8.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_9.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_10.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_11.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp",
-  "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp"
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_1.webp",  label: "Outdoor Terrace" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_2.webp",  label: "Kitchen" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp",  label: "Living Room" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_4.webp",  label: "Dining Room" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_5.webp",  label: "Open-Plan Living" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp",  label: "Private Pool" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_7.webp",  label: "Pool Terrace" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_8.webp",  label: "Kitchen Island" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_9.webp",  label: "Pool & Garden" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_10.webp", label: "Dining Room" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_11.webp", label: "Kitchen & Living" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp", label: "Kitchen" },
+  { src: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp", label: "Villa Exterior" },
 ];
 
 const ITEMS_PER_PAGE = 5;
@@ -77,12 +76,12 @@ const imageVariants = {
 
 const getBentoConfig = (index: number) => {
   switch (index % ITEMS_PER_PAGE) {
-    case 0: return { class: "md:col-span-1 md:row-span-2 col-span-2 row-span-1", dir: "up", label: "Master Suite" };
-    case 1: return { class: "md:col-span-2 md:row-span-1 col-span-2 row-span-1", dir: "right", label: "Living Areas" };
-    case 2: return { class: "md:col-span-1 md:row-span-2 col-span-1 row-span-1", dir: "down", label: "Exterior" };
-    case 3: return { class: "md:col-span-1 md:row-span-1 col-span-1 row-span-1", dir: "left", label: "Amenities" };
-    case 4: return { class: "md:col-span-1 md:row-span-1 col-span-2 row-span-1", dir: "up", label: "Details" };
-    default: return { class: "", dir: "up", label: "" };
+    case 0: return { class: "md:col-span-1 md:row-span-2 col-span-2 row-span-1", dir: "up" };
+    case 1: return { class: "md:col-span-2 md:row-span-1 col-span-2 row-span-1", dir: "right" };
+    case 2: return { class: "md:col-span-1 md:row-span-2 col-span-1 row-span-1", dir: "down" };
+    case 3: return { class: "md:col-span-1 md:row-span-1 col-span-1 row-span-1", dir: "left" };
+    case 4: return { class: "md:col-span-1 md:row-span-1 col-span-2 row-span-1", dir: "up" };
+    default: return { class: "", dir: "up" };
   }
 };
 
@@ -95,7 +94,7 @@ export default function ProjectGallery() {
   const nextPage = () => setPage((p) => (p + 1) % totalPages);
   const prevPage = () => setPage((p) => (p - 1 + totalPages) % totalPages);
 
-  const currentImages = GALLERY.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
+  const currentItems = GALLERY.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
 
   return (
     <div className="bg-brand-black border-t border-white/10 py-24 lg:py-32 overflow-hidden">
@@ -144,36 +143,36 @@ export default function ProjectGallery() {
             exit="exit"
             className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 auto-rows-[250px] md:auto-rows-[350px] lg:auto-rows-[400px]"
           >
-            {currentImages.map((src, i) => {
+            {currentItems.map((item, i) => {
               const config = getBentoConfig(i);
-              
+
               return (
-                <motion.div 
-                  key={src}
-                  custom={config.dir} // Pass direction to variants
+                <motion.div
+                  key={item.src}
+                  custom={config.dir}
                   variants={itemVariants}
                   className={`relative group overflow-hidden bg-brand-black/50 ${config.class}`}
                 >
                   <motion.div variants={imageVariants} className="absolute inset-0 w-full h-full">
-                    <Image 
-                      src={src} 
-                      alt={config.label} 
-                      fill 
-                      className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105" 
+                    <Image
+                      src={item.src}
+                      alt={item.label}
+                      fill
+                      className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    
+
                     {/* Gradient overlay to ensure text readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-black/70 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700" />
                   </motion.div>
-                  
-                  {/* Editorial Text Overlay (Matches Reference Image Vibe) */}
+
+                  {/* Editorial Text Overlay */}
                   <div className="absolute bottom-6 left-6 z-10">
                     <p className="text-[#C9A55A] font-display text-2xl lg:text-3xl italic leading-none mb-1 shadow-black drop-shadow-md">
                       {String((page * ITEMS_PER_PAGE) + i + 1).padStart(2, "0")}
                     </p>
                     <p className="text-cream/70 text-[10px] uppercase tracking-widest shadow-black drop-shadow-md">
-                      {config.label}
+                      {item.label}
                     </p>
                   </div>
 

@@ -340,7 +340,7 @@ export default function LocationSection() {
               <div
                 key={s.id}
                 ref={(el) => { sectionRefs.current[i] = el; }}
-                className="min-h-screen flex flex-col justify-center px-8 md:px-10 lg:px-12 py-28 border-b border-white/5 last:border-b-0"
+                className="min-h-screen flex flex-col justify-center px-8 md:px-10 lg:px-12 py-16 lg:py-28 border-b border-white/5 last:border-b-0"
               >
                 {/* Label */}
                 <motion.p
@@ -471,6 +471,15 @@ export default function LocationSection() {
                     </Link>
                   </motion.div>
                 )}
+
+                {/* Mobile image strip — desktop has sticky right pane */}
+                <div className="lg:hidden mt-8 flex gap-1 overflow-hidden rounded-sm" style={{ height: "42vw" }}>
+                  {s.images.slice(0, 2).map((img, j) => (
+                    <div key={j} className="flex-1 relative overflow-hidden">
+                      <Image src={img} alt="" fill className="object-cover" sizes="50vw" priority={i === 0 && j === 0} />
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })}
@@ -574,19 +583,6 @@ export default function LocationSection() {
           </div>
         </div>
 
-        {/* Mobile — stacked map + image */}
-        <div className="lg:hidden">
-          <div className="h-[50vw] relative">
-            <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
-          </div>
-          <div className="flex h-[40vw]">
-            {displayImages.slice(0, 2).map((img, i) => (
-              <div key={i} className="flex-1 relative overflow-hidden">
-                <Image src={img} alt="" fill className="object-cover" sizes="50vw" />
-              </div>
-            ))}
-          </div>
-        </div>
 
       </div>
     </section>

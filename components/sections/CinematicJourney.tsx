@@ -91,12 +91,13 @@ const VisionStats = () => (
 const MaterialSwatches = () => (
   <div className="flex flex-col gap-4 mt-8 border-t border-white/10 pt-8">
     {[
-      { name: "Travertine Stone", color: "bg-[#D4C5B9]", desc: "Natural cooling properties" },
-      { name: "Teak Timber", color: "bg-[#8B5A2B]", desc: "Sustainably sourced" },
-      { name: "Polished Concrete", color: "bg-[#9CA3AF]", desc: "Seamless brutalist foundation" },
+      { name: "Travertine Stone", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_travertine.webp", desc: "Natural cooling properties" },
+      { name: "Teak Timber",      imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_teak.webp",       desc: "Sustainably sourced" },
+      { name: "Polished Concrete",imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_concrete.webp",   desc: "Seamless brutalist foundation" },
     ].map((m, i) => (
       <div key={i} className="flex items-center gap-4">
-        <div className={`w-10 h-10 rounded-full ${m.color} border-2 border-white/10 shadow-lg`} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={m.imgUrl} alt={m.name} className="w-10 h-10 rounded-full object-cover border-2 border-white/10 shadow-lg" />
         <div>
           <p className="text-cream text-sm font-medium">{m.name}</p>
           <p className="text-cream/40 text-xs">{m.desc}</p>
@@ -260,6 +261,7 @@ function FinancialDashboard() {
 
 export default function CinematicJourney() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionEl = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
@@ -269,6 +271,15 @@ export default function CinematicJourney() {
 
   // Sync ref for wheel listener
   useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
+
+  // Track desktop breakpoint so width animations don't fire on mobile
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // Track active section via IntersectionObserver
   useEffect(() => {
@@ -330,10 +341,10 @@ export default function CinematicJourney() {
       {/* ════════════════════════════════════════════════════════════════════
           LEFT PANE — THE LAYER CAKE MEDIA CONTAINER
       ════════════════════════════════════════════════════════════════════ */}
-      <motion.div 
-        animate={{ 
-          width: isInvestment ? "0%" : "50%",
-          opacity: isInvestment ? 0 : 1 
+      <motion.div
+        animate={{
+          width: isDesktop ? (isInvestment ? "0%" : "50%") : "0%",
+          opacity: isDesktop ? (isInvestment ? 0 : 1) : 0,
         }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="hidden lg:block sticky top-0 h-screen overflow-hidden shrink-0 border-r border-white/10"
@@ -433,8 +444,8 @@ export default function CinematicJourney() {
       {/* ════════════════════════════════════════════════════════════════════
           RIGHT PANE — SCROLLING CONTENT
       ════════════════════════════════════════════════════════════════════ */}
-      <motion.div 
-        animate={{ width: isInvestment ? "100%" : "50%" }}
+      <motion.div
+        animate={{ width: isDesktop ? (isInvestment ? "100%" : "50%") : "100%" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="w-full lg:w-[50%] shrink-0"
       >
@@ -455,11 +466,19 @@ export default function CinematicJourney() {
           <div
             key={chapter.id}
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className="min-h-screen flex items-center px-8 sm:px-12 lg:px-24 py-24 lg:py-0 relative overflow-hidden"
+            className="min-h-screen flex items-center px-8 sm:px-12 lg:px-24 py-16 lg:py-0 relative overflow-hidden"
           >
             {/* The layout ratio shifts here dynamically: 1fr to 2.2fr */}
             <div className={`w-full ${isInvestment ? 'lg:grid lg:grid-cols-[1fr_2.2fr] lg:gap-20 items-center' : ''}`}>
-              
+
+              {/* Mobile chapter image — left pane is desktop-only */}
+              {chapter.imgMain && (
+                <div className="lg:hidden w-full aspect-video overflow-hidden mb-8 border border-white/10 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
+                </div>
+              )}
+
               {/* Text Layout with SNAP-IN Animation */}
               <motion.div 
                 initial={false}

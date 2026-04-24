@@ -61,7 +61,7 @@ export default function Navbar() {
         variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
         animate={isHidden && !isOpen ? "hidden" : "visible"}
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-        className={`fixed top-0 left-0 w-full h-24 px-6 md:px-12 flex items-start pt-6 justify-between z-50 overflow-visible transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full h-20 md:h-24 px-4 md:px-12 flex items-start pt-5 md:pt-6 justify-between z-50 overflow-visible transition-all duration-500 ${
           isScrolled && !isOpen 
             ? "bg-brand-black/70 backdrop-blur-md border-b border-white/10 pointer-events-auto" 
             : "bg-transparent pointer-events-none"
@@ -73,32 +73,33 @@ export default function Navbar() {
           className="p-2 -ml-2 text-brand-green hover:text-brand-green-dk transition-colors z-50 focus:outline-none flex-shrink-0 pointer-events-auto"
           aria-label="Toggle Menu"
         >
-          {isOpen ? <X size={36} strokeWidth={1.5} /> : <Menu size={36} strokeWidth={1.5} />}
+          {isOpen ? <X size={32} strokeWidth={1.5} className="md:w-9 md:h-9" /> : <Menu size={32} strokeWidth={1.5} className="md:w-9 md:h-9" />}
         </button>
 
         {/* Middle: Azurea Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-50 w-max top-5 pointer-events-auto">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-50 w-max top-6 md:top-6 pointer-events-auto">
           <Link href="/" onClick={handleLinkClick} className="flex items-center gap-3 group">
             <Image
               src="/azurea-icon.svg"
-              alt=""
+              alt="Azurea Logo"
               width={26}
               height={38}
-              className="group-hover:opacity-80 transition-opacity duration-300"
+              className="group-hover:opacity-80 transition-opacity duration-300 w-5 md:w-[26px] h-auto"
             />
+            {/* The wordmark is hidden on mobile (hidden md:block) */}
             <Image
               src="/azurea-wordmark.svg"
               alt="Azurea"
               width={130}
               height={24}
-              className="group-hover:opacity-80 transition-opacity duration-300"
+              className="hidden md:block group-hover:opacity-80 transition-opacity duration-300"
             />
           </Link>
         </div>
 
         {/* Right: Contact CTA */}
-        <div className="absolute right-0 top-0 h-24 flex items-start pt-6 z-50 pointer-events-auto">
-          <motion.div initial="hidden" animate="visible" whileHover="hover" className="relative flex items-center justify-center pl-6 md:pl-8 pr-6 md:pr-12 py-2 md:py-3 group cursor-pointer">
+        <div className="absolute right-0 top-0 h-20 md:h-24 flex items-start pt-5 md:pt-6 z-50 pointer-events-auto">
+          <motion.div initial="hidden" animate="visible" whileHover="hover" className="relative flex items-center justify-center pl-4 md:pl-8 pr-4 md:pr-12 py-2 md:py-3 group cursor-pointer">
             <div className="absolute inset-0 overflow-hidden z-0">
               <motion.div className="absolute inset-0 bg-brand-green" variants={{ hidden: { y: "100%" }, visible: { y: "100%" }, hover: { y: "0%" } }} transition={{ duration: 0.3, ease: "easeInOut" }} />
             </div>
@@ -109,14 +110,15 @@ export default function Navbar() {
             <motion.div className="absolute left-0 top-0 w-full h-[2px] bg-brand-green origin-left z-10" variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 }, hover: { scaleX: 0 } }} transition={{ duration: 0.25, delay: 0.45, ease: "linear" }} />
             <motion.div className="absolute left-full top-0 h-[2px] bg-brand-green origin-left pointer-events-none z-10" variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 }, hover: { scaleX: 0 } }} style={{ width: "100vw" }} transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }} />
 
-            <Link href="/contact" onClick={handleLinkClick} className="relative z-20 font-display text-lg md:text-xl lg:text-2xl uppercase tracking-widest text-cream transition-colors whitespace-nowrap">
-              Contact Us
+            {/* Font size is much tighter on mobile to prevent overlapping */}
+            <Link href="/contact" onClick={handleLinkClick} className="relative z-20 font-display text-sm md:text-xl lg:text-2xl uppercase tracking-widest text-cream transition-colors whitespace-nowrap mt-0.5 md:mt-0">
+              Contact
             </Link>
           </motion.div>
         </div>
       </motion.header>
 
-      {/* ─── FULL SCREEN OVERLAY MENU (Unchanged) ─── */}
+      {/* ─── FULL SCREEN OVERLAY MENU ─── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 0.2 } }} transition={{ duration: 0.4 }} className="fixed inset-0 z-40 bg-cream overflow-hidden">
@@ -139,7 +141,7 @@ export default function Navbar() {
             </div>
 
             <div className="relative z-10 w-full h-full flex flex-col justify-center px-6 md:px-12 overflow-visible">
-              <motion.nav initial="closed" animate="open" exit="closed" variants={{ open: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } }, closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } } }} className="flex flex-col gap-2 md:gap-4 items-start">
+              <motion.nav initial="closed" animate="open" exit="closed" variants={{ open: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } }, closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } } }} className="flex flex-col gap-4 md:gap-4 items-start">
                 {navLinks.map((link) => (
                   <motion.div key={link.label} variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -150 } }} transition={{ type: "spring", stiffness: 100, damping: 15 }} className="py-2 md:py-4 relative w-full">
                     <Link href={link.href} onClick={handleLinkClick} onMouseEnter={() => setHoveredLabel(link.label)} onMouseLeave={() => setHoveredLabel(null)} className="relative inline-flex items-center font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-brand-black hover:text-brand-green transition-colors uppercase tracking-widest leading-none mix-blend-difference text-cream text-left group/link">
