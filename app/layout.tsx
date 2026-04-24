@@ -22,13 +22,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "The Villa V Collection — Bali, Indonesia",
-    template: "%s | The Villa V Collection",
+    default: "Azurea — A Private Coastal Enclave in Seseh, Bali",
+    template: "%s | Azurea",
   },
   description:
-    "A curated collection of three luxury villas in Bali, Indonesia. Exhale & discover your next escape.",
+    "Azurea is a curated collection of luxury villas in Munggu, Bali. A private coastal enclave offering high-yield investment and timeless tropical living.",
   openGraph: {
-    siteName: "The Villa V Collection",
+    siteName: "Azurea",
     locale: "en_AU",
     type: "website",
   },

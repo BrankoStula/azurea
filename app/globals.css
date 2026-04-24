@@ -4,26 +4,25 @@
    TAILWIND v4 THEME — Brand tokens become utility classes automatically.
    e.g. --color-brand-green → bg-brand-green, text-brand-green, border-brand-green
    e.g. --font-display       → font-display
-   NOTE: Hex values are visual approximations from VillaVBaliBrand_Draft-1.pdf.
-         Confirm exact values with brand designer (Fifth Avenue Properties)
-         before final production build. Replace values in this block only.
+   NOTE: Colors sourced from Azurea Brand Identity guide (info/AZURE_BRAND.jpeg).
+         Gold #C9A55A · Navy #08204D · Sand #F5F3EE · Charcoal #28282B.
 ──────────────────────────────────────────────────────────────────────────────── */
 @theme {
   /* ── Colors ─────────────────────────────────────────────────────────────── */
 
-  /* Primary — Forest / Olive Green. Used for CTAs, logo bg, geometric pattern. */
-  --color-brand-green:    #6B8C35;
-  --color-brand-green-dk: #5A7828; /* hover state: ~15% darkened */
+  /* Gold — Brushed Gold Accent. Logo, accent lines, labels on dark bg, CTAs. */
+  --color-brand-green:    #C9A55A;
+  --color-brand-green-dk: #9A7030; /* hover state */
 
-  /* Dark — Near Black / Charcoal. Body text, nav, footer. */
-  --color-brand-black:    #1A1A1A;
+  /* Dark — Azure Deep Blue. Dark sections, hero, footer backgrounds. */
+  --color-brand-black:    #08204D;
 
   /* Backgrounds */
-  --color-cream:          #F2EFE8; /* primary page background */
-  --color-surface:        #FAFAF7; /* card / panel surface */
+  --color-cream:          #F5F3EE; /* Soft Sand White — primary page background */
+  --color-surface:        #F0EDE8; /* card / panel surface */
 
   /* Accent */
-  --color-sage:           #B0C4C4; /* muted blue-gray secondary */
+  --color-sage:           #C9A55A; /* matches gold accent */
 
   /* Grays */
   --color-gray-lt:        #D4D4D4; /* borders, dividers */
@@ -52,12 +51,12 @@
 ──────────────────────────────────────────────────────────────────────────────── */
 :root {
   /* ── Semantic color aliases ─────────────────────────────────────────────── */
-  --color-text-primary:   #1A1A1A;
+  --color-text-primary:   #28282B;
   --color-text-secondary: #A8A8A8;
   --color-text-on-green:  #FFFFFF;
-  --color-text-on-dark:   #F2EFE8;
-  --color-cta-bg:         #6B8C35;
-  --color-cta-hover:      #5A7828;
+  --color-text-on-dark:   #F5F3EE;
+  --color-cta-bg:         #C9A55A;
+  --color-cta-hover:      #9A7030;
   --color-border:         #D4D4D4;
 
   /* ── Type scale ─────────────────────────────────────────────────────────── */
@@ -128,8 +127,8 @@ html {
 }
 
 body {
-  background-color: #F2EFE8;
-  color: #1A1A1A;
+  background-color: #F5F3EE;
+  color: #182945;
   font-family: var(--font-inter, 'Inter', Helvetica, sans-serif);
   font-size: var(--text-body);
   line-height: 1.6;
@@ -178,11 +177,26 @@ h1, h2, h3, h4, h5, h6 {
 
 [data-placeholder] h2 {
   font-size: var(--text-h2);
-  color: #6B8C35;
+  color: #C9A55A;
 }
 
 [data-placeholder] p {
   font-size: var(--text-sm);
   color: #A8A8A8;
   max-width: 520px;
+}
+
+/* Ken Burns slow zoom — used in cinematic scroll journey */
+@keyframes kenburns {
+  0%   { transform: scale(1.08); }
+  100% { transform: scale(1.03); }
+}
+
+/* Utility: hide scrollbar while preserving scroll functionality */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

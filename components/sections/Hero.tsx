@@ -76,7 +76,15 @@ useEffect(() => {
 
       <div className="relative z-10 w-full h-full flex flex-col justify-between px-6 md:px-12 pb-12 pt-36 pointer-events-none">
         <div className="flex justify-end w-full">
-          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-right">
+          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-right relative">
+            {/* Accent line extending to the right — mirrors the left-side Exhale line */}
+            <motion.div
+              className="absolute left-full top-[45%] h-[2px] bg-brand-green origin-left ml-8"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ width: "100vw" }}
+            />
             <div className="overflow-hidden mb-1">
               <motion.p variants={maskReveal} className="text-[10px] sm:text-xs tracking-[0.4em] text-brand-green/80 uppercase">Location</motion.p>
             </div>
@@ -106,7 +114,15 @@ useEffect(() => {
             </div>
           </motion.div>
 
-          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-left md:text-right flex flex-col items-start md:items-end">
+          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-left md:text-right flex flex-col items-start md:items-end relative">
+            {/* Accent line extending to the right */}
+            <motion.div
+              className="absolute left-full top-[15%] h-[2px] bg-brand-green origin-left ml-8"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ width: "100vw" }}
+            />
             <div className="overflow-hidden mb-2">
               <motion.p variants={maskReveal} className="text-[10px] sm:text-xs tracking-[0.4em] text-brand-green/80 uppercase">Est. Yield</motion.p>
             </div>

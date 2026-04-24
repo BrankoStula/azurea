@@ -20,9 +20,11 @@ export default function Navbar() {
   const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
   const { scrollY } = useScroll();
   const [isHidden, setIsHidden] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Auto-hide on scroll
+  // Auto-hide and blur on scroll
   useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 50);
     const previous = scrollY.getPrevious() || 0;
     if (latest > previous && latest > 100) {
       setIsHidden(true);
@@ -54,14 +56,18 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ─── NAVBAR MAIN HEADER (COMPACT) ─── */}
+      {/* ─── NAVBAR MAIN HEADER ─── */}
       <motion.header 
         variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
         animate={isHidden && !isOpen ? "hidden" : "visible"}
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-        className="fixed top-0 left-0 w-full h-24 px-6 md:px-12 flex items-start pt-6 justify-between z-50 bg-transparent overflow-visible pointer-events-none"
+        className={`fixed top-0 left-0 w-full h-24 px-6 md:px-12 flex items-start pt-6 justify-between z-50 overflow-visible transition-all duration-500 ${
+          isScrolled && !isOpen 
+            ? "bg-brand-black/70 backdrop-blur-md border-b border-white/10 pointer-events-auto" 
+            : "bg-transparent pointer-events-none"
+        }`}
       >
-        {/* Left: Hamburger Menu (Scaled Down Slightly) */}
+        {/* Left: Hamburger Menu */}
         <button
           onClick={toggleMenu}
           className="p-2 -ml-2 text-brand-green hover:text-brand-green-dk transition-colors z-50 focus:outline-none flex-shrink-0 pointer-events-auto"
@@ -70,24 +76,29 @@ export default function Navbar() {
           {isOpen ? <X size={36} strokeWidth={1.5} /> : <Menu size={36} strokeWidth={1.5} />}
         </button>
 
-        {/* Middle: Integrated Brand Name & Logo (Scaled Down) */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-50 w-max top-6 pointer-events-auto">
-          <Link href="/" onClick={handleLinkClick} className="flex items-center gap-2 md:gap-3 group mix-blend-difference text-cream">
-            <span className="font-display text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.1em] uppercase group-hover:opacity-80 transition-opacity">
-              THE VILLA
-            </span>
-            <span className="text-brand-green text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] font-display leading-none mt-[-4px] md:mt-[-6px] group-hover:scale-105 transition-transform duration-500 mix-blend-normal">
-              V
-            </span>
-            <span className="font-display text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.1em] uppercase group-hover:opacity-80 transition-opacity">
-              COLLECTION
-            </span>
+        {/* Middle: Azurea Logo */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-50 w-max top-5 pointer-events-auto">
+          <Link href="/" onClick={handleLinkClick} className="flex items-center gap-3 group">
+            <Image
+              src="/azurea-icon.svg"
+              alt=""
+              width={26}
+              height={38}
+              className="group-hover:opacity-80 transition-opacity duration-300"
+            />
+            <Image
+              src="/azurea-wordmark.svg"
+              alt="Azurea"
+              width={130}
+              height={24}
+              className="group-hover:opacity-80 transition-opacity duration-300"
+            />
           </Link>
         </div>
 
-        {/* Right: Custom Animated Contact CTA (Scaled Down) */}
-        <div className="z-50 flex-shrink-0 pointer-events-auto mt-1 md:mt-0">
-          <motion.div initial="hidden" animate="visible" whileHover="hover" className="relative flex items-center justify-center px-6 md:px-8 py-2 md:py-3 group cursor-pointer overflow-hidden">
+        {/* Right: Contact CTA */}
+        <div className="absolute right-0 top-0 h-24 flex items-start pt-6 z-50 pointer-events-auto">
+          <motion.div initial="hidden" animate="visible" whileHover="hover" className="relative flex items-center justify-center pl-6 md:pl-8 pr-6 md:pr-12 py-2 md:py-3 group cursor-pointer">
             <div className="absolute inset-0 overflow-hidden z-0">
               <motion.div className="absolute inset-0 bg-brand-green" variants={{ hidden: { y: "100%" }, visible: { y: "100%" }, hover: { y: "0%" } }} transition={{ duration: 0.3, ease: "easeInOut" }} />
             </div>
@@ -105,7 +116,7 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* ─── FULL SCREEN OVERLAY MENU (Unchanged logic, just scaling) ─── */}
+      {/* ─── FULL SCREEN OVERLAY MENU (Unchanged) ─── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 0.2 } }} transition={{ duration: 0.4 }} className="fixed inset-0 z-40 bg-cream overflow-hidden">
