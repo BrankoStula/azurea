@@ -37,7 +37,7 @@ function ImageMosaic() {
 
 export default function VillaDetails() {
   return (
-    <div className="bg-brand-black">
+    <div id="villas" className="bg-brand-black">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2">
         <div className="px-8 md:px-12 lg:px-16 py-20 lg:py-28 flex flex-col justify-center order-2 lg:order-1">
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5 }} className="text-brand-green text-[10px] uppercase tracking-[0.3em] mb-6">The Villa</motion.p>

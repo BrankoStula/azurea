@@ -8,11 +8,11 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { id: "01", label: "Project", href: "/project", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop", tagline: "Discover the Vision" },
-  { id: "02", label: "Location", href: "/location", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2038&auto=format&fit=crop", tagline: "Bali, Indonesia" },
-  { id: "03", label: "Villas", href: "/product", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop", tagline: "Curated Luxury" },
-  { id: "04", label: "Plans", href: "/plans", image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop", tagline: "Architectural Detail" },
-  { id: "05", label: "Promotions", href: "/promotions", image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070&auto=format&fit=crop", tagline: "Exclusive Offers" },
+  { id: "01", label: "Project",    href: "#project",    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop", tagline: "Discover the Vision" },
+  { id: "02", label: "Location",   href: "#why-bali",   image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2038&auto=format&fit=crop", tagline: "Bali, Indonesia" },
+  { id: "03", label: "Villas",     href: "#villas",     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop", tagline: "Curated Luxury" },
+  { id: "04", label: "Plans",      href: "#masterplan", image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop", tagline: "Architectural Detail" },
+  { id: "05", label: "Inquire",    href: "#inquiry",    image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070&auto=format&fit=crop", tagline: "Get in Touch" },
 ];
 
 export default function Navbar() {
@@ -47,9 +47,13 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   };
 
-  const handleLinkClick = () => {
+  const handleHashNav = (hash: string) => {
     setIsOpen(false);
     setHoveredLabel(null);
+    // Wait for menu close animation (400ms) + body overflow restore before scrolling
+    setTimeout(() => {
+      document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+    }, 420);
   };
 
   const activeLink = navLinks.find(link => link.label === hoveredLabel) || navLinks[0];
@@ -78,7 +82,7 @@ export default function Navbar() {
 
         {/* Middle: Azurea Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-50 w-max top-6 md:top-6 pointer-events-auto">
-          <Link href="/" onClick={handleLinkClick} className="flex items-center gap-3 group">
+          <Link href="/" onClick={() => { setIsOpen(false); setHoveredLabel(null); }} className="flex items-center gap-3 group">
             <Image
               src="/azurea-icon.svg"
               alt="Azurea Logo"
@@ -111,9 +115,9 @@ export default function Navbar() {
             <motion.div className="absolute left-full top-0 h-[2px] bg-brand-green origin-left pointer-events-none z-10" variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 }, hover: { scaleX: 0 } }} style={{ width: "100vw" }} transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }} />
 
             {/* Font size is much tighter on mobile to prevent overlapping */}
-            <Link href="/contact" onClick={handleLinkClick} className="relative z-20 font-display text-sm md:text-xl lg:text-2xl uppercase tracking-widest text-cream transition-colors whitespace-nowrap mt-0.5 md:mt-0">
+            <button onClick={() => handleHashNav("#inquiry")} className="relative z-20 font-display text-sm md:text-xl lg:text-2xl uppercase tracking-widest text-cream transition-colors whitespace-nowrap mt-0.5 md:mt-0">
               Contact
-            </Link>
+            </button>
           </motion.div>
         </div>
       </motion.header>
@@ -144,10 +148,10 @@ export default function Navbar() {
               <motion.nav initial="closed" animate="open" exit="closed" variants={{ open: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } }, closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } } }} className="flex flex-col gap-4 md:gap-4 items-start">
                 {navLinks.map((link) => (
                   <motion.div key={link.label} variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -150 } }} transition={{ type: "spring", stiffness: 100, damping: 15 }} className="py-2 md:py-4 relative w-full">
-                    <Link href={link.href} onClick={handleLinkClick} onMouseEnter={() => setHoveredLabel(link.label)} onMouseLeave={() => setHoveredLabel(null)} className="relative inline-flex items-center font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-brand-black hover:text-brand-green transition-colors uppercase tracking-widest leading-none mix-blend-difference text-cream text-left group/link">
+                    <button onClick={() => handleHashNav(link.href)} onMouseEnter={() => setHoveredLabel(link.label)} onMouseLeave={() => setHoveredLabel(null)} className="relative inline-flex items-center font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-brand-black hover:text-brand-green transition-colors uppercase tracking-widest leading-none mix-blend-difference text-cream text-left group/link">
                       <motion.span className="absolute right-[calc(100%+1.5rem)] top-1/2 h-[2px] bg-cream origin-right" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }} style={{ width: "100vw" }} />
                       {link.label}
-                    </Link>
+                    </button>
                   </motion.div>
                 ))}
               </motion.nav>

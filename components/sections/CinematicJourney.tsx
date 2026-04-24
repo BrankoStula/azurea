@@ -273,9 +273,18 @@ export default function CinematicJourney() {
   useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
 
   // Track desktop breakpoint so width animations don't fire on mobile
+  // Track desktop breakpoint so width animations don't fire on mobile
   useEffect(() => {
+    // Only run on the client
+    if (typeof window === "undefined") return;
+    
     const mq = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(mq.matches);
+    
+    // Set initial state safely
+    const setInitialState = () => setIsDesktop(mq.matches);
+    setInitialState();
+    
+    // Listen for changes
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
