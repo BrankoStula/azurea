@@ -4,7 +4,7 @@
 import { motion } from "framer-motion";
 import { Building2, Shield, TrendingUp, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link"; // Replaced <a> with Next Link
+import Link from "next/link"; 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const GOLD = "#C9A55A";
@@ -66,8 +66,7 @@ const getPillarPadding = (i: number) => {
 export default function DeveloperSection() {
   return (
     <motion.section
-      // Removed horizontal padding here so borders can stretch 100vw
-      className="bg-brand-black text-cream relative w-full overflow-hidden"
+      className="bg-brand-black py-30 text-cream relative w-full overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
@@ -79,48 +78,53 @@ export default function DeveloperSection() {
         variants={drawLineRight}
       />
 
-      {/* ── Header ── */}
-      {/* Padding is applied to the inner wrapper instead */}
-      <div className="grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-24 py-20 lg:py-28 px-6 md:px-12 lg:px-24">
+      {/* ── Header (Centered Layout) ── */}
+      <div className="flex flex-col items-center text-center gap-8 py-20 lg:py-28 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto">
         
-        {/* Left — eyebrow + logo + subheading */}
-        <div className="flex flex-col gap-8">
-          <motion.p variants={fadeUp} className="text-[10px] uppercase tracking-[0.35em]" style={{ color: GOLD }}>
-            Developed by
-          </motion.p>
+        {/* Eyebrow */}
+        <motion.p 
+          variants={fadeUp} 
+          className="text-[10px] uppercase tracking-[0.35em] flex items-center gap-4" 
+          style={{ color: GOLD }}
+        >
+          <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
+          Developed by
+          <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
+        </motion.p>
 
-          <motion.div variants={fadeIn}>
-            <Image
-              src="https://d1pjqs5r0ua4f1.cloudfront.net/royal_bali_group_logo-removebg-preview.webp"
-              alt="Royal Bali Group"
-              width={480}
-              height={240}
-              className="h-28 md:h-36 lg:h-40 w-auto object-contain object-left"
-            />
-          </motion.div>
+        {/* Logo */}
+        <motion.div variants={fadeIn} className="flex justify-center my-2">
+          <Image
+            src="https://d1pjqs5r0ua4f1.cloudfront.net/royal_bali_group_logo-removebg-preview.webp"
+            alt="Royal Bali Group"
+            width={480}
+            height={240}
+            className="h-28 md:h-36 lg:h-40 w-auto object-contain object-center"
+          />
+        </motion.div>
 
-          <motion.p
-            variants={fadeUp}
-            className="font-display text-cream/40 leading-snug"
-            style={{ fontSize: "clamp(1rem, 1.4vw, 1.15rem)", letterSpacing: "var(--tracking-heading)" }}
-          >
-            A Fully Integrated Development and Management Group
-          </motion.p>
-        </div>
+        {/* Subheading */}
+        <motion.h2
+          variants={fadeUp}
+          className="font-display text-cream leading-tight mt-2"
+          style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", letterSpacing: "var(--tracking-heading)" }}
+        >
+          A Fully Integrated Development and Management Group
+        </motion.h2>
 
-        {/* Right — body + tagline */}
-        <div className="flex flex-col justify-center gap-8">
-          <motion.p variants={fadeUp} className="text-cream/55 text-base lg:text-lg leading-relaxed">
-            Azurea is developed by Royal Bali Group, a Bali-based company delivering residential villa projects through a fully integrated approach.
-            From land sourcing and development to legal structuring and post-handover operations, every stage is handled internally to ensure consistency, transparency, and long-term performance.
-          </motion.p>
+        {/* Body */}
+        <motion.p variants={fadeUp} className="text-cream/55 text-base lg:text-lg leading-relaxed max-w-3xl">
+          Azurea is developed by Royal Bali Group, a Bali-based company delivering residential villa projects through a fully integrated approach.
+          From land sourcing and development to legal structuring and post-handover operations, every stage is handled internally to ensure consistency, transparency, and long-term performance.
+        </motion.p>
 
-          <motion.div variants={fadeUp} className="border-t border-white/10 pt-6 relative">
-            <p className="font-display text-cream text-lg leading-snug" style={{ letterSpacing: "var(--tracking-heading)" }}>
-              A single partner from acquisition to income.
-            </p>
-          </motion.div>
-        </div>
+        {/* Tagline */}
+        <motion.div variants={fadeUp} className="border-t border-white/10 pt-8 mt-4 relative w-full max-w-lg">
+          <p className="font-display text-cream text-lg md:text-xl leading-snug" style={{ letterSpacing: "var(--tracking-heading)" }}>
+            A single partner from acquisition to income.
+          </p>
+        </motion.div>
+
       </div>
 
       {/* ── Three Pillars ── */}
@@ -171,7 +175,7 @@ export default function DeveloperSection() {
                 {/* Content */}
                 <div className="flex-1">
                   {/* Number - Increased Size */}
-                  <p className="font-display leading-none text-white/5 mb-8 select-none" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
+                  <p className="font-display font-thin leading-none text-[#C9A55A] mb-8 select-none" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
                     {pillar.num}
                   </p>
 

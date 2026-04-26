@@ -7,8 +7,6 @@ import { MapPin, Calendar, Home, BedDouble, Bath, Waves, Car, TrendingUp, BarCha
 
 // ─── Data & Configuration ──────────────────────────────────────────────────
 
-const u = (id: string, w = 1920) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&q=80&w=${w}&fit=crop`;
 
 type Hotspot = { top: string; left: string; label: string };
 
@@ -41,7 +39,7 @@ const CHAPTERS: Chapter[] = [
     label: "The Architecture",
     heading: "Mediterranean Elegance. Tropical Flow.",
     body: "Clean geometric volumes, natural stone, and full-height glazing create spaces designed for Bali’s climate. The architecture prioritizes airflow, natural cooling, and durability while maintaining a refined, timeless aesthetic suited for both private use and rental performance.",
-    imgMain: u("1600596542815-ffad4c1539a9"),
+    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp",
     hotspots: [
       { top: "65%", left: "30%", label: "Travertine Stone" },
       { top: "45%", left: "65%", label: "Teak Timber" },
@@ -91,9 +89,9 @@ const VisionStats = () => (
 const MaterialSwatches = () => (
   <div className="flex flex-col gap-4 mt-8 border-t border-white/10 pt-8">
     {[
-      { name: "Travertine Stone", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_travertine.webp", desc: "Natural cooling properties, ideal for tropical climates" },
-      { name: "Teak Timber",      imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_teak.webp",       desc: "Durable, humidity-resistant, and sustainably sourced" },
-      { name: "Polished Concrete",imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_concrete.webp",   desc: "Low-maintenance finish designed for long-term use" },
+      { name: "Travertine Stone", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/polished_concreete.webp", desc: "Natural cooling properties, ideal for tropical climates" },
+      { name: "Teak Timber",      imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/teak-timber.webp",       desc: "Durable, humidity-resistant, and sustainably sourced" },
+      { name: "Polished Concrete",imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/concreete_finish.webp",   desc: "Low-maintenance finish designed for long-term use" },
     ].map((m, i) => (
       <div key={i} className="flex items-center gap-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -124,11 +122,11 @@ const VillaAmenities = () => (
 );
 
 const VillaFeatures = () => (
-  <div className="mt-6 border-t border-white/10 pt-6">
-    <p className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mb-4">
+  <div className="mt-8 border-t border-white/10 pt-8">
+    <p className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mb-6">
       Optimized for groups · Built for privacy · Configured for short-term rental demand
     </p>
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {[
         { icon: BedDouble, label: "3 Ensuite Bedrooms" },
         { icon: Bath,      label: "3 Bathrooms" },
@@ -361,8 +359,7 @@ export default function CinematicJourney() {
       navigating.current = true;
 
       const target = isDown ? cur + 1 : cur - 1;
-      const block = target === 3 ? "center" : "start";
-      sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block });
+      sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block: "start" });
       
       // Cooldown timer prevents hyper-scrolling
       setTimeout(() => { navigating.current = false; }, 1000);
@@ -373,8 +370,7 @@ export default function CinematicJourney() {
   }, []);
 
   const scrollTo = (i: number) => {
-    const block = i === 3 ? "center" : "start";
-    sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block });
+    sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -508,7 +504,7 @@ export default function CinematicJourney() {
           <div
             key={chapter.id}
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className="min-h-screen flex items-center px-8 sm:px-12 lg:px-24 py-16 lg:py-0 relative overflow-hidden"
+            className="w-full min-h-[100dvh] lg:min-h-0 lg:h-[100dvh] flex items-center px-8 sm:px-12 lg:px-24 py-16 lg:py-0 relative overflow-hidden"
           >
             {/* The layout ratio shifts here dynamically: 1fr to 2.2fr */}
             <div className={`w-full ${isInvestment ? 'lg:grid lg:grid-cols-[1fr_2.2fr] lg:gap-20 items-center' : ''}`}>
@@ -562,7 +558,7 @@ export default function CinematicJourney() {
                   initial={false}
                   animate={{ opacity: activeIdx === i ? 1 : 0, y: activeIdx === i ? 0 : 30 }}
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="hidden lg:block w-full h-full mt-12 lg:mt-0"
+                  className="hidden lg:flex w-full h-full mt-12 lg:mt-0 flex-col justify-center overflow-y-auto no-scrollbar"
                 >
                   <FinancialDashboard />
                 </motion.div>

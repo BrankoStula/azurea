@@ -42,12 +42,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${inter.variable} h-full antialiased scroll-smooth `}
+      className={`${cormorant.variable} ${inter.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-brand-black">
+      <body className="min-h-full flex flex-col bg-cream text-brand-black relative">
+        
+        {/* ─── GLOBAL TEXTURE OVERLAY ─── */}
+        <div 
+          className="fixed inset-0 z-[100] opacity-60 mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage: `url('/backgroundpattern.jpeg')`, 
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+
         <Navbar />
         {/* Removed pt-20 so it sits flush at the top! */}
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

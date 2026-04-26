@@ -14,8 +14,8 @@
   --color-brand-green:    #C9A55A;
   --color-brand-green-dk: #9A7030; /* hover state */
 
-  /* Dark — Azure Deep Blue. Dark sections, hero, footer backgrounds. */
-  --color-brand-black:    #08204D;
+  /* Dark — Azure Deep Midnight. Dark sections, hero, footer backgrounds. */
+  --color-brand-black:    #001b51;
 
   /* Backgrounds */
   --color-cream:          #F5F3EE; /* Soft Sand White — primary page background */
@@ -41,8 +41,8 @@
    token (the value is only known at runtime after font injection).
 ──────────────────────────────────────────────────────────────────────────────── */
 @theme inline {
-  --font-display: var(--font-cormorant-display);
-  --font-body:    var(--font-inter);
+  --font-display: var(--font-playfair);
+  --font-body:    var(--font-dm-sans);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -121,6 +121,7 @@
 *::after {
   box-sizing: border-box;
 }
+
 
 html {
   scroll-behavior: smooth;

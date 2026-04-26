@@ -96,7 +96,7 @@ export default function MapboxMap({ camera, pois, route }: Props) {
         bearing:   camera.bearing,
       }}
       style={{ width: "100%", height: "100%" }}
-      mapStyle="mapbox://styles/mapbox/dark-v11"
+      mapStyle="mapbox://styles/mapbox/light-v11"
       scrollZoom={false}
       dragPan
       attributionControl={false}

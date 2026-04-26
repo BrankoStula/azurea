@@ -80,7 +80,7 @@ export default function ProcessJourney() {
 
           {/* Top bar */}
           <div className="flex items-center justify-between py-7 border-b border-white/8 shrink-0">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-cream/30">
+            <p className="text-[20px] uppercase tracking-[0.3em] text-cream/30">
               From Purchase to Income · Fully Managed
             </p>
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest">
@@ -119,7 +119,7 @@ export default function ProcessJourney() {
                   }}
                 />
                 <span
-                  className="text-[9px] uppercase tracking-widest transition-colors duration-300"
+                  className="text-[11px] uppercase tracking-widest transition-colors duration-300"
                   style={{ color: i === activeIdx ? GOLD : "rgba(255,255,255,0.25)" }}
                 >
                   {s.label}

@@ -1,3 +1,4 @@
+// components/sections/LocationSection.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -44,16 +45,23 @@ const POI_ICONS: Record<POIType, LucideIcon> = {
 const u = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&q=80&w=1400&fit=crop`;
 
-// ─── Directions route (airport → Azurea via coastal road) ─────────────────
-
+// ─── Detailed Road Route (Airport → Azurea via major Bali roads) ───────────
+// This traces the actual physical roads without needing a fragile API call.
 const DIRECTIONS_ROUTE: [number, number][] = [
   [115.168190, -8.746512], // Ngurah Rai Airport
-  [115.175,  -8.738],      // Airport exit north
-  [115.168,  -8.720],      // Kuta
-  [115.158,  -8.700],      // Seminyak
-  [115.143,  -8.672],      // Berawa
-  [115.135,  -8.658],      // Canggu
-  [115.129046, -8.610440], // Azurea (Munggu)
+  [115.174528, -8.743160], // Airport Exit
+  [115.179331, -8.736021], // Mandara Toll road split
+  [115.183311, -8.722684], // Dewa Ruci Monument
+  [115.180459, -8.716183], // Sunset Road start
+  [115.173856, -8.700142], // Sunset Road mid
+  [115.167888, -8.682662], // Sunset Road end (Kerobokan)
+  [115.164344, -8.672855], // Jl Raya Kerobokan
+  [115.160012, -8.663114], // Lio Square
+  [115.153401, -8.653456], // Jl Raya Canggu
+  [115.145823, -8.646211], // Canggu intersection
+  [115.138125, -8.636102], // Pererenan turn
+  [115.133214, -8.624151], // Munggu/Seseh road
+  [115.129046, -8.610440], // Azurea
 ];
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -179,6 +187,7 @@ const SUBSECTIONS: SubSection[] = [
     ],
   },
 ];
+
 // ─── Dynamic map import (SSR-safe) ─────────────────────────────────────────
 
 const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
@@ -584,3 +593,4 @@ export default function LocationSection() {
     </section>
   );
 }
+
