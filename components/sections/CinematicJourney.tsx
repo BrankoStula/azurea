@@ -39,7 +39,7 @@ const CHAPTERS: Chapter[] = [
     label: "The Architecture",
     heading: "Mediterranean Elegance. Tropical Flow.",
     body: "Clean geometric volumes, natural stone, and full-height glazing create spaces designed for Bali’s climate. The architecture prioritizes airflow, natural cooling, and durability while maintaining a refined, timeless aesthetic suited for both private use and rental performance.",
-    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp",
+    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp",
     hotspots: [
       { top: "65%", left: "30%", label: "Travertine Stone" },
       { top: "45%", left: "65%", label: "Teak Timber" },
@@ -453,19 +453,6 @@ export default function CinematicJourney() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-brand-black/20" />
-                    
-                    {/* Hotspots */}
-                    {chapter.hotspots?.map((spot, i) => (
-                      <div key={i} className="absolute group cursor-pointer" style={{ top: spot.top, left: spot.left }}>
-                        <div className="w-4 h-4 flex items-center justify-center">
-                          <div className="absolute inset-0 bg-[#C9A55A] rounded-full animate-ping opacity-50" />
-                          <div className="relative w-2 h-2 bg-[#C9A55A] rounded-full" />
-                        </div>
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-brand-black/80 px-3 py-1.5 rounded-sm absolute left-6 top-0 whitespace-nowrap">
-                          <span className="text-[10px] tracking-widest uppercase text-cream">{spot.label}</span>
-                        </div>
-                      </div>
-                    ))}
                   </motion.div>
                 </div>
               </motion.div>
