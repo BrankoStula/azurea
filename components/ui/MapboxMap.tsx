@@ -49,12 +49,12 @@ type MarkerStyle = {
 };
 
 const MARKER: Record<POIType, MarkerStyle> = {
-  project:    { Icon: MapPin,   bg: "#08204D", color: "#C9A55A", iconSize: 18, diameter: "2.75rem", ring: true  },
-  beach:      { Icon: Waves,    bg: "rgba(255,255,255,0.95)", color: "#08204D", iconSize: 14, diameter: "2rem", ring: false },
-  cafe:       { Icon: Coffee,   bg: "rgba(255,255,255,0.95)", color: "#08204D", iconSize: 14, diameter: "2rem", ring: false },
-  restaurant: { Icon: Utensils, bg: "rgba(255,255,255,0.95)", color: "#08204D", iconSize: 14, diameter: "2rem", ring: false },
-  surf:       { Icon: Wind,     bg: "rgba(255,255,255,0.95)", color: "#08204D", iconSize: 14, diameter: "2rem", ring: false },
-  airport:    { Icon: Plane,    bg: "#C9A55A", color: "#08204D", iconSize: 16, diameter: "2.5rem", ring: true  },
+  project:    { Icon: MapPin,   bg: "#C9A55A",           color: "#08204D", iconSize: 16, diameter: "2.75rem", ring: true  },
+  beach:      { Icon: Waves,    bg: "rgba(8,32,77,0.92)", color: "#C9A55A", iconSize: 12, diameter: "1.75rem", ring: false },
+  cafe:       { Icon: Coffee,   bg: "rgba(8,32,77,0.92)", color: "#C9A55A", iconSize: 12, diameter: "1.75rem", ring: false },
+  restaurant: { Icon: Utensils, bg: "rgba(8,32,77,0.92)", color: "#C9A55A", iconSize: 12, diameter: "1.75rem", ring: false },
+  surf:       { Icon: Wind,     bg: "rgba(8,32,77,0.92)", color: "#C9A55A", iconSize: 12, diameter: "1.75rem", ring: false },
+  airport:    { Icon: Plane,    bg: "rgba(8,32,77,0.92)", color: "#C9A55A", iconSize: 14, diameter: "2.25rem", ring: true  },
 };
 
 // ─── Component ─────────────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ export default function MapboxMap({ camera, pois, route }: Props) {
         bearing:   camera.bearing,
       }}
       style={{ width: "100%", height: "100%" }}
-      mapStyle="mapbox://styles/mapbox/light-v11"
+      mapStyle="mapbox://styles/mapbox/dark-v11"
       scrollZoom={false}
       dragPan
       attributionControl={false}
@@ -133,16 +133,36 @@ export default function MapboxMap({ camera, pois, route }: Props) {
             latitude={poi.latitude}
             anchor="center"
           >
-            <div
-              title={poi.label}
-              style={{ backgroundColor: s.bg, width: s.diameter, height: s.diameter }}
-              className={[
-                "flex items-center justify-center rounded-full cursor-default select-none",
-                "transition-transform duration-200 hover:scale-110 shadow-md",
-                s.ring ? "ring-2 ring-[#C9A55A]/50 shadow-[#C9A55A]/20 shadow-lg" : "",
-              ].join(" ")}
-            >
-              <Icon size={s.iconSize} color={s.color} strokeWidth={1.5} />
+            <div className="relative flex items-center justify-center" title={poi.label}>
+              {/* Pulsing ring for project + airport */}
+              {poi.type === "project" && (
+                <span
+                  className="absolute rounded-full animate-ping opacity-40"
+                  style={{ backgroundColor: "#C9A55A", width: s.diameter, height: s.diameter }}
+                />
+              )}
+              <div
+                style={{ backgroundColor: s.bg, width: s.diameter, height: s.diameter }}
+                className={[
+                  "relative flex items-center justify-center rounded-full cursor-default select-none",
+                  "transition-transform duration-200 hover:scale-110",
+                  poi.type === "project"
+                    ? "ring-2 ring-[#C9A55A] shadow-lg shadow-[#C9A55A]/30"
+                    : poi.type === "airport"
+                    ? "ring-1 ring-[#C9A55A]/60 shadow-md"
+                    : "ring-1 ring-[#C9A55A]/20 shadow-sm",
+                ].join(" ")}
+              >
+                <Icon size={s.iconSize} color={s.color} strokeWidth={1.8} />
+              </div>
+              {/* Label below project marker */}
+              {poi.type === "project" && (
+                <span className="absolute top-full mt-1.5 text-[8px] tracking-[0.18em] uppercase text-[#C9A55A] whitespace-nowrap font-semibold select-none pointer-events-none"
+                  style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
+                >
+                  Azurea
+                </span>
+              )}
             </div>
           </Marker>
         );

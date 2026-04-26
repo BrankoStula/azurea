@@ -120,16 +120,16 @@ export default function InquirySection() {
           >
             <p className="label-caps text-[#C9A55A] mb-6 flex items-center gap-4">
               <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
-              Private Advisory
+              Investment Package
             </p>
-            
+
             <h2 className="font-display text-4xl lg:text-5xl text-white mb-6 tracking-tight leading-[1.1]">
-              Begin Your <br />
-              Azurea Journey.
+              Request the Azurea<br />
+              Investment Package
             </h2>
-            
+
             <p className="text-white/60 text-lg leading-relaxed mb-12 max-w-sm">
-              Whether you are seeking a primary residence, a portfolio addition, or a seasonal retreat, our advisory team is available for a private consultation.
+              Receive the full villa details, investment assumptions, availability, payment structure, and next-step process.
             </p>
           </motion.div>
 
@@ -204,9 +204,9 @@ export default function InquirySection() {
                 className="flex flex-col items-center justify-center py-16 text-center min-h-[400px]"
               >
                 <CheckCircle2 className="text-[#C9A55A] w-16 h-16 mb-6" strokeWidth={1.5} />
-                <h3 className="font-display text-3xl text-cream mb-4">Inquiry Received</h3>
+                <h3 className="font-display text-3xl text-cream mb-4">Package Request Received</h3>
                 <p className="text-cream/60 max-w-sm">
-                  Thank you for your interest. A member of our advisory team will review your details and be in touch shortly.
+                  Your request has been submitted. We will send you the full Azurea Investment Package shortly.
                 </p>
               </motion.div>
             ) : (
@@ -342,10 +342,10 @@ export default function InquirySection() {
                     className="w-full group flex items-center justify-center gap-4 bg-[#C9A55A] text-brand-black py-4 uppercase tracking-[0.2em] text-[11px] font-semibold transition-all hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === "submitting" ? (
-                      "Transmitting..."
+                      "Sending..."
                     ) : (
                       <>
-                        Submit Inquiry
+                        Send Me the Investment Package
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}

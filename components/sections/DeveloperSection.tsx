@@ -1,0 +1,230 @@
+// components/sections/DeveloperSection.tsx
+"use client";
+
+import { motion } from "framer-motion";
+import { Building2, Shield, TrendingUp, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link"; // Replaced <a> with Next Link
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+const GOLD = "#C9A55A";
+
+const PILLARS = [
+  {
+    num: "01",
+    Icon: Building2,
+    title: "Development",
+    body: "Land sourcing, design coordination, and construction management are executed under a single structure, ensuring full control over quality, timelines, and delivery.",
+  },
+  {
+    num: "02",
+    Icon: Shield,
+    title: "Legal Structuring",
+    body: "Each investor is guided through a clear ownership structure, including PT PMA setup, contract structuring, and documentation designed for long-term security and clarity.",
+  },
+  {
+    num: "03",
+    Icon: TrendingUp,
+    title: "Management",
+    body: "Post-handover, villas are fully managed including guest operations, maintenance, and revenue optimisation — a seamless transition from acquisition to income.",
+  },
+];
+
+const sectionVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.65, ease: EASE } },
+};
+
+// Line drawing variants
+const drawLineRight = {
+  hidden: { scaleX: 0 },
+  visible: { scaleX: 1, transition: { duration: 1.5, ease: EASE } },
+};
+
+const drawLineDown = {
+  hidden: { scaleY: 0 },
+  visible: { scaleY: 1, transition: { duration: 1.5, ease: EASE } },
+};
+
+// Helper for dynamic pillar padding to match the main grid
+const getPillarPadding = (i: number) => {
+  if (i === 0) return "pl-6 md:pl-12 lg:pl-24 pr-6 md:pr-12 lg:pr-16";
+  if (i === 1) return "px-6 md:px-12 lg:px-16";
+  return "pl-6 md:pl-12 lg:pl-16 pr-6 md:pr-12 lg:pr-24";
+};
+
+export default function DeveloperSection() {
+  return (
+    <motion.section
+      // Removed horizontal padding here so borders can stretch 100vw
+      className="bg-brand-black text-cream relative w-full overflow-hidden"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={sectionVariants}
+    >
+      {/* Top Border Animation */}
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
+        variants={drawLineRight}
+      />
+
+      {/* ── Header ── */}
+      {/* Padding is applied to the inner wrapper instead */}
+      <div className="grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-24 py-20 lg:py-28 px-6 md:px-12 lg:px-24">
+        
+        {/* Left — eyebrow + logo + subheading */}
+        <div className="flex flex-col gap-8">
+          <motion.p variants={fadeUp} className="text-[10px] uppercase tracking-[0.35em]" style={{ color: GOLD }}>
+            Developed by
+          </motion.p>
+
+          <motion.div variants={fadeIn}>
+            <Image
+              src="https://d1pjqs5r0ua4f1.cloudfront.net/royal_bali_group_logo-removebg-preview.webp"
+              alt="Royal Bali Group"
+              width={480}
+              height={240}
+              className="h-28 md:h-36 lg:h-40 w-auto object-contain object-left"
+            />
+          </motion.div>
+
+          <motion.p
+            variants={fadeUp}
+            className="font-display text-cream/40 leading-snug"
+            style={{ fontSize: "clamp(1rem, 1.4vw, 1.15rem)", letterSpacing: "var(--tracking-heading)" }}
+          >
+            A Fully Integrated Development and Management Group
+          </motion.p>
+        </div>
+
+        {/* Right — body + tagline */}
+        <div className="flex flex-col justify-center gap-8">
+          <motion.p variants={fadeUp} className="text-cream/55 text-base lg:text-lg leading-relaxed">
+            Azurea is developed by Royal Bali Group, a Bali-based company delivering residential villa projects through a fully integrated approach.
+            From land sourcing and development to legal structuring and post-handover operations, every stage is handled internally to ensure consistency, transparency, and long-term performance.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="border-t border-white/10 pt-6 relative">
+            <p className="font-display text-cream text-lg leading-snug" style={{ letterSpacing: "var(--tracking-heading)" }}>
+              A single partner from acquisition to income.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── Three Pillars ── */}
+      <div className="relative w-full">
+        {/* Main animated top border for the pillars grid */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
+          variants={drawLineRight}
+        />
+
+        {/* Absolute Vertical Lines (Separated from the text padding) */}
+        <motion.div 
+          className="hidden lg:block absolute top-0 bottom-0 left-[33.333%] w-px bg-white/10 origin-top"
+          variants={drawLineDown}
+        />
+        <motion.div 
+          className="hidden lg:block absolute top-0 bottom-0 left-[66.666%] w-px bg-white/10 origin-top"
+          variants={drawLineDown}
+        />
+
+        {/* Pillar Grid */}
+        <div className="grid lg:grid-cols-3 relative w-full">
+          {PILLARS.map((pillar, i) => {
+            const Icon = pillar.Icon;
+            return (
+              <motion.div
+                key={pillar.num}
+                variants={fadeUp}
+                className={`relative pt-16 pb-24 flex flex-col ${getPillarPadding(i)}`}
+              >
+                {/* Mobile horizontal separator */}
+                {i > 0 && (
+                  <div className="block lg:hidden absolute top-0 left-0 w-full h-px bg-white/10" />
+                )}
+
+                {/* Gold bar — animated left to right */}
+                <div className="w-full h-px bg-white/5 mb-10 overflow-hidden relative">
+                  <motion.div
+                    className="absolute inset-y-0 left-0 h-full"
+                    style={{ backgroundColor: GOLD }}
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 1.2, delay: i * 0.2 + 0.3, ease: EASE }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1">
+                  {/* Number - Increased Size */}
+                  <p className="font-display leading-none text-white/5 mb-8 select-none" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
+                    {pillar.num}
+                  </p>
+
+                  {/* Icon + title */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <Icon size={20} style={{ color: GOLD }} strokeWidth={1.5} />
+                    <h3 className="font-display text-cream uppercase tracking-[0.15em] text-lg">
+                      {pillar.title}
+                    </h3>
+                  </div>
+
+                  {/* Body - Increased Size */}
+                  <p className="text-cream/50 text-base leading-relaxed max-w-sm">
+                    {pillar.body}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Footer strip ── */}
+      <div className="relative w-full">
+        {/* Animated Top Border for footer strip */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
+          variants={drawLineRight}
+        />
+        
+        <motion.div
+          variants={fadeIn}
+          className="py-8 px-6 md:px-12 lg:px-24 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
+        >
+          <p className="text-cream/30 text-xs leading-relaxed max-w-md">
+            All stages are managed internally to reduce reliance on third parties and ensure a consistent delivery standard.
+          </p>
+
+          {/* CTA using Next.js Link */}
+          <Link
+            href="https://royalbaligroup.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-3 border border-white/15 px-6 py-3 hover:border-[#C9A55A]/60 hover:bg-[#C9A55A]/5 transition-all duration-300 shrink-0"
+          >
+            <span className="font-display text-[11px] uppercase tracking-widest text-cream/70 group-hover:text-cream transition-colors">
+              Visit Royal Bali Group
+            </span>
+            <ArrowUpRight size={13} className="text-cream/40 group-hover:text-[#C9A55A] transition-colors" />
+          </Link>
+        </motion.div>
+      </div>
+
+    </motion.section>
+  );
+}

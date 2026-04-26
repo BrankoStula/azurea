@@ -89,55 +89,62 @@ useEffect(() => {
               <motion.p variants={maskReveal} className="text-[10px] sm:text-xs tracking-[0.4em] text-brand-green/80 uppercase">Location</motion.p>
             </div>
             <div className="overflow-hidden">
-              <motion.h2 variants={maskRevealDelay} className="font-display text-xl md:text-3xl uppercase tracking-[0.2em] text-cream">Munggu, Bali</motion.h2>
+              <motion.h2 variants={maskRevealDelay} className="font-display text-xl md:text-3xl uppercase tracking-[0.2em] text-cream">Seseh, Bali</motion.h2>
             </div>
           </motion.div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-16 md:gap-0">
-          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col relative">
+          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col relative max-w-4xl">
             <motion.div
-              className="absolute right-full top-[45%] h-[2px] bg-brand-green origin-right mr-8"
+              className="absolute right-full top-[30%] h-[2px] bg-brand-green origin-right mr-8"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
               style={{ width: "100vw" }}
             />
 
-            <div className="overflow-hidden">
-              <motion.h1 variants={maskReveal} className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[8rem] uppercase leading-none tracking-tight text-cream whitespace-nowrap font-light">
-                Exhale & Discover
+            <div className="overflow-hidden mb-4 md:mb-5">
+              <motion.p variants={maskReveal} className="text-[10px] sm:text-xs tracking-[0.4em] text-brand-green uppercase">Seseh, Bali · Private Residences</motion.p>
+            </div>
+
+            <div className="overflow-hidden mb-4 md:mb-6">
+              <motion.h1 variants={maskReveal} className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.5rem] leading-[1.05] tracking-tight text-cream font-light">
+                Own a Fully Managed 3-Bedroom Villa in Seseh, Bali
               </motion.h1>
             </div>
-            <div className="overflow-hidden mt-4 md:mt-6">
-              <motion.p variants={maskRevealDelay} className="text-xs sm:text-sm tracking-[0.4em] text-brand-green uppercase md:ml-2">Your Next Escape</motion.p>
-            </div>
-          </motion.div>
 
-          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-left md:text-right flex flex-col items-start md:items-end relative">
-            {/* Accent line extending to the right */}
-            <motion.div
-              className="absolute left-full top-[15%] h-[2px] bg-brand-green origin-left ml-8"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              style={{ width: "100vw" }}
-            />
-            <div className="overflow-hidden mb-2">
-              <motion.p variants={maskReveal} className="text-[10px] sm:text-xs tracking-[0.4em] text-brand-green/80 uppercase">Est. Yield</motion.p>
-            </div>
-            <div className="overflow-hidden mb-3">
-              <motion.h3 variants={maskRevealDelay} className="font-display text-4xl md:text-5xl lg:text-6xl text-cream leading-none font-light">
-                $47,250<span className="text-sm md:text-lg font-body opacity-50 font-light tracking-wide">/YR</span>
-              </motion.h3>
-            </div>
-            <div className="overflow-hidden">
-              <motion.p variants={maskRevealDelay} className="text-xs md:text-sm text-cream/60 font-light max-w-[240px] md:ml-auto leading-relaxed">
-                High-yield rental income with a 15% exit profit potential.
+            <div className="overflow-hidden mb-8 md:mb-10">
+              <motion.p variants={maskRevealDelay} className="text-sm md:text-base text-cream/60 font-light leading-relaxed max-w-xl">
+                A boutique collection of 8 private villas with rooftop living, private pools, and projected high-yield rental performance.
               </motion.p>
             </div>
+
+            {/* Proof strip */}
+            <motion.div variants={maskRevealDelay} className="flex flex-wrap gap-x-4 gap-y-2 mb-8 md:mb-10">
+              {["8 Villas", "3 Bedrooms", "Private Pool", "Rooftop Terrace", "Est. 14.85% Yield", "25-Year Leasehold"].map((item, i) => (
+                <span key={i} className="flex items-center gap-4 text-[10px] uppercase tracking-[0.25em] text-cream/50">
+                  {i > 0 && <span className="w-[1px] h-3 bg-cream/20 -ml-2 hidden sm:block" />}
+                  {item}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div variants={maskRevealDelay} className="flex flex-col sm:flex-row gap-3 sm:gap-4 pointer-events-auto">
+              <button
+                onClick={() => document.querySelector("#inquiry")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3.5 bg-brand-green text-brand-black font-display text-sm uppercase tracking-widest hover:bg-brand-green/90 transition-colors duration-200"
+              >
+                Request Investment Deck
+              </button>
+              <button
+                onClick={() => document.querySelector("#villas")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3.5 border border-cream/30 text-cream font-display text-sm uppercase tracking-widest hover:border-cream/60 hover:bg-cream/5 transition-all duration-200"
+              >
+                View Villa Availability
+              </button>
+            </motion.div>
           </motion.div>
-        </div>
       </div>
     </section>
   );

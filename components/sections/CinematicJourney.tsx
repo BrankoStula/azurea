@@ -29,44 +29,44 @@ const CHAPTERS: Chapter[] = [
     id: "vision",
     num: "01",
     label: "The Vision",
-    heading: "A Private Coastal Enclave",
-    body: "Eight boutique residences in Seseh, Bali — where the Indian Ocean meets an unspoiled stretch of black-sand coast and lush rice terraces.",
-    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp", 
-    imgTopLeft: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp", 
-    imgBottomLeft: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_11.webp", 
+    heading: "A Refined Coastal Address in Seseh",
+    body: "Eight boutique villas in Seseh, Bali, positioned just minutes from Canggu’s most active lifestyle and rental zones. Azurea combines immediate access to the coastline and key demand drivers with a more private, residential environment designed for both living and long-term performance.",
+    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp",
+    imgTopLeft: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp",
+    imgBottomLeft: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_11.webp",
   },
   {
     id: "architecture",
     num: "02",
     label: "The Architecture",
-    heading: "Mediterranean Meets Tropical",
-    body: "Clean geometric volumes, natural stone, and floor-to-ceiling glazing create spaces that breathe — a timeless dialogue between European elegance and island living.",
-    imgMain: u("1600596542815-ffad4c1539a9"), 
+    heading: "Mediterranean Elegance. Tropical Flow.",
+    body: "Clean geometric volumes, natural stone, and full-height glazing create spaces designed for Bali’s climate. The architecture prioritizes airflow, natural cooling, and durability while maintaining a refined, timeless aesthetic suited for both private use and rental performance.",
+    imgMain: u("1600596542815-ffad4c1539a9"),
     hotspots: [
-      { top: "65%", left: "30%", label: "Polished Concrete" },
-      { top: "45%", left: "65%", label: "Teak Accents" },
-      { top: "80%", left: "75%", label: "Tropical Landscaping" },
-    ],
-  },
-  {
-    id: "villa",
-    num: "03",
-    label: "The Villa",
-    heading: "Designed for Refined Living",
-    body: "Three ensuite bedrooms, a private pool with natural stone finish, premium kitchen, and private carport — all within 155.8 m² of thoughtfully arranged built space.",
-    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_4.webp", 
-    hotspots: [
-      { top: "70%", left: "50%", label: "Natural Stone Pool" },
-      { top: "40%", left: "20%", label: "Enclosed Living" },
+      { top: "65%", left: "30%", label: "Travertine Stone" },
+      { top: "45%", left: "65%", label: "Teak Timber" },
+      { top: "80%", left: "75%", label: "Polished Concrete" },
     ],
   },
   {
     id: "investment",
-    num: "04",
+    num: "03",
     label: "The Investment",
     heading: "Built to Perform",
     body: "Prime Bali delivers exceptional yields and sustained capital appreciation. Limited supply in Seseh combined with surging international demand makes Azurea a rare acquisition.",
-    imgMain: "", 
+    imgMain: "",
+  },
+  {
+    id: "villa",
+    num: "04",
+    label: "The Villa",
+    heading: "Designed for Private Living and High-Performing Rentals",
+    body: "Each villa is configured with three ensuite bedrooms, a private pool, enclosed living areas, and a rooftop terrace, designed to meet the expectations of both residents and short-term guests. The layout prioritizes privacy, functionality, and comfort within 155.8 m² of optimized built space.",
+    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_4.webp",
+    hotspots: [
+      { top: "70%", left: "50%", label: "Natural Stone Pool" },
+      { top: "40%", left: "20%", label: "Enclosed Living" },
+    ],
   },
 ];
 
@@ -91,9 +91,9 @@ const VisionStats = () => (
 const MaterialSwatches = () => (
   <div className="flex flex-col gap-4 mt-8 border-t border-white/10 pt-8">
     {[
-      { name: "Travertine Stone", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_travertine.webp", desc: "Natural cooling properties" },
-      { name: "Teak Timber",      imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_teak.webp",       desc: "Sustainably sourced" },
-      { name: "Polished Concrete",imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_concrete.webp",   desc: "Seamless brutalist foundation" },
+      { name: "Travertine Stone", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_travertine.webp", desc: "Natural cooling properties, ideal for tropical climates" },
+      { name: "Teak Timber",      imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_teak.webp",       desc: "Durable, humidity-resistant, and sustainably sourced" },
+      { name: "Polished Concrete",imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/material_concrete.webp",   desc: "Low-maintenance finish designed for long-term use" },
     ].map((m, i) => (
       <div key={i} className="flex items-center gap-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -123,6 +123,28 @@ const VillaAmenities = () => (
   </div>
 );
 
+const VillaFeatures = () => (
+  <div className="mt-6 border-t border-white/10 pt-6">
+    <p className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mb-4">
+      Optimized for groups · Built for privacy · Configured for short-term rental demand
+    </p>
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      {[
+        { icon: BedDouble, label: "3 Ensuite Bedrooms" },
+        { icon: Bath,      label: "3 Bathrooms" },
+        { icon: Waves,     label: "Private Pool" },
+        { icon: Car,       label: "Private Carport" },
+        { icon: Home,      label: "Rooftop Terrace" },
+      ].map((a, i) => (
+        <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 p-3">
+          <a.icon size={16} className="text-[#C9A55A]" />
+          <span className="text-cream/80 text-xs tracking-wide">{a.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 // ─── Financial Dashboard Takeover ───
 
 function FinancialDashboard() {
@@ -139,26 +161,30 @@ function FinancialDashboard() {
           <div className="w-1.5 h-1.5 rounded-full bg-[#C9A55A] animate-pulse" />
           <p className="text-[#C9A55A] text-[10px] uppercase tracking-[0.2em] font-semibold">Live Projections</p>
         </div>
-        <p className="text-cream/40 text-[10px] uppercase tracking-[0.2em]">Canggu Region · Leasehold (25 Yrs)</p>
+        <p className="text-cream/40 text-[10px] uppercase tracking-[0.2em]">Seseh, Bali · Leasehold (25 Yrs)</p>
       </div>
 
       {/* Hero Metrics Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
         <div>
           <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Purchase Price</p>
-          <p className="font-display text-3xl text-cream">$400,000</p>
+          <p className="font-display text-2xl text-cream">$400,000</p>
         </div>
         <div>
-          <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Year 1 Net Rent</p>
-          <p className="font-display text-3xl text-cream">$59,400</p>
+          <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Est. Year 1 Net Rent</p>
+          <p className="font-display text-2xl text-cream">$59,400</p>
+        </div>
+        <div>
+          <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Projected ROI</p>
+          <p className="font-display text-2xl text-[#C9A55A]">14.85%</p>
         </div>
         <div>
           <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Break-Even</p>
-          <p className="font-display text-3xl text-cream">6.7 Yrs</p>
+          <p className="font-display text-2xl text-cream">6.7 Yrs</p>
         </div>
         <div>
-          <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Year 1 ROI</p>
-          <p className="font-display text-3xl text-[#C9A55A]">14.85%</p>
+          <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">Leasehold</p>
+          <p className="font-display text-2xl text-cream">25 Years</p>
         </div>
       </div>
 
@@ -253,6 +279,11 @@ function FinancialDashboard() {
         </div>
 
       </div>
+
+      {/* Disclaimer */}
+      <p className="mt-8 text-cream/25 text-[10px] leading-relaxed border-t border-white/5 pt-6">
+        Projections are based on operating assumptions and are provided for investor review, not guaranteed returns.
+      </p>
     </motion.div>
   );
 }
@@ -267,7 +298,7 @@ export default function CinematicJourney() {
   const activeIdxRef = useRef(0);
   const navigating = useRef(false);
 
-  const isInvestment = activeIdx === 3;
+  const isInvestment = activeIdx === 2;
 
   // Sync ref for wheel listener
   useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
@@ -330,7 +361,8 @@ export default function CinematicJourney() {
       navigating.current = true;
 
       const target = isDown ? cur + 1 : cur - 1;
-      sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      const block = target === 3 ? "center" : "start";
+      sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block });
       
       // Cooldown timer prevents hyper-scrolling
       setTimeout(() => { navigating.current = false; }, 1000);
@@ -341,7 +373,8 @@ export default function CinematicJourney() {
   }, []);
 
   const scrollTo = (i: number) => {
-    sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const block = i === 3 ? "center" : "start";
+    sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block });
   };
 
   return (
@@ -391,8 +424,8 @@ export default function CinematicJourney() {
             </div>
           </motion.div>
 
-          {/* Layer 1 & 2: Architectural Framed Image */}
-          {[1, 2].map((idx) => {
+          {/* Layer 1 & 3: Architecture + Villa Framed Image */}
+          {[1, 3].map((idx) => {
             const isThisActive = activeIdx === idx;
             const chapter = CHAPTERS[idx];
 
@@ -404,7 +437,7 @@ export default function CinematicJourney() {
                 className={`absolute inset-0 z-20 flex items-center justify-center p-12 xl:p-24 ${isThisActive ? 'pointer-events-auto' : 'pointer-events-none'}`}
               >
                 {/* The Frame */}
-                <div className="relative w-full h-full max-w-xl max-h-[800px]">
+                <div className="relative w-full max-w-xl" style={{ height: "min(72vh, 700px)" }}>
                   <div className={`absolute -top-3 -left-3 w-8 h-px bg-[#C9A55A]/60 transition-all duration-700 ${isThisActive ? 'opacity-100' : 'opacity-0 translate-x-4'}`} />
                   <div className={`absolute -top-3 -left-3 w-px h-8 bg-[#C9A55A]/60 transition-all duration-700 ${isThisActive ? 'opacity-100' : 'opacity-0 translate-y-4'}`} />
                   <div className={`absolute -top-3 -right-3 w-8 h-px bg-[#C9A55A]/60 transition-all duration-700 ${isThisActive ? 'opacity-100' : 'opacity-0 -translate-x-4'}`} />
@@ -520,7 +553,7 @@ export default function CinematicJourney() {
                 {/* Sub-content */}
                 {chapter.id === "vision" && <VisionStats />}
                 {chapter.id === "architecture" && <MaterialSwatches />}
-                {chapter.id === "villa" && <VillaAmenities />}
+                {chapter.id === "villa" && <VillaFeatures />}
               </motion.div>
 
               {/* Financial Dashboard snaps in on last section */}

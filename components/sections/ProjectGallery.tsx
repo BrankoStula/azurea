@@ -139,7 +139,10 @@ export default function ProjectGallery() {
             key={page}
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            // FIX: Changed animate to whileInView so it waits for scroll!
+            whileInView="visible"
+            // FIX: Added viewport to ensure it only triggers once the user sees it
+            viewport={{ once: true, amount: 0.1 }}
             exit="exit"
             className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 auto-rows-[250px] md:auto-rows-[350px] lg:auto-rows-[400px]"
           >

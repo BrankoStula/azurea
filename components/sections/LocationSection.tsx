@@ -63,7 +63,7 @@ const SUBSECTIONS: SubSection[] = [
     id: "overview",
     label: "01 — Overview",
     title: "A Private Coastal Enclave",
-    body: "Nestled along Bali's emerging northern coast, Azurea rises from the fertile ground of Munggu — a serene residential village minutes from Canggu's cosmopolitan energy.",
+    body: "Azurea is located in Seseh, one of Bali’s fastest-growing coastal areas, offering a more private and residential environment just minutes from Canggu. This positioning provides direct access to the island’s most active lifestyle and rental zones while maintaining a quieter, more refined setting.",
     images: [
       "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp",
       "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp", 
@@ -83,8 +83,8 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "coastline",
     label: "02 — The Coastline",
-    title: "World-Class Beaches",
-    body: "Three of Bali's most celebrated beaches sit within minutes. From quiet volcanic black sand solitude to legendary beach clubs dotting the coast.",
+    title: "Minutes From Bali’s Most Sought-After Beaches",
+    body: "Located in Seseh, Azurea is just 4–6 minutes from Seseh Beach and within 10 minutes of Pererenan’s coastline. Canggu’s main beachfront and beach clubs are accessible within 15–20 minutes, offering direct access to Bali’s most active coastal zones while maintaining a more private setting",
     images: ["https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/finns-beach-club.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach_club.webp"],
     camera: { longitude: 115.130364, latitude: -8.659627, zoom: 12.5, pitch: 35, bearing: -12 },
     pois: [
@@ -119,15 +119,15 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "canggu",
     label: "03 — Active Lifestyle",
-    title: "The Creative Capital",
-    body: "Canggu has become Southeast Asia's most sought-after district — a curated blend of wellness spaces, fitness centers, and sports clubs right at your doorstep.",
+    title: "Access to Canggu’s Leading Lifestyle Infrastructure",
+    body: "Azurea benefits from immediate proximity to Omni Gym, with additional access to Canggu’s top fitness, wellness, and social hubs within 10–15 minutes. This ecosystem consistently attracts long-stay guests and high-value renters, supporting stable occupancy throughout the year.",
     images: ["https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_1.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_2.webp"],
     camera: { longitude: 115.148, latitude: -8.638, zoom: 14, pitch: 60, bearing: 18 },
     pois: [
       {
-        label: "Nirvana Life Fitness",
-        longitude: 115.154518,
-        latitude: -8.642356,
+        label: "OMNI",
+        longitude: 115.12326167791198,
+        latitude: -8.622796844965022,
         type: "surf",
         images: ["https://d1pjqs5r0ua4f1.cloudfront.net/nirvana_life_fitness.webp"],
       },
@@ -157,8 +157,8 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "directions",
     label: "04 — Getting Here",
-    title: "25 Minutes to Paradise",
-    body: "Ngurah Rai International Airport lands on 50+ direct routes. The coastal road through Kuta and Canggu delivers you to Azurea in 25 minutes — a journey that itself unfolds as a preview of the island.",
+    title: "Easy Access from Bali International Airport",
+    body: "Connected to 50+ global cities, Azurea is a scenic 40-minute coastal drive from the airport—perfectly positioned for effortless arrivals while remaining a sanctuary away from the crowds.",
     images: ["https://d1pjqs5r0ua4f1.cloudfront.net/denpasar_airport.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/bali_road.webp"],
     camera: { longitude: 115.145, latitude: -8.683, zoom: 11, pitch: 0, bearing: 0 },
     pois: [
@@ -473,7 +473,7 @@ export default function LocationSection() {
                 )}
 
                 {/* Mobile image strip — desktop has sticky right pane */}
-                <div className="lg:hidden mt-8 flex gap-1 overflow-hidden rounded-sm" style={{ height: "42vw" }}>
+                <div className="lg:hidden mt-8 flex overflow-hidden rounded-sm" style={{ height: "42vw" }}>
                   {s.images.slice(0, 2).map((img, j) => (
                     <div key={j} className="flex-1 relative overflow-hidden">
                       <Image src={img} alt="" fill className="object-cover" sizes="50vw" priority={i === 0 && j === 0} />
@@ -564,10 +564,6 @@ export default function LocationSection() {
                         sizes="(max-width: 1024px) 100vw, 25vw"
                         priority={activeIdx === 0 && i === 0}
                       />
-                      {/* thin separator between images */}
-                      {i < displayImages.length - 1 && (
-                        <div className="absolute right-0 top-0 bottom-0 w-px bg-brand-black/70 z-10" />
-                      )}
                     </div>
                   ))}
                   <div className="absolute inset-0 bg-linear-to-t from-brand-black/50 via-transparent to-transparent pointer-events-none" />

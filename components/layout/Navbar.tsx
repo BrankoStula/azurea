@@ -102,23 +102,16 @@ export default function Navbar() {
         </div>
 
         {/* Right: Contact CTA */}
-        <div className="absolute right-0 top-0 h-20 md:h-24 flex items-start pt-5 md:pt-6 z-50 pointer-events-auto">
-          <motion.div initial="hidden" animate="visible" whileHover="hover" className="relative flex items-center justify-center pl-4 md:pl-8 pr-4 md:pr-12 py-2 md:py-3 group cursor-pointer">
-            <div className="absolute inset-0 overflow-hidden z-0">
-              <motion.div className="absolute inset-0 bg-brand-green" variants={{ hidden: { y: "100%" }, visible: { y: "100%" }, hover: { y: "0%" } }} transition={{ duration: 0.3, ease: "easeInOut" }} />
-            </div>
-
-            {/* Borders */}
-            <motion.div className="absolute right-0 bottom-0 h-[2px] bg-brand-green z-10" variants={{ hidden: { width: 0 }, visible: { width: "100%" }, hover: { width: 0 } }} transition={{ duration: 0.25, ease: "linear" }} />
-            <motion.div className="absolute left-0 bottom-0 w-[2px] h-full bg-brand-green origin-bottom z-10" variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 }, hover: { scaleY: 0 } }} transition={{ duration: 0.2, delay: 0.25, ease: "linear" }} />
-            <motion.div className="absolute left-0 top-0 w-full h-[2px] bg-brand-green origin-left z-10" variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 }, hover: { scaleX: 0 } }} transition={{ duration: 0.25, delay: 0.45, ease: "linear" }} />
-            <motion.div className="absolute left-full top-0 h-[2px] bg-brand-green origin-left pointer-events-none z-10" variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 }, hover: { scaleX: 0 } }} style={{ width: "100vw" }} transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }} />
-
-            {/* Font size is much tighter on mobile to prevent overlapping */}
-            <button onClick={() => handleHashNav("#inquiry")} className="relative z-20 font-display text-sm md:text-xl lg:text-2xl uppercase tracking-widest text-cream transition-colors whitespace-nowrap mt-0.5 md:mt-0">
+        <div className="absolute right-4 md:right-8 top-0 h-20 md:h-24 flex items-center z-50 pointer-events-auto">
+          <button
+            onClick={() => handleHashNav("#inquiry")}
+            className="group flex items-center gap-3 border border-white/20 hover:border-[#C9A55A]/70 px-4 md:px-5 py-2 transition-all duration-300"
+          >
+            <span className="font-display text-[10px] md:text-[11px] uppercase tracking-widest text-cream/60 group-hover:text-cream transition-colors whitespace-nowrap">
               Contact
-            </button>
-          </motion.div>
+            </span>
+            <span className="block w-3 h-px bg-[#C9A55A]/40 group-hover:w-5 group-hover:bg-[#C9A55A] transition-all duration-300" />
+          </button>
         </div>
       </motion.header>
 
