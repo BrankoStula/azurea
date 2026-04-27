@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Cormorant, Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -42,24 +44,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="navy"
       className={`${cormorant.variable} ${inter.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-cream text-brand-black relative">
-        
-        {/* ─── GLOBAL TEXTURE OVERLAY ─── */}
-        <div 
-          className="fixed inset-0 z-[100] opacity-60 mix-blend-overlay pointer-events-none"
-          style={{
-            backgroundImage: `url('/backgroundpattern.jpeg')`, 
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-
-        <Navbar />
-        {/* Removed pt-20 so it sits flush at the top! */}
-        <main className="flex-1 relative z-10">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          <main className="flex-1 relative z-10">{children}</main>
+          <Footer />
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

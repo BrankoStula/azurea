@@ -16,7 +16,7 @@ export default function FinancialDashboard() {
       className="w-full flex flex-col justify-center h-full pt-20 lg:pt-0"
     >
       {/* Top Header */}
-      <div className="flex items-center justify-between mb-10 border-b border-white/10 pb-4">
+      <div className="flex items-center justify-between mb-10 border-b border-cream/10 pb-4">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-1.5 rounded-full bg-[#C9A55A] animate-pulse" />
           <p className="text-[#C9A55A] text-[10px] uppercase tracking-[0.2em] font-semibold">Live Projections</p>
@@ -27,15 +27,20 @@ export default function FinancialDashboard() {
       {/* Hero Metrics Row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
         {[
-          { label: "Purchase Price",      val: "$400,000", color: "text-cream"          },
-          { label: "Est. Year 1 Net Rent", val: "$59,400",  color: "text-cream"          },
-          { label: "Projected ROI",        val: "14.85%",   color: `text-[${GOLD}]`      },
-          { label: "Break-Even",           val: "6.7 Yrs",  color: "text-cream"          },
-          { label: "Leasehold",            val: "25 Years", color: "text-cream"          },
+          { label: "Purchase Price",       val: "$400,000", isGold: false },
+          { label: "Est. Year 1 Net Rent", val: "$59,400",  isGold: false },
+          { label: "Projected ROI",        val: "14.85%",   isGold: true  },
+          { label: "Break-Even",           val: "6.7 Yrs",  isGold: false },
+          { label: "Leasehold",            val: "25 Years", isGold: false },
         ].map((m, i) => (
           <div key={i}>
             <p className="text-cream/40 text-[10px] uppercase tracking-widest mb-1">{m.label}</p>
-            <p className={`font-display text-2xl ${m.color}`} style={i === 2 ? { color: GOLD } : undefined}>{m.val}</p>
+            <p 
+              className={`font-display text-2xl ${m.isGold ? "" : "text-cream"}`} 
+              style={m.isGold ? { color: GOLD } : undefined}
+            >
+              {m.val}
+            </p>
           </div>
         ))}
       </div>
@@ -44,30 +49,30 @@ export default function FinancialDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
         {/* Year 1 Breakdown Table */}
         <div className="lg:col-span-5">
-          <h4 className="text-white text-[11px] uppercase tracking-widest mb-4 border-b border-white/10 pb-3 flex items-center gap-2">
+          <h4 className="text-cream text-[11px] uppercase tracking-widest mb-4 border-b border-cream/10 pb-3 flex items-center gap-2">
             <Wallet size={14} style={{ color: GOLD }} /> Year 1 Operations
           </h4>
           <div className="flex flex-col gap-3 text-sm">
-            <div className="flex justify-between"><span className="text-white/40">Gross Rev (81% Occ):</span>         <span className="text-white font-medium">$74,249</span></div>
-            <div className="flex justify-between"><span className="text-white/40">Management & Utilities (20%):</span> <span className="text-white font-medium">-$14,850</span></div>
-            <div className="flex justify-between pt-3 border-t border-white/5">
+            <div className="flex justify-between"><span className="text-cream/40">Gross Rev (81% Occ):</span>         <span className="text-cream font-medium">$74,249</span></div>
+            <div className="flex justify-between"><span className="text-cream/40">Management & Utilities (20%):</span> <span className="text-cream font-medium">-$14,850</span></div>
+            <div className="flex justify-between pt-3 border-t border-cream/5">
               <span style={{ color: GOLD }} className="font-semibold">Net Rental Revenue:</span>
               <span style={{ color: GOLD }} className="font-semibold">$59,400</span>
             </div>
             <div className="flex justify-between mt-1">
-              <span className="text-white/40">Postbuild Value Apprec:</span>
-              <span className="text-white font-medium">+$40,000 <span style={{ color: GOLD }} className="text-[10px] ml-1">(10%)</span></span>
+              <span className="text-cream/40">Postbuild Value Apprec:</span>
+              <span className="text-cream font-medium">+$40,000 <span style={{ color: GOLD }} className="text-[10px] ml-1">(10%)</span></span>
             </div>
           </div>
         </div>
 
         {/* Animated Area Chart */}
         <div className="lg:col-span-7 flex flex-col justify-end">
-          <div className="flex justify-between text-[10px] uppercase tracking-widest text-white/40 mb-4">
+          <div className="flex justify-between text-[10px] uppercase tracking-widest text-cream/40 mb-4">
             <span>Net Rent Accumulation</span>
             <span>$1,713,378 (25 Yrs)</span>
           </div>
-          <div className="relative w-full h-32 border-b border-l border-white/20">
+          <div className="relative w-full h-32 border-b border-l border-cream/20">
             <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
@@ -119,7 +124,7 @@ export default function FinancialDashboard() {
             ],
           },
         ].map((scenario) => (
-          <div key={scenario.label} className="border border-white/10 p-5 bg-white/2">
+          <div key={scenario.label} className="border border-cream/10 p-5 bg-cream/[0.02]">
             <h5 className="text-[11px] uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: GOLD }}>
               <Clock size={12} /> {scenario.label}
             </h5>
@@ -127,12 +132,12 @@ export default function FinancialDashboard() {
               {scenario.rows.map((row, j) => (
                 <div
                   key={j}
-                  className={`flex justify-between ${j === scenario.rows.length - 2 ? "pt-2 border-t border-white/5" : ""}`}
+                  className={`flex justify-between ${j === scenario.rows.length - 2 ? "pt-2 border-t border-cream/5" : ""}`}
                 >
-                  <span className={row.highlight ? "font-semibold" : "text-white/40"} style={row.highlight ? { color: GOLD } : undefined}>
+                  <span className={row.highlight ? "font-semibold" : "text-cream/40"} style={row.highlight ? { color: GOLD } : undefined}>
                     {row.k}
                   </span>
-                  <span className={row.highlight ? "font-semibold" : "text-white font-medium"} style={row.highlight ? { color: GOLD } : undefined}>
+                  <span className={row.highlight ? "font-semibold" : "text-cream font-medium"} style={row.highlight ? { color: GOLD } : undefined}>
                     {row.v}
                   </span>
                 </div>
@@ -143,7 +148,7 @@ export default function FinancialDashboard() {
       </div>
 
       {/* Disclaimer */}
-      <p className="mt-8 text-cream/25 text-[10px] leading-relaxed border-t border-white/5 pt-6">
+      <p className="mt-8 text-cream/25 text-[10px] leading-relaxed border-t border-cream/5 pt-6">
         Projections are based on operating assumptions and are provided for investor review, not guaranteed returns.
       </p>
     </motion.div>

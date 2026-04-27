@@ -10,9 +10,9 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const GOLD = "#C9A55A";
 
 const CONTACTS = [
-  { Icon: Mail,    label: "Email",        value: "advisory@azureabali.com", href: "mailto:advisory@azureabali.com" },
-  { Icon: Phone,   label: "Direct Line",  value: "+62 811 3988 222",       href: "tel:+628113988222"             },
-  { Icon: MapPin,  label: "Project Site", value: "Munggu, Bali · Indonesia", href: null                          },
+  { Icon: Mail,    label: "Email",        value: "Admin@royalbalidevelopments.com", href: "mailto:Admin@royalbalidevelopments.com" },
+  { Icon: Phone,   label: "Direct Line",  value: "+62 859 5677 9721",              href: "tel:+6285956779721"                    },
+  { Icon: MapPin,  label: "Project Site", value: "Munggu, Bali · Indonesia",       href: null                                    },
 ];
 
 export default function InquirySection() {
@@ -59,6 +59,10 @@ export default function InquirySection() {
             sizes="(max-width: 1024px) 100vw, 40vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brand-black via-brand-black/80 to-brand-black/20" />
+          <div
+            className="absolute inset-0 mix-blend-overlay opacity-60 pointer-events-none"
+            style={{ backgroundImage: "url('/backgroundpattern.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }}
+          />
         </motion.div>
 
         <div className="relative z-10">

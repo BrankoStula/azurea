@@ -66,10 +66,17 @@ export default function Navbar() {
         animate={isHidden && !isOpen ? "hidden" : "visible"}
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
         className={`fixed top-0 left-0 w-full h-20 md:h-24 px-4 md:px-12 flex items-start pt-5 md:pt-6 justify-between z-50 overflow-visible transition-all duration-500 ${
-          isScrolled && !isOpen 
-            ? "bg-brand-black/70 backdrop-blur-md border-b border-white/10 pointer-events-auto" 
+          isScrolled && !isOpen
+            ? "backdrop-blur-md border-b border-white/10 pointer-events-auto"
             : "bg-transparent pointer-events-none"
         }`}
+        style={isScrolled && !isOpen ? {
+          backgroundColor: "var(--color-brand-black)",
+          backgroundImage: "var(--surface-pattern)",
+          backgroundSize: "var(--surface-pattern-size)",
+          backgroundPosition: "center",
+          backgroundBlendMode: "var(--surface-pattern-blend)",
+        } : undefined}
       >
         {/* Left: Hamburger Menu */}
         <button

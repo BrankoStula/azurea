@@ -62,7 +62,8 @@ const GALLERY: GalleryItem[] = [
   { src: `${CDN}/azurea_gallery_19.webp`, label: "Bedroom",               category: "Bedrooms"        },
 ];
 
-const CATEGORIES: Category[] = ["Exterior", "Living & Dining", "Kitchen", "Pool & Outdoor", "Bedrooms", "Bathrooms", "All"];
+// FIX: Moved "All" to the start of the list for better UX
+const CATEGORIES: Category[] = ["All", "Exterior", "Living & Dining", "Kitchen", "Pool & Outdoor", "Bedrooms", "Bathrooms"];
 
 // Animation Directions
 const DIRS = ["up", "right", "down", "left", "up"];
@@ -90,7 +91,9 @@ const imgVariants = {
 };
 
 export default function ProjectGallery() {
-  const [activeCategory, setActiveCategory] = useState<Category>("Exterior");
+  // FIX: Changed default to "All" since I reordered the array, but you could use
+  // "Exterior" if you want to explicitly start with that chapter.
+  const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [isDesktop, setIsDesktop] = useState(true);
 
@@ -205,8 +208,7 @@ export default function ProjectGallery() {
                         sizes="(max-width: 1024px) 100vw, 80vw"
                         priority={i === 0}
                       />
-                      {/* Gradient for text readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent opacity-70" />
+                      {/* FIX: Removed the Gradient for text readability */}
                       
                       {/* Inner Text overlay */}
                       <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 z-10 pointer-events-none">

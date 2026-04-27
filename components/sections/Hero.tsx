@@ -77,8 +77,53 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-linear-to-b from-brand-black/50 via-transparent to-brand-black/95 md:to-brand-black/85" />
       <div className="absolute inset-0 z-0 bg-linear-to-r from-brand-black/30 via-transparent to-transparent md:hidden" />
 
+      {/* Texture overlay — above video/gradients, below content */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none mix-blend-overlay opacity-60"
+        style={{ backgroundImage: "url('/backgroundpattern.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }}
+      />
+
+      {/* ── VIP PRESALE TICKER ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="absolute top-20 md:top-24 left-0 right-0 z-10 overflow-hidden border-t border-b border-white/[0.07] pointer-events-none"
+      >
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+          className="flex min-w-max py-2.5"
+        >
+          {[0, 1].map(copy => (
+            <div key={copy} className="flex items-center shrink-0">
+              {[
+                { text: "VIP Presale", gold: true },
+                { text: "Private Release", gold: false },
+                { text: "Early Investor Access", gold: false },
+                { text: "Limited Units Available", gold: false },
+                { text: "Seseh, Bali", gold: false },
+                { text: "Est. 14.85% Yield", gold: true },
+                { text: "Pre-Market Pricing", gold: false },
+                { text: "8 Private Villas", gold: false },
+              ].map((item, j) => (
+                <span key={j} className="flex items-center">
+                  <span
+                    className="text-[9px] uppercase tracking-[0.28em] px-5"
+                    style={{ color: item.gold ? GOLD : "rgba(255,255,255,0.35)" }}
+                  >
+                    {item.text}
+                  </span>
+                  <span className="w-px h-2.5 inline-block bg-white/15 shrink-0" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+
       {/* ── TOP ROW — location badge ── */}
-      <div className="absolute top-0 left-0 right-0 z-10 px-5 md:px-12 pt-28 md:pt-32 flex justify-between items-start pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 z-10 px-5 md:px-12 pt-36 md:pt-40 flex justify-between items-start pointer-events-none">
 
         {/* Mobile: compact left badge */}
         <motion.div
@@ -128,10 +173,10 @@ export default function Hero() {
             transition={{ duration: 1.4, delay: 0.9, ease: EASE }}
           />
 
-          {/* Eyebrow — desktop only (mobile has top badge) */}
+          {/* Eyebrow — desktop only */}
           <div className="hidden md:block overflow-hidden mb-5">
             <motion.p variants={maskReveal} className="text-[10px] tracking-[0.4em] uppercase" style={{ color: GOLD }}>
-              Seseh, Bali · Private Residences
+              VIP Presale · Private Release
             </motion.p>
           </div>
 
@@ -142,9 +187,8 @@ export default function Hero() {
               className="font-display leading-[1.08] tracking-tight text-cream font-light"
               style={{ fontSize: "clamp(2rem, 6.5vw, 4.5rem)" }}
             >
-              Own a Fully Managed<br className="hidden sm:block" />
-              {" "}3-Bedroom Villa in<br className="hidden sm:block" />
-              {" "}Seseh, Bali
+              Investment-Grade<br className="hidden sm:block" />
+              {" "}Villas in Seseh
             </motion.h1>
           </div>
 
@@ -155,7 +199,7 @@ export default function Hero() {
               className="text-sm md:text-base font-light leading-relaxed max-w-sm md:max-w-xl"
               style={{ color: "rgba(255,255,255,0.55)" }}
             >
-              A boutique collection of 8 private villas with rooftop living, private pools, and projected high-yield rental performance.
+              VIP pricing currently available before public release. A boutique collection of 8 private villas with rooftop living, private pools, and projected high-yield rental performance.
             </motion.p>
           </div>
 
@@ -192,13 +236,13 @@ export default function Hero() {
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8904a")}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
             >
-              Request Investment Deck
+              Request VIP Access
             </button>
             <button
-              onClick={scrollToProject}
-              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-cream font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200"
+              onClick={scrollToInquiry}
+              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-cream font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200 whitespace-nowrap"
             >
-              Explore the Project
+              Download Investment Deck
             </button>
           </motion.div>
         </motion.div>

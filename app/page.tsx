@@ -1,5 +1,6 @@
 // app/page.tsx
 import Hero from "@/components/sections/Hero";
+import EarlyInvestorSection from "@/components/sections/EarlyInvestorSection";
 import LocationSection from "@/components/sections/LocationSection";
 import CinematicJourney from "@/components/sections/CinematicJourney";
 import ProjectGallery from "@/components/sections/ProjectGallery";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <EarlyInvestorSection />
       <LocationSection />
       <CinematicJourney />
       <ProjectGallery />

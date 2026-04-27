@@ -47,8 +47,8 @@ export default function Footer() {
             <ul className="flex flex-col gap-3 text-cream/70 text-sm">
               <li><Link href="/contact" className="hover:text-cream transition-colors">Contact Us</Link></li>
               <li><Link href="/contact" className="hover:text-cream transition-colors">Schedule a Viewing</Link></li>
-              <li><a href="mailto:info@azureabali.com" className="hover:text-cream transition-colors">info@azureabali.com</a></li>
-              <li><a href="tel:+628111222333" className="hover:text-cream transition-colors">+62 811 1222 333</a></li>
+              <li><a href="mailto:Admin@royalbalidevelopments.com" className="hover:text-cream transition-colors">Admin@royalbalidevelopments.com</a></li>
+              <li><a href="tel:+6285956779721" className="hover:text-cream transition-colors">+62 859 5677 9721</a></li>
             </ul>
           </div>
 

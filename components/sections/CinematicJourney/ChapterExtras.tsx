@@ -1,15 +1,22 @@
 // components/sections/CinematicJourney/ChapterExtras.tsx
-import { MapPin, Calendar, Home, BedDouble, Bath, Waves, Car } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, Calendar, Home, BedDouble, Bath, Waves, Sun, Car } from "lucide-react";
 
 const GOLD = "#C9A55A";
+const CDN = "https://d1pjqs5r0ua4f1.cloudfront.net";
+
+// ─── STATIC DATA ───
 
 export function VisionStats() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 border-t border-white/10 pt-8">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 border-t border-cream/10 pt-8">
       {[
-        { icon: MapPin,    label: "Location",    val: "Seseh, Bali"      },
-        { icon: Home,      label: "Total Units", val: "8 Private Villas" },
-        { icon: Calendar,  label: "Delivery",    val: "Q4 2026"          },
+        { icon: MapPin,   label: "Location",    val: "Seseh, Bali"      },
+        { icon: Home,     label: "Total Units", val: "8 Private Villas" },
+        { icon: Calendar, label: "Delivery",    val: "Q2 2027"          },
       ].map((s, i) => (
         <div key={i} className="flex flex-col gap-2">
           <s.icon size={16} style={{ color: GOLD }} />
@@ -21,30 +28,104 @@ export function VisionStats() {
   );
 }
 
-export function MaterialSwatches() {
+// ─── ARCHITECTURE DATA ───
+
+export const ARCH_SPACES = [
+  {
+    id: "rooftop",
+    label: "Rooftop Terrace",
+    icon: Sun,
+    mainImg: `${CDN}/azurea_gallery_26.webp`,
+    desc: "Designed for sunset viewing and private entertaining. The structural concrete provides a seamless, low-maintenance foundation, while teak accents add warmth to the open-air environment.",
+    materials: [
+      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`, position: "top-10 left-10", layout: "right" },
+      { name: "Teak Timber",       img: `${CDN}/teak-timber.webp`,      position: "bottom-10 right-10", layout: "left" },
+    ]
+  },
+  {
+    id: "pool",
+    label: "Private Pool & Deck",
+    icon: Waves,
+    mainImg: `${CDN}/azurea_gallery_6.webp`,
+    desc: "A completely private tropical oasis. Natural travertine stone remains cool under the Bali sun, contrasting beautifully with the deep azure water and lush landscaping.",
+    materials: [
+      { name: "Travertine Stone", img: `${CDN}/polished_concreete.webp`, position: "top-10 right-10", layout: "left" }, 
+      { name: "Teak Timber",      img: `${CDN}/teak-timber.webp`,        position: "bottom-10 left-10", layout: "right" },
+    ]
+  },
+  {
+    id: "living",
+    label: "Enclosed Living",
+    icon: Home,
+    mainImg: `${CDN}/azurea_gallery_3.webp`,
+    desc: "Climate-controlled comfort meets indoor-outdoor flow. Full-height glazing maximizes natural light, reflecting beautifully off the cool travertine floors and natural wood tones.",
+    materials: [
+      { name: "Travertine Stone",  img: `${CDN}/polished_concreete.webp`, position: "top-10 left-10", layout: "right" },
+      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`,   position: "bottom-10 right-10", layout: "left" },
+    ]
+  },
+  {
+    id: "bath",
+    label: "Luxury Ensuites",
+    icon: Bath,
+    mainImg: `${CDN}/azurea_gallery_29.webp`,
+    desc: "Spa-inspired sanctuaries featuring deep soaking tubs and rain showers. The interplay of raw stone and warm timber creates a calming, tactile experience.",
+    materials: [
+      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`, position: "top-10 right-10", layout: "left" },
+      { name: "Teak Timber",       img: `${CDN}/teak-timber.webp`,      position: "bottom-10 left-10", layout: "right" },
+    ]
+  },
+];
+
+// ─── RIGHT PANE TABS ───
+
+export function MaterialSwatches({ 
+  activeId, 
+  onSelect 
+}: { 
+  activeId?: string; 
+  onSelect?: (id: string) => void; 
+}) {
+  const [localId, setLocalId] = useState(ARCH_SPACES[0].id);
+  const currentId = activeId || localId;
+  const setCurrentId = onSelect || setLocalId;
+
   return (
-    <div className="flex flex-col gap-4 mt-8 border-t border-white/10 pt-8">
-      {[
-        { name: "Travertine Stone",  imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/polished_concreete.webp", desc: "Natural cooling properties, ideal for tropical climates"   },
-        { name: "Teak Timber",       imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/teak-timber.webp",        desc: "Durable, humidity-resistant, and sustainably sourced"      },
-        { name: "Polished Concrete", imgUrl: "https://d1pjqs5r0ua4f1.cloudfront.net/concreete_finish.webp",   desc: "Low-maintenance finish designed for long-term use"          },
-      ].map((m, i) => (
-        <div key={i} className="flex items-center gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={m.imgUrl} alt={m.name} className="w-10 h-10 rounded-full object-cover border-2 border-white/10 shadow-lg" />
-          <div>
-            <p className="text-cream text-sm font-medium">{m.name}</p>
-            <p className="text-cream/40 text-xs">{m.desc}</p>
-          </div>
-        </div>
-      ))}
+    <div className="mt-8 border-t border-cream/10 pt-8">
+      <p className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mb-6">
+        Select a space to explore
+      </p>
+
+      {/* Clickable Tabs - The description card below this is now GONE! */}
+      <div className="flex flex-col gap-2">
+        {ARCH_SPACES.map((space) => {
+          const isActive = currentId === space.id;
+          const Icon = space.icon;
+          return (
+            <button
+              key={space.id}
+              onClick={() => setCurrentId(space.id)}
+              className={`flex items-center gap-4 px-4 py-3 text-left transition-all duration-300 rounded-sm border cursor-pointer ${
+                isActive 
+                  ? "bg-[#C9A55A]/10 border-[#C9A55A]/50 text-[#C9A55A]" 
+                  : "bg-transparent border-transparent text-cream/50 hover:bg-cream/5 hover:text-cream"
+              }`}
+            >
+              <Icon size={16} style={{ color: isActive ? GOLD : "inherit" }} />
+              <span className="text-xs uppercase tracking-widest font-medium">
+                {space.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 export function VillaFeatures() {
   return (
-    <div className="mt-6 border-t border-white/10 pt-6">
+    <div className="mt-6 border-t border-cream/10 pt-6">
       <p className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mb-6">
         Optimized for groups · Built for privacy · Configured for short-term rental demand
       </p>
@@ -55,8 +136,9 @@ export function VillaFeatures() {
           { icon: Waves,     label: "Private Pool"       },
           { icon: Car,       label: "Private Carport"    },
           { icon: Home,      label: "Rooftop Terrace"    },
+          { icon: Bath,      label: "Ice Bath"           },
         ].map((a, i) => (
-          <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 p-3">
+          <div key={i} className="flex items-center gap-3 bg-cream/5 border border-cream/10 p-3">
             <a.icon size={16} style={{ color: GOLD }} />
             <span className="text-cream/80 text-xs tracking-wide">{a.label}</span>
           </div>

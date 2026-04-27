@@ -1,32 +1,44 @@
+// components/sections/PlanpointSection.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Maximize2, Download } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Maximize2, Download, ArrowLeft } from "lucide-react";
+import Image from "next/image";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const GOLD = "#C9A55A";
-const PLANPOINT_URL = "https://app.planpoint.io/azurea/william?transparent=true";
+const PLANPOINT_BASE_URL = "https://app.planpoint.io/azurea/william?transparent=true";
 
-// ─── Mock Data for Availability List ───────────────────────────────────────
 type VillaStatus = "Available" | "Reserved" | "Sold";
 
-const VILLAS = [
-  { id: "01", size: "155.8 m²", beds: 3, baths: 3, status: "Sold" as VillaStatus },
-  { id: "02", size: "155.8 m²", beds: 3, baths: 3, status: "Available" as VillaStatus },
-  { id: "03", size: "155.8 m²", beds: 3, baths: 3, status: "Available" as VillaStatus },
-  { id: "04", size: "155.8 m²", beds: 3, baths: 3, status: "Reserved" as VillaStatus },
-  { id: "05", size: "155.8 m²", beds: 3, baths: 3, status: "Sold" as VillaStatus },
-  { id: "06", size: "155.8 m²", beds: 3, baths: 3, status: "Available" as VillaStatus },
-  { id: "07", size: "155.8 m²", beds: 3, baths: 3, status: "Available" as VillaStatus },
-  { id: "08", size: "155.8 m²", beds: 3, baths: 3, status: "Available" as VillaStatus },
+type Villa = {
+  id: string;
+  planpointId: string;
+  built: string;
+  land: string;
+  beds: number;
+  baths: number;
+  status: VillaStatus;
+  image: string;
+};
+
+const VILLAS: Villa[] = [
+  { id: "01", planpointId: "69ea4796e802aa174bc2ca7c", built: "155.8 m²", land: "162 m²", beds: 3, baths: 3, status: "Sold",      image: "/floorplans/villa_1.jpg" },
+  { id: "02", planpointId: "69ea47d1e802aa174bc2d6ee", built: "155.8 m²", land: "157 m²", beds: 3, baths: 3, status: "Available", image: "/floorplans/villa_2.jpg" },
+  { id: "03", planpointId: "69ea47d8d49cbdc688e15cf7", built: "155.8 m²", land: "154 m²", beds: 3, baths: 3, status: "Available", image: "/floorplans/villa_3.jpg" },
+  { id: "04", planpointId: "69ea47dd9e8ac7a07667f593", built: "155.8 m²", land: "151 m²", beds: 3, baths: 3, status: "Reserved",  image: "/floorplans/villa_4.jpg" },
+  { id: "05", planpointId: "69ea47e148ba5cb0e493ebc4", built: "155.8 m²", land: "151 m²", beds: 3, baths: 3, status: "Sold",      image: "/floorplans/villa_5.jpg" },
+  { id: "06", planpointId: "69ea47e6d49cbdc688e15d13", built: "157.9 m²", land: "164 m²", beds: 3, baths: 3, status: "Available", image: "/floorplans/villa_6.jpg" },
+  { id: "07", planpointId: "69ea47ecf3eb27d6ae167ff6", built: "157.9 m²", land: "150 m²", beds: 3, baths: 3, status: "Available", image: "/floorplans/villa_7_8.jpg" },
+  { id: "08", planpointId: "69ea47f1873b1ce46c076f0c", built: "157.9 m²", land: "150 m²", beds: 3, baths: 3, status: "Available", image: "/floorplans/villa_7_8.jpg" },
 ];
 
 export default function PlanpointSection() {
   const [loaded, setLoaded] = useState(false);
   const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
+  const [floorplanVilla, setFloorplanVilla] = useState<Villa | null>(null);
 
-  // Inject preconnect hints early
   useEffect(() => {
     const hints: [string, string][] = [
       ["preconnect", "https://app.planpoint.io"],
@@ -41,15 +53,18 @@ export default function PlanpointSection() {
     });
   }, []);
 
-  // Fallback loader removal
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 12000);
     return () => clearTimeout(t);
   }, []);
 
+  const handleVillaClick = (villa: Villa) => {
+    setFloorplanVilla(prev => (prev?.id === villa.id ? null : villa));
+  };
+
   return (
     <section id="masterplan" className="bg-brand-black border-t border-white/10 flex flex-col">
-      
+
       {/* ─── Header ─── */}
       <div className="px-6 md:px-12 lg:px-16 py-16 flex flex-col md:flex-row md:items-end md:justify-between gap-8 border-b border-white/10">
         <div>
@@ -64,7 +79,6 @@ export default function PlanpointSection() {
             <span className="w-6 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
             Interactive Masterplan
           </motion.p>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -85,9 +99,9 @@ export default function PlanpointSection() {
           className="flex flex-col sm:flex-row gap-4 items-start md:items-center"
         >
           <p className="text-cream/50 text-sm max-w-xs md:text-right">
-            Navigate the 3D estate to view real-time availability and individual villa positioning.
+            Select a villa to view its floorplan, or explore the 3D estate for real-time availability.
           </p>
-          <button className="hidden lg:flex items-center gap-2 px-5 py-3 border border-white/10 hover:border-[#C9A55A]/50 hover:bg-white/5 transition-colors duration-300 rounded-sm group">
+          <button className="hidden lg:flex items-center gap-2 px-5 py-3 border border-white/10 hover:border-[#C9A55A]/50 hover:bg-white/5 transition-colors duration-300 rounded-sm group cursor-pointer">
             <Download size={14} className="text-[#C9A55A] group-hover:-translate-y-0.5 transition-transform" />
             <span className="text-[10px] uppercase tracking-widest text-cream">Floorplans</span>
           </button>
@@ -96,80 +110,147 @@ export default function PlanpointSection() {
 
       {/* ─── Split Screen Layout ─── */}
       <div className="flex flex-col lg:flex-row w-full border-b border-white/10" style={{ height: "80vh", minHeight: "650px" }}>
-        
-        {/* 1. LEFT: 3D Viewer (65%) */}
-        <div className="w-full lg:w-[65%] h-[50vh] lg:h-full relative shrink-0">
-          
-          {/* Overlays */}
-          <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col gap-1">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-cream/70 drop-shadow-md">Azurea</span>
-            <span className="text-[9px] uppercase tracking-widest text-cream/40 drop-shadow-md">Seseh, Bali</span>
-          </div>
-          
-          <div className="absolute bottom-5 right-5 z-20 pointer-events-none flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-white/10 rounded-sm">
-            <Maximize2 size={12} className="text-cream/60" />
-            <span className="text-[9px] uppercase tracking-widest text-cream/70">Interactive 3D</span>
-          </div>
 
-          {/* Loading Skeleton */}
-          <motion.div
-            animate={{ opacity: loaded ? 0 : 1, pointerEvents: loaded ? "none" : "auto" }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 bg-brand-black flex flex-col items-center justify-center gap-4 z-10"
-          >
-            <div className="w-6 h-6 rounded-full border-2 border-[#C9A55A]/20 border-t-[#C9A55A] animate-spin" />
-            <p className="text-[10px] uppercase tracking-[0.25em] text-cream/30">Loading Masterplan</p>
-          </motion.div>
+        {/* LEFT: 3D Viewer or Floorplan (65%) */}
+        <div className="w-full lg:w-[65%] h-[50vh] lg:h-full relative shrink-0 overflow-hidden">
+          <AnimatePresence mode="wait">
+            {floorplanVilla ? (
 
-          {/* Iframe */}
-          <iframe
-            src={PLANPOINT_URL}
-            className="w-full h-full border-0"
-            style={{ background: "transparent" }} // Swapped from "#08204D" to "transparent"
-            allowTransparency={true} // Tells the browser to allow the parent background through
-            allowFullScreen
-            allow="autoplay; fullscreen; vr"
-            title="Azurea Interactive Masterplan"
-            onLoad={() => setLoaded(true)}
-          />
+              /* ── Floorplan Image View ── */
+              <motion.div
+                key={`fp-${floorplanVilla.id}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ backgroundColor: "#f5f0e8" }}
+              >
+                <Image
+                  src={floorplanVilla.image}
+                  alt={`Villa ${floorplanVilla.id} Floorplan`}
+                  fill
+                  className="object-cover"
+                  quality={90}
+                  sizes="(max-width: 1024px) 100vw, 65vw"
+                />
+
+                {/* Back button */}
+                <button
+                  onClick={() => setFloorplanVilla(null)}
+                  className="absolute top-5 left-5 z-10 flex items-center gap-2 bg-brand-black/80 hover:bg-brand-black px-4 py-2.5 backdrop-blur-md border border-white/20 hover:border-[#C9A55A]/50 transition-all rounded-sm cursor-pointer"
+                >
+                  <ArrowLeft size={12} className="text-cream/80" />
+                  <span className="text-[9px] uppercase tracking-widest text-cream/90">Back to 3D View</span>
+                </button>
+
+              </motion.div>
+
+            ) : (
+
+              /* ── 3D Iframe View ── */
+              <motion.div
+                key="iframe"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                className="absolute inset-0"
+              >
+                {/* Location label */}
+                <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col gap-1">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-cream/70 drop-shadow-md">Azurea</span>
+                  <span className="text-[9px] uppercase tracking-widest text-cream/40 drop-shadow-md">Seseh, Bali</span>
+                </div>
+
+                {/* Interactive badge */}
+                <div className="absolute bottom-5 right-5 z-20 pointer-events-none">
+                  <div className="flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-white/10 rounded-sm">
+                    <Maximize2 size={12} className="text-cream/60" />
+                    <span className="text-[9px] uppercase tracking-widest text-cream/70">Interactive 3D</span>
+                  </div>
+                </div>
+
+                {/* Loading skeleton */}
+                <motion.div
+                  animate={{ opacity: loaded ? 0 : 1, pointerEvents: loaded ? "none" : "auto" }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 bg-brand-black flex flex-col items-center justify-center gap-4 z-10"
+                >
+                  <div className="w-6 h-6 rounded-full border-2 border-[#C9A55A]/20 border-t-[#C9A55A] animate-spin" />
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-cream/30">Loading Masterplan</p>
+                </motion.div>
+
+                <iframe
+                  src={PLANPOINT_BASE_URL}
+                  className="w-full h-full border-0"
+                  style={{ background: "transparent" }}
+                  allowTransparency={true}
+                  allowFullScreen
+                  allow="autoplay; fullscreen; vr"
+                  title="Azurea Interactive Masterplan"
+                  onLoad={() => setLoaded(true)}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* 2. RIGHT: Availability List (35%) */}
+        {/* RIGHT: Availability List (35%) */}
         <div className="w-full lg:w-[35%] h-[50vh] lg:h-full bg-brand-black border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col relative">
-          
+
           {/* Table Header */}
-          <div className="sticky top-0 bg-brand-black/95 backdrop-blur-md z-10 px-6 py-4 border-b border-white/10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-cream/40">
+          <div
+            className="sticky top-0 backdrop-blur-md z-10 px-6 py-4 border-b border-white/10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-cream/40"
+            style={{
+              backgroundColor: "color-mix(in srgb, var(--color-brand-black) 97%, transparent)",
+              backgroundImage: "var(--surface-pattern)",
+              backgroundSize: "var(--surface-pattern-size)",
+              backgroundPosition: "center",
+              backgroundBlendMode: "var(--surface-pattern-blend)",
+            }}
+          >
             <div className="w-16">Unit</div>
-            <div className="flex-1">Details</div>
+            <div className="flex-1">Built Area</div>
             <div className="w-24 text-right">Status</div>
           </div>
 
           {/* Scrollable List */}
-          {/* Custom slim scrollbar styles applied via Tailwind arbitrary variants */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
             {VILLAS.map((villa) => {
               const isAvailable = villa.status === "Available";
-              const isReserved = villa.status === "Reserved";
-              const isSold = villa.status === "Sold";
+              const isReserved  = villa.status === "Reserved";
+              const isSold      = villa.status === "Sold";
+              const isSelected  = floorplanVilla?.id === villa.id;
 
               return (
                 <div
                   key={villa.id}
                   onMouseEnter={() => setHoveredUnit(villa.id)}
                   onMouseLeave={() => setHoveredUnit(null)}
-                  className={`px-6 py-5 border-b border-white/5 flex items-center justify-between transition-colors duration-300 cursor-default ${
-                    hoveredUnit === villa.id ? "bg-white/[0.03]" : "bg-transparent"
-                  } ${isSold ? "opacity-60" : "opacity-100"}`}
+                  onClick={() => handleVillaClick(villa)}
+                  className={`px-6 py-5 border-b flex items-center justify-between transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-[#C9A55A]/5 border-[#C9A55A]/30"
+                      : hoveredUnit === villa.id
+                        ? "bg-white/[0.03] border-white/10"
+                        : "bg-transparent border-white/5"
+                  } ${isSold ? "opacity-60 grayscale" : "opacity-100"}`}
                 >
                   {/* Unit Number */}
-                  <div className="w-16 flex flex-col">
-                    <span className="text-cream font-display text-lg">V{villa.id}</span>
+                  <div className="w-16 flex flex-col gap-0.5">
+                    <span className={`font-display text-lg transition-colors ${isSelected ? "text-[#C9A55A]" : "text-cream"}`}>
+                      V{villa.id}
+                    </span>
+                    {isSelected && (
+                      <span className="text-[8px] uppercase tracking-widest text-[#C9A55A]/60">Floorplan</span>
+                    )}
                   </div>
 
                   {/* Details */}
-                  <div className="flex-1 flex flex-col gap-1">
+                  <div className="flex-1 flex flex-col gap-1 pointer-events-none">
                     <span className={`text-sm ${isSold ? "text-cream/50 line-through decoration-white/20" : "text-cream/90"}`}>
-                      {villa.size}
+                      {villa.built}
                     </span>
                     <span className="text-[10px] uppercase tracking-widest text-cream/40">
                       {villa.beds} Bed · {villa.baths} Bath
@@ -177,10 +258,10 @@ export default function PlanpointSection() {
                   </div>
 
                   {/* Status Badge */}
-                  <div className="w-24 flex justify-end">
+                  <div className="w-24 flex justify-end pointer-events-none">
                     <div className={`px-2.5 py-1 text-[9px] uppercase tracking-widest rounded-sm border backdrop-blur-sm flex items-center gap-1.5 ${
-                      isAvailable 
-                        ? "border-[#C9A55A]/30 text-[#C9A55A] bg-[#C9A55A]/5" 
+                      isAvailable
+                        ? "border-[#C9A55A]/30 text-[#C9A55A] bg-[#C9A55A]/5"
                         : isReserved
                         ? "border-amber-200/20 text-amber-200/80 bg-amber-200/5"
                         : "border-white/10 text-white/40 bg-white/5"
@@ -194,11 +275,11 @@ export default function PlanpointSection() {
               );
             })}
           </div>
-          
-          {/* Bottom Fade Gradient for List */}
+
+          {/* Bottom fade */}
           <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-brand-black to-transparent pointer-events-none" />
         </div>
-        
+
       </div>
     </section>
   );

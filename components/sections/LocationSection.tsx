@@ -85,12 +85,12 @@ const SUBSECTIONS: SubSection[] = [
     label: "02 — The Coastline",
     title: "Minutes From Bali's Most Sought-After Beaches",
     body: "Located in Seseh, Azurea is just 4–6 minutes from Seseh Beach and within 10 minutes of Pererenan's coastline. Canggu's main beachfront and beach clubs are accessible within 15–20 minutes.",
-    images: [`${CDN}/canggu_beach.webp`, `${CDN}/finns-beach-club.webp`, `${CDN}/canggu_beach_club.webp`],
+    images: [`${CDN}/canggu_beach.webp`, `${CDN}/canggu_beach_club.webp`],
     camera: { longitude: 115.130364, latitude: -8.659627, zoom: 12.5, pitch: 35, bearing: -12 },
     pois: [
-      { label: "Azurea",        longitude: 115.129046, latitude: -8.610440, type: "project",    images: [`${CDN}/azurea_gallery_3.webp`, `${CDN}/azurea_gallery_5.webp`] },
-      { label: "Canggu Beach",  longitude: 115.130364, latitude: -8.659627, type: "beach",      images: [`${CDN}/canggu_beach.webp`, `${CDN}/canggu_beach_club.webp`] },
-      { label: "FINNS Beach Club", longitude: 115.139521, latitude: -8.665889, type: "restaurant", images: [`${CDN}/finns-beach-club.webp`] },
+      { label: "Azurea",       longitude: 115.129046,  latitude: -8.610440,           type: "project", images: [`${CDN}/azurea_gallery_3.webp`, `${CDN}/azurea_gallery_5.webp`] },
+      { label: "Seseh Beach",  longitude: 115.1142204, latitude: -8.647293534681705,  type: "beach",   images: [`${CDN}/canggu_beach.webp`] },
+      { label: "Canggu Beach", longitude: 115.130364,  latitude: -8.659627,           type: "beach",   images: [`${CDN}/canggu_beach.webp`, `${CDN}/canggu_beach_club.webp`] },
     ],
   },
   {
@@ -98,13 +98,15 @@ const SUBSECTIONS: SubSection[] = [
     label: "03 — Active Lifestyle",
     title: "Access to Canggu's Leading Lifestyle Infrastructure",
     body: "Azurea benefits from immediate proximity to Omni Gym, with additional access to Canggu's top fitness, wellness, and social hubs within 10–15 minutes. This ecosystem consistently attracts long-stay guests and high-value renters.",
-    images: [`${CDN}/azurea_gallery_3.webp`, `${CDN}/canggu_1.webp`, `${CDN}/canggu_2.webp`],
+    images: [`${CDN}/omni_real.webp`, `${CDN}/nirvana_real.webp`, `${CDN}/open_house_seseh.webp`],
     camera: { longitude: 115.148, latitude: -8.638, zoom: 14, pitch: 60, bearing: 18 },
     pois: [
-      { label: "OMNI",                  longitude: 115.12326167791198, latitude: -8.622796844965022, type: "surf", images: [`${CDN}/nirvana_life_fitness.webp`] },
-      { label: "Bali MMA",             longitude: 115.155898,          latitude: -8.641557,           type: "surf", images: [`${CDN}/bali_mma.webp`] },
-      { label: "Jungle Padel",         longitude: 115.139880,          latitude: -8.634579,           type: "surf", images: [`${CDN}/jungle_padel_canggu.webp`] },
-      { label: "THE BLOCK",            longitude: 115.138541,          latitude: -8.633828,           type: "surf", images: [`${CDN}/the_block_canggu.webp`] },
+      { label: "Azurea",              longitude: 115.129046,          latitude: -8.610440,           type: "project", images: [`${CDN}/azurea_gallery_1.webp`] },
+      { label: "OMNI",               longitude: 115.12326167791198, latitude: -8.622796844965022, type: "surf",    images: [`${CDN}/omni_real.webp`] },
+      { label: "Nirvana Life Fitness", longitude: 115.15445935490021, latitude: -8.64249459676792,  type: "surf",    images: [`${CDN}/nirvana_real.webp`] },
+      { label: "Bali MMA",           longitude: 115.155898,          latitude: -8.641557,           type: "surf",    images: [`${CDN}/bali_mma.webp`] },
+      { label: "Jungle Padel Seseh", longitude: 115.139880,          latitude: -8.634579,           type: "surf",    images: [`${CDN}/jungle_padel_seseh.webp`] },
+      { label: "Open House Seseh",   longitude: 115.138541,          latitude: -8.633828,           type: "surf",    images: [`${CDN}/open_house_seseh.webp`] },
     ],
   },
   {
@@ -258,45 +260,6 @@ export default function LocationSection() {
       className="relative bg-brand-black text-cream"
     >
 
-      {/* ── Intro header ── */}
-      <div className="flex flex-col items-center text-center py-20 lg:py-24 px-6 border-b border-white/8">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.6 }}
-          className="label-caps mb-5 flex items-center gap-4"
-          style={{ color: GOLD }}
-        >
-          <span className="w-8 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.4 }} />
-          Why Bali
-          <span className="w-8 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.4 }} />
-        </motion.p>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0 }}
-          transition={{ duration: 0.9, ease: EASE }}
-          className="font-display text-cream leading-tight mb-6"
-          style={{ fontSize: "clamp(2rem, 5vw, 5rem)", letterSpacing: "var(--tracking-heading)" }}
-        >
-          The World&apos;s Most Sought-After Island
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-cream/55 text-base lg:text-lg leading-relaxed max-w-2xl"
-        >
-          From pristine black-sand coastlines to vibrant creative districts, Bali&apos;s Munggu corridor
-          has emerged as the most coveted address in Southeast Asia — where natural beauty, world-class
-          infrastructure, and extraordinary lifestyle converge in one place.
-        </motion.p>
-      </div>
-
       {/* ════════════════════════════════════════════════════════════════════
           MOBILE LAYOUT — tab navigation + immersive cards
       ════════════════════════════════════════════════════════════════════ */}
@@ -344,6 +307,7 @@ export default function LocationSection() {
                 src={active.images[0]}
                 alt={active.title}
                 fill
+                quality={90}
                 className="object-cover"
                 sizes="100vw"
                 priority={activeIdx === 0}
@@ -401,7 +365,7 @@ export default function LocationSection() {
               <div className="px-5 pb-10 flex gap-2">
                 {active.images.slice(1).map((img, j) => (
                   <div key={j} className="flex-1 relative overflow-hidden" style={{ height: "26vw", minHeight: "90px" }}>
-                    <Image src={img} alt="" fill className="object-cover" sizes="33vw" />
+                    <Image src={img} alt="" fill quality={90} className="object-cover" sizes="33vw" />
                     <div className="absolute inset-0 bg-brand-black/10" />
                   </div>
                 ))}
@@ -564,7 +528,7 @@ export default function LocationSection() {
                 >
                   {displayImages.map((img, i) => (
                     <div key={i} className="flex-1 relative overflow-hidden">
-                      <Image src={img} alt="" fill className="object-cover" sizes="25vw" priority={activeIdx === 0 && i === 0} />
+                      <Image src={img} alt="" fill className="object-cover" sizes="25vw" quality={90} priority={activeIdx === 0 && i === 0} />
                     </div>
                   ))}
                   <div className="absolute inset-0 bg-linear-to-t from-brand-black/50 via-transparent to-transparent pointer-events-none" />
