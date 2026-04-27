@@ -4,12 +4,11 @@
 import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Waves, Coffee, Utensils, Wind, Plane, type LucideIcon } from "lucide-react";
 import type { Camera, POI, POIType } from "@/components/ui/MapboxMap";
 
-// ─── Types ─────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────
 
 type SubPOI = {
   label: string;
@@ -29,7 +28,10 @@ type SubSection = {
   pois: SubPOI[];
 };
 
-// ─── Icon map ──────────────────────────────────────────────────────────────
+// ─── Constants ────────────────────────────────────────────────────────────
+
+const GOLD = "#C9A55A";
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const POI_ICONS: Record<POIType, LucideIcon> = {
   project:    MapPin,
@@ -40,155 +42,86 @@ const POI_ICONS: Record<POIType, LucideIcon> = {
   airport:    Plane,
 };
 
-// ─── Stock image helper ────────────────────────────────────────────────────
-
 const u = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&q=80&w=1400&fit=crop`;
 
-// ─── Detailed Road Route (Airport → Azurea via major Bali roads) ───────────
-// This traces the actual physical roads without needing a fragile API call.
+const CDN = "https://d1pjqs5r0ua4f1.cloudfront.net";
+
+// ─── Route data ───────────────────────────────────────────────────────────
+
 const DIRECTIONS_ROUTE: [number, number][] = [
-  [115.168190, -8.746512], // Ngurah Rai Airport
-  [115.174528, -8.743160], // Airport Exit
-  [115.179331, -8.736021], // Mandara Toll road split
-  [115.183311, -8.722684], // Dewa Ruci Monument
-  [115.180459, -8.716183], // Sunset Road start
-  [115.173856, -8.700142], // Sunset Road mid
-  [115.167888, -8.682662], // Sunset Road end (Kerobokan)
-  [115.164344, -8.672855], // Jl Raya Kerobokan
-  [115.160012, -8.663114], // Lio Square
-  [115.153401, -8.653456], // Jl Raya Canggu
-  [115.145823, -8.646211], // Canggu intersection
-  [115.138125, -8.636102], // Pererenan turn
-  [115.133214, -8.624151], // Munggu/Seseh road
-  [115.129046, -8.610440], // Azurea
+  [115.168190, -8.746512],
+  [115.174528, -8.743160],
+  [115.179331, -8.736021],
+  [115.183311, -8.722684],
+  [115.180459, -8.716183],
+  [115.173856, -8.700142],
+  [115.167888, -8.682662],
+  [115.164344, -8.672855],
+  [115.160012, -8.663114],
+  [115.153401, -8.653456],
+  [115.145823, -8.646211],
+  [115.138125, -8.636102],
+  [115.133214, -8.624151],
+  [115.129046, -8.610440],
 ];
 
-// ─── Data ──────────────────────────────────────────────────────────────────
+// ─── Section data ─────────────────────────────────────────────────────────
 
 const SUBSECTIONS: SubSection[] = [
   {
     id: "overview",
     label: "01 — Overview",
     title: "A Private Coastal Enclave",
-    body: "Azurea is located in Seseh, one of Bali’s fastest-growing coastal areas, offering a more private and residential environment just minutes from Canggu. This positioning provides direct access to the island’s most active lifestyle and rental zones while maintaining a quieter, more refined setting.",
-    images: [
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_13.webp",
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_12.webp", 
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp"
-    ],
+    body: "Azurea is located in Seseh, one of Bali's fastest-growing coastal areas, offering a more private and residential environment just minutes from Canggu. This positioning provides direct access to the island's most active lifestyle and rental zones while maintaining a quieter, more refined setting.",
+    images: [`${CDN}/azurea_gallery_13.webp`, `${CDN}/azurea_gallery_12.webp`, `${CDN}/azurea_gallery_3.webp`],
     camera: { longitude: 115.129046, latitude: -8.610440, zoom: 14.5, pitch: 50, bearing: 0 },
     pois: [
-      {
-        label: "Azurea",
-        longitude: 115.129046,
-        latitude: -8.610440,
-        type: "project",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_1.webp"],
-      },
+      { label: "Azurea", longitude: 115.129046, latitude: -8.610440, type: "project", images: [`${CDN}/azurea_gallery_1.webp`] },
     ],
   },
   {
     id: "coastline",
     label: "02 — The Coastline",
-    title: "Minutes From Bali’s Most Sought-After Beaches",
-    body: "Located in Seseh, Azurea is just 4–6 minutes from Seseh Beach and within 10 minutes of Pererenan’s coastline. Canggu’s main beachfront and beach clubs are accessible within 15–20 minutes, offering direct access to Bali’s most active coastal zones while maintaining a more private setting",
-    images: ["https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/finns-beach-club.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach_club.webp"],
+    title: "Minutes From Bali's Most Sought-After Beaches",
+    body: "Located in Seseh, Azurea is just 4–6 minutes from Seseh Beach and within 10 minutes of Pererenan's coastline. Canggu's main beachfront and beach clubs are accessible within 15–20 minutes.",
+    images: [`${CDN}/canggu_beach.webp`, `${CDN}/finns-beach-club.webp`, `${CDN}/canggu_beach_club.webp`],
     camera: { longitude: 115.130364, latitude: -8.659627, zoom: 12.5, pitch: 35, bearing: -12 },
     pois: [
-      {
-        label: "Azurea",
-        longitude: 115.129046,
-        latitude: -8.610440,
-        type: "project",
-         images: [
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp",
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_5.webp", 
-      "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_7.webp"
-    ],
-      },
-      {
-        label: "Canggu Beach",
-        longitude: 115.130364,
-        latitude: -8.659627,
-        type: "beach",
-                images: ["https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_beach_club.webp"],
-
-      },
-      {
-        label: "FINNS Beach Club",
-        longitude: 115.139521,
-        latitude: -8.665889,
-        type: "restaurant",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/finns-beach-club.webp"],
-      },
+      { label: "Azurea",        longitude: 115.129046, latitude: -8.610440, type: "project",    images: [`${CDN}/azurea_gallery_3.webp`, `${CDN}/azurea_gallery_5.webp`] },
+      { label: "Canggu Beach",  longitude: 115.130364, latitude: -8.659627, type: "beach",      images: [`${CDN}/canggu_beach.webp`, `${CDN}/canggu_beach_club.webp`] },
+      { label: "FINNS Beach Club", longitude: 115.139521, latitude: -8.665889, type: "restaurant", images: [`${CDN}/finns-beach-club.webp`] },
     ],
   },
   {
     id: "canggu",
     label: "03 — Active Lifestyle",
-    title: "Access to Canggu’s Leading Lifestyle Infrastructure",
-    body: "Azurea benefits from immediate proximity to Omni Gym, with additional access to Canggu’s top fitness, wellness, and social hubs within 10–15 minutes. This ecosystem consistently attracts long-stay guests and high-value renters, supporting stable occupancy throughout the year.",
-    images: ["https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_3.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_1.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/canggu_2.webp"],
+    title: "Access to Canggu's Leading Lifestyle Infrastructure",
+    body: "Azurea benefits from immediate proximity to Omni Gym, with additional access to Canggu's top fitness, wellness, and social hubs within 10–15 minutes. This ecosystem consistently attracts long-stay guests and high-value renters.",
+    images: [`${CDN}/azurea_gallery_3.webp`, `${CDN}/canggu_1.webp`, `${CDN}/canggu_2.webp`],
     camera: { longitude: 115.148, latitude: -8.638, zoom: 14, pitch: 60, bearing: 18 },
     pois: [
-      {
-        label: "OMNI",
-        longitude: 115.12326167791198,
-        latitude: -8.622796844965022,
-        type: "surf",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/nirvana_life_fitness.webp"],
-      },
-      {
-        label: "Bali MMA",
-        longitude: 115.155898,
-        latitude: -8.641557,
-        type: "surf",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/bali_mma.webp"],
-      },
-      {
-        label: "Jungle Padel Pererenan",
-        longitude: 115.139880,
-        latitude: -8.634579,
-        type: "surf",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/jungle_padel_canggu.webp"],
-      },
-      {
-        label: "THE BLOCK",
-        longitude: 115.138541,
-        latitude: -8.633828,
-        type: "surf",
-        images: ["https://d1pjqs5r0ua4f1.cloudfront.net/the_block_canggu.webp"],
-      },
+      { label: "OMNI",                  longitude: 115.12326167791198, latitude: -8.622796844965022, type: "surf", images: [`${CDN}/nirvana_life_fitness.webp`] },
+      { label: "Bali MMA",             longitude: 115.155898,          latitude: -8.641557,           type: "surf", images: [`${CDN}/bali_mma.webp`] },
+      { label: "Jungle Padel",         longitude: 115.139880,          latitude: -8.634579,           type: "surf", images: [`${CDN}/jungle_padel_canggu.webp`] },
+      { label: "THE BLOCK",            longitude: 115.138541,          latitude: -8.633828,           type: "surf", images: [`${CDN}/the_block_canggu.webp`] },
     ],
   },
   {
     id: "directions",
     label: "04 — Getting Here",
     title: "Easy Access from Bali International Airport",
-    body: "Connected to 50+ global cities, Azurea is a scenic 40-minute coastal drive from the airport—perfectly positioned for effortless arrivals while remaining a sanctuary away from the crowds.",
-    images: ["https://d1pjqs5r0ua4f1.cloudfront.net/denpasar_airport.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp", "https://d1pjqs5r0ua4f1.cloudfront.net/bali_road.webp"],
+    body: "Connected to 50+ global cities, Azurea is a scenic 25-minute coastal drive from the airport — perfectly positioned for effortless arrivals while remaining a sanctuary away from the crowds.",
+    images: [`${CDN}/denpasar_airport.webp`, `${CDN}/azurea_gallery_6.webp`, `${CDN}/bali_road.webp`],
     camera: { longitude: 115.145, latitude: -8.683, zoom: 11, pitch: 0, bearing: 0 },
     pois: [
-      {
-        label: "Ngurah Rai Airport",
-        longitude: 115.168190,
-        latitude: -8.746512,
-        type: "airport" as POIType,
-        images: [u("1583212292454-1dea0f959c21")],
-      },
-      {
-        label: "Azurea",
-        longitude: 115.129046,
-        latitude: -8.610440,
-        type: "project" as POIType,
-        images: ["/brand_assets_-002.jpg"],
-      },
+      { label: "Ngurah Rai Airport", longitude: 115.168190, latitude: -8.746512, type: "airport" as POIType, images: [u("1583212292454-1dea0f959c21")] },
+      { label: "Azurea",            longitude: 115.129046, latitude: -8.610440, type: "project" as POIType, images: ["/brand_assets_-002.jpg"] },
     ],
   },
 ];
 
-// ─── Dynamic map import (SSR-safe) ─────────────────────────────────────────
+// ─── Dynamic map (SSR-safe) ────────────────────────────────────────────────
 
 const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
   ssr: false,
@@ -199,11 +132,54 @@ const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
   ),
 });
 
-// ─── Component ─────────────────────────────────────────────────────────────
+// ─── Directions card (shared between mobile + desktop) ────────────────────
+
+function DirectionsCard() {
+  return (
+    <div className="border border-white/10 p-5">
+      <div className="flex items-start gap-3 mb-3">
+        <Plane size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
+        <div>
+          <p className="text-cream text-[13px] font-medium leading-snug">Ngurah Rai International</p>
+          <p className="text-cream/40 text-[11px] tracking-wide">Denpasar, Bali — DPS</p>
+        </div>
+      </div>
+      <div className="ml-1.75 flex flex-col gap-1.5 mb-3">
+        {["Via Kuta", "Via Seminyak", "Via Canggu"].map(step => (
+          <div key={step} className="flex items-center gap-2.5">
+            <div className="w-px h-4 bg-[#C9A55A]/25 ml-px" />
+            <span className="text-cream/35 text-[10px] tracking-widest uppercase">{step}</span>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-start gap-3 mb-4">
+        <MapPin size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
+        <div>
+          <p className="text-cream text-[13px] font-medium leading-snug">Azurea</p>
+          <p className="text-cream/40 text-[11px] tracking-wide">Munggu, Bali</p>
+        </div>
+      </div>
+      <div className="border-t border-white/8 pt-4 flex gap-6">
+        {[{ val: "25", label: "min by car" }, { val: "28", label: "km coastal" }, { val: "50+", label: "direct routes" }].map((s, i, arr) => (
+          <div key={s.label} className="flex items-center gap-6">
+            <div>
+              <p className="font-display text-2xl leading-none" style={{ color: GOLD }}>{s.val}</p>
+              <p className="text-cream/35 text-[10px] uppercase tracking-widest mt-1">{s.label}</p>
+            </div>
+            {i < arr.length - 1 && <div className="w-px h-8 bg-white/8" />}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Component ────────────────────────────────────────────────────────────
 
 export default function LocationSection() {
   const [activeIdx, setActiveIdx]     = useState(0);
   const [selectedPOI, setSelectedPOI] = useState<SubPOI | null>(null);
+  const [isDesktop, setIsDesktop]     = useState(false);
   const sectionRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const sectionEl    = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
@@ -211,19 +187,23 @@ export default function LocationSection() {
 
   const active = SUBSECTIONS[activeIdx];
 
-  // Keep ref in sync — wheel handler must not close over stale state
   useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
 
-  // IntersectionObserver — which panel is centred in global viewport
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsDesktop(e.matches);
+    handler(mq);
+    mq.addEventListener("change", handler as (e: MediaQueryListEvent) => void);
+    return () => mq.removeEventListener("change", handler as (e: MediaQueryListEvent) => void);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
     const observers = sectionRefs.current.map((el, i) => {
       if (!el) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => { 
-          if (entry.isIntersecting) {
-            setActiveIdx(i);
-            setSelectedPOI(null); // <-- FIX: Reset the POI exactly when the section changes
-          } 
+        ([entry]) => {
+          if (entry.isIntersecting) { setActiveIdx(i); setSelectedPOI(null); }
         },
         { rootMargin: "-35% 0px -35% 0px", threshold: 0 },
       );
@@ -231,62 +211,44 @@ export default function LocationSection() {
       return obs;
     });
     return () => observers.forEach(obs => obs?.disconnect());
-  }, []);
+  }, [isDesktop]);
 
-  // Snap-scroll — intercept wheel only when location section owns viewport centre
   useEffect(() => {
+    if (!isDesktop) return; // never hijack scroll on mobile
     const section = sectionEl.current;
     if (!section) return;
-
     const onWheel = (e: WheelEvent) => {
       const rect    = section.getBoundingClientRect();
       const viewMid = window.innerHeight / 2;
       if (viewMid < rect.top || viewMid > rect.bottom) return;
-
       const cur    = activeIdxRef.current;
       const isDown = e.deltaY > 0;
-
       if (isDown && cur >= SUBSECTIONS.length - 1) return;
       if (!isDown && cur <= 0) return;
-
+      const target = isDown ? cur + 1 : cur - 1;
+      const targetEl = sectionRefs.current[target];
+      if (!targetEl) return;
       e.preventDefault();
       if (navigating.current) return;
       navigating.current = true;
-
-      const target = isDown ? cur + 1 : cur - 1;
-      sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block: "start" });
+      targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => { navigating.current = false; }, 900);
     };
-
     section.addEventListener("wheel", onWheel, { passive: false });
     return () => section.removeEventListener("wheel", onWheel);
-  }, []);
+  }, [isDesktop]);
 
   const scrollTo = (i: number) => {
     sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Computed values based on selection
-  const displayImages: string[] = selectedPOI?.images.length
-    ? selectedPOI.images
-    : active.images;
-
+  const displayImages: string[] = selectedPOI?.images.length ? selectedPOI.images : active.images;
   const mapCamera: Camera = selectedPOI
     ? { longitude: selectedPOI.longitude, latitude: selectedPOI.latitude, zoom: 15, pitch: 45, bearing: 10 }
     : active.camera;
-
-  // Strip extra fields before passing to MapboxMap
-  const mapPOIs: POI[] = active.pois.map(({ label, longitude, latitude, type }) => ({
-    label, longitude, latitude, type,
-  }));
-
-  // Route drawn on map only for the directions section
+  const mapPOIs: POI[] = active.pois.map(({ label, longitude, latitude, type }) => ({ label, longitude, latitude, type }));
   const activeRoute = active.id === "directions" ? DIRECTIONS_ROUTE : undefined;
-
-  // Interactable POI buttons — exclude project + directions section (shows journey card instead)
-  const interactivePOIs = active.id === "directions"
-    ? []
-    : active.pois.filter(p => p.type !== "project");
+  const interactivePOIs = active.id === "directions" ? [] : active.pois.filter(p => p.type !== "project");
 
   return (
     <section
@@ -296,29 +258,28 @@ export default function LocationSection() {
       className="relative bg-brand-black text-cream"
     >
 
-      {/* ════════════════════════════════════════════════════════════════════
-          INTRO — full-width title block above the scroll journey
-      ════════════════════════════════════════════════════════════════════ */}
-      <div className="flex flex-col items-center text-center py-24 px-8 border-b border-white/8">
+      {/* ── Intro header ── */}
+      <div className="flex flex-col items-center text-center py-20 lg:py-24 px-6 border-b border-white/8">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6 }}
-          className="label-caps text-[#C9A55A] mb-5 flex items-center gap-4"
+          className="label-caps mb-5 flex items-center gap-4"
+          style={{ color: GOLD }}
         >
-          <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
+          <span className="w-8 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.4 }} />
           Why Bali
-          <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
+          <span className="w-8 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.4 }} />
         </motion.p>
 
         <motion.h2
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-cream leading-tight mb-7"
-          style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", letterSpacing: "var(--tracking-heading)" }}
+          transition={{ duration: 0.9, ease: EASE }}
+          className="font-display text-cream leading-tight mb-6"
+          style={{ fontSize: "clamp(2rem, 5vw, 5rem)", letterSpacing: "var(--tracking-heading)" }}
         >
           The World&apos;s Most Sought-After Island
         </motion.h2>
@@ -328,20 +289,135 @@ export default function LocationSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-cream/55 text-lg leading-relaxed max-w-2xl"
+          className="text-cream/55 text-base lg:text-lg leading-relaxed max-w-2xl"
         >
           From pristine black-sand coastlines to vibrant creative districts, Bali&apos;s Munggu corridor
           has emerged as the most coveted address in Southeast Asia — where natural beauty, world-class
-          infrastructure, and extraordinary lifestyle converge in one extraordinary place.
+          infrastructure, and extraordinary lifestyle converge in one place.
         </motion.p>
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════
-          SCROLL JOURNEY — left text panels + sticky right media
+          MOBILE LAYOUT — tab navigation + immersive cards
       ════════════════════════════════════════════════════════════════════ */}
-      <div className="lg:grid lg:grid-cols-12">
+      <div className="lg:hidden">
 
-        {/* LEFT — 4 × min-h-screen panels */}
+        {/* Tab row */}
+        <div className="border-b border-white/8 px-5">
+          <div className="flex overflow-x-auto scrollbar-hide -mb-px">
+            {SUBSECTIONS.map((s, i) => {
+              const isActive = i === activeIdx;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => { setActiveIdx(i); setSelectedPOI(null); }}
+                  className="relative shrink-0 px-4 py-4 text-[9px] uppercase tracking-[0.2em] transition-colors duration-200"
+                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.35)" }}
+                >
+                  {s.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="mobile-loc-tab"
+                      className="absolute bottom-0 left-0 right-0 h-px"
+                      style={{ backgroundColor: GOLD }}
+                      transition={{ duration: 0.3, ease: EASE }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Active section content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIdx}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            {/* Hero image */}
+            <div className="relative w-full overflow-hidden" style={{ height: "58vw", minHeight: "220px", maxHeight: "340px" }}>
+              <Image
+                src={active.images[0]}
+                alt={active.title}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority={activeIdx === 0}
+              />
+              <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-brand-black/70" />
+              {/* Counter */}
+              <div className="absolute top-4 right-4 bg-brand-black/60 backdrop-blur-sm px-2.5 py-1">
+                <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: GOLD }}>
+                  {String(activeIdx + 1).padStart(2, "0")} / 04
+                </span>
+              </div>
+              {/* Bottom label */}
+              <div className="absolute bottom-4 left-5 flex items-center gap-2">
+                <span className="w-3 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
+                <span className="text-[9px] uppercase tracking-[0.3em] text-cream/50">{active.label}</span>
+              </div>
+            </div>
+
+            {/* Text content */}
+            <div className="px-5 pt-8 pb-6">
+              <h2
+                className="font-display text-cream leading-tight mb-4"
+                style={{ fontSize: "clamp(1.6rem, 6.5vw, 2.4rem)", letterSpacing: "var(--tracking-heading)" }}
+              >
+                {active.title}
+              </h2>
+              <p className="text-cream/55 text-sm leading-relaxed mb-7">
+                {active.body}
+              </p>
+
+              {/* POI chips */}
+              {interactivePOIs.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-7">
+                  {interactivePOIs.map(poi => {
+                    const Icon = POI_ICONS[poi.type];
+                    return (
+                      <div
+                        key={poi.label}
+                        className="flex items-center gap-1.5 px-3 py-1.5 border border-white/15 text-cream/50 text-[9px] uppercase tracking-widest"
+                      >
+                        <Icon size={11} strokeWidth={1.8} style={{ color: GOLD, opacity: 0.7 }} />
+                        {poi.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Directions card */}
+              {active.id === "directions" && <DirectionsCard />}
+            </div>
+
+            {/* Secondary images strip */}
+            {active.images.length > 1 && (
+              <div className="px-5 pb-10 flex gap-2">
+                {active.images.slice(1).map((img, j) => (
+                  <div key={j} className="flex-1 relative overflow-hidden" style={{ height: "26vw", minHeight: "90px" }}>
+                    <Image src={img} alt="" fill className="object-cover" sizes="33vw" />
+                    <div className="absolute inset-0 bg-brand-black/10" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          DESKTOP LAYOUT — scroll panels + sticky map/images
+      ════════════════════════════════════════════════════════════════════ */}
+      <div className="hidden lg:grid lg:grid-cols-12">
+
+        {/* LEFT — 4× min-h-screen panels */}
         <div className="lg:col-span-4">
           {SUBSECTIONS.map((s, i) => {
             const isActive = i === activeIdx;
@@ -349,23 +425,22 @@ export default function LocationSection() {
               <div
                 key={s.id}
                 ref={(el) => { sectionRefs.current[i] = el; }}
-                className="min-h-screen flex flex-col justify-center px-8 md:px-10 lg:px-12 py-16 lg:py-28 border-b border-white/5 last:border-b-0"
+                className="min-h-screen flex flex-col justify-center px-12 py-28 border-b border-white/5 last:border-b-0"
               >
-                {/* Label */}
                 <motion.p
                   animate={{ opacity: isActive ? 1 : 0.25, x: isActive ? 0 : -8 }}
                   transition={{ duration: 0.5 }}
-                  className="label-caps text-[#C9A55A] mb-6 flex items-center gap-3"
+                  className="label-caps mb-6 flex items-center gap-3"
+                  style={{ color: GOLD }}
                 >
-                  <span className="w-5 h-px bg-[#C9A55A]/50 inline-block" />
+                  <span className="w-5 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
                   {s.label}
                 </motion.p>
 
-                {/* Title */}
                 <div className="overflow-hidden mb-6">
                   <motion.h2
                     animate={{ y: isActive ? "0%" : "110%" }}
-                    transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.85, ease: EASE }}
                     className="font-display text-cream leading-tight"
                     style={{ fontSize: "clamp(2.25rem, 4vw, 4rem)", letterSpacing: "var(--tracking-heading)" }}
                   >
@@ -373,7 +448,6 @@ export default function LocationSection() {
                   </motion.h2>
                 </div>
 
-                {/* Body */}
                 <motion.p
                   animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 12 }}
                   transition={{ duration: 0.7, delay: isActive ? 0.15 : 0 }}
@@ -382,7 +456,6 @@ export default function LocationSection() {
                   {s.body}
                 </motion.p>
 
-                {/* POI interactive buttons */}
                 {interactivePOIs.length > 0 && isActive && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -390,7 +463,7 @@ export default function LocationSection() {
                     transition={{ duration: 0.5, delay: 0.25 }}
                     className="flex flex-wrap gap-2"
                   >
-                    {(i === activeIdx ? interactivePOIs : s.pois.filter(p => p.type !== "project")).map((poi) => {
+                    {interactivePOIs.map(poi => {
                       const Icon = POI_ICONS[poi.type];
                       const isSelected = selectedPOI?.label === poi.label;
                       return (
@@ -412,94 +485,27 @@ export default function LocationSection() {
                   </motion.div>
                 )}
 
-                {/* Journey card — directions section only */}
                 {s.id === "directions" && isActive && (
                   <motion.div
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.25 }}
-                    className="border border-white/10 p-5 mt-2"
+                    className="mt-2"
                   >
-                    <div className="flex items-start gap-3 mb-3">
-                      <Plane size={15} className="text-[#C9A55A] mt-0.5 shrink-0" strokeWidth={1.5} />
-                      <div>
-                        <p className="text-cream text-[13px] font-medium leading-snug">Ngurah Rai International</p>
-                        <p className="text-cream/40 text-[11px] tracking-wide">Denpasar, Bali — DPS</p>
-                      </div>
-                    </div>
-
-                    <div className="ml-[7px] flex flex-col gap-1.5 mb-3">
-                      {["Via Kuta", "Via Seminyak", "Via Canggu"].map((step) => (
-                        <div key={step} className="flex items-center gap-2.5">
-                          <div className="w-px h-4 bg-[#C9A55A]/25 ml-px" />
-                          <span className="text-cream/35 text-[10px] tracking-widest uppercase">{step}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-start gap-3 mb-4">
-                      <MapPin size={15} className="text-[#C9A55A] mt-0.5 shrink-0" strokeWidth={1.5} />
-                      <div>
-                        <p className="text-cream text-[13px] font-medium leading-snug">Azurea</p>
-                        <p className="text-cream/40 text-[11px] tracking-wide">Munggu, Bali</p>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/8 pt-4 flex gap-6">
-                      <div>
-                        <p className="font-display text-[#C9A55A] text-2xl leading-none">25</p>
-                        <p className="text-cream/35 text-[10px] uppercase tracking-widest mt-1">min by car</p>
-                      </div>
-                      <div className="w-px bg-white/8" />
-                      <div>
-                        <p className="font-display text-[#C9A55A] text-2xl leading-none">28</p>
-                        <p className="text-cream/35 text-[10px] uppercase tracking-widest mt-1">km coastal</p>
-                      </div>
-                      <div className="w-px bg-white/8" />
-                      <div>
-                        <p className="font-display text-[#C9A55A] text-2xl leading-none">50+</p>
-                        <p className="text-cream/35 text-[10px] uppercase tracking-widest mt-1">direct routes</p>
-                      </div>
-                    </div>
+                    <DirectionsCard />
                   </motion.div>
                 )}
-
-                {/* CTA — last section only */}
-                {i === SUBSECTIONS.length - 1 && (
-                  <motion.div
-                    animate={{ opacity: isActive ? 1 : 0 }}
-                    transition={{ duration: 0.6, delay: isActive ? 0.3 : 0 }}
-                    className="mt-10"
-                  >
-                    <Link
-                      href="/location"
-                      className="inline-flex items-center gap-3 label-caps text-[#C9A55A] border-b border-[#C9A55A]/30 pb-1.5 hover:border-[#C9A55A] transition-colors duration-300"
-                    >
-                      Explore in Full
-                      <span className="text-sm">→</span>
-                    </Link>
-                  </motion.div>
-                )}
-
-                {/* Mobile image strip — desktop has sticky right pane */}
-                <div className="lg:hidden mt-8 flex overflow-hidden rounded-sm" style={{ height: "42vw" }}>
-                  {s.images.slice(0, 2).map((img, j) => (
-                    <div key={j} className="flex-1 relative overflow-hidden">
-                      <Image src={img} alt="" fill className="object-cover" sizes="50vw" priority={i === 0 && j === 0} />
-                    </div>
-                  ))}
-                </div>
               </div>
             );
           })}
         </div>
 
-        {/* RIGHT — sticky media pane */}
-        <div className="hidden lg:block lg:col-span-8">
+        {/* RIGHT — sticky map + images */}
+        <div className="lg:col-span-8">
           <div className="sticky top-0 h-screen flex flex-col border-l border-white/5">
 
             {/* Nav dots */}
-            <div className="absolute left-[-1.5rem] top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
+            <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
               {SUBSECTIONS.map((_, i) => (
                 <button
                   key={i}
@@ -519,18 +525,14 @@ export default function LocationSection() {
               ))}
             </div>
 
-            {/* Top half — Mapbox */}
+            {/* Top half — map */}
             <div className="flex-1 relative min-h-0">
               <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
-
-              {/* Counter badge */}
               <div className="absolute top-5 left-5 z-10 bg-brand-black/80 backdrop-blur-sm px-3 py-1.5 pointer-events-none">
-                <span className="text-[#C9A55A] text-[10px] tracking-[0.2em] uppercase font-semibold">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-semibold" style={{ color: GOLD }}>
                   {String(activeIdx + 1).padStart(2, "0")} / {String(SUBSECTIONS.length).padStart(2, "0")}
                 </span>
               </div>
-
-              {/* Selected POI label badge */}
               <AnimatePresence>
                 {selectedPOI && (
                   <motion.div
@@ -549,10 +551,7 @@ export default function LocationSection() {
               </AnimatePresence>
             </div>
 
-            {/* Divider */}
-            <div className="h-px bg-white/5 shrink-0" />
-
-            {/* Bottom half — image strip (1–3 images side by side) */}
+            {/* Bottom half — image strip */}
             <div className="flex-1 relative min-h-0 overflow-hidden">
               <AnimatePresence mode="sync">
                 <motion.div
@@ -565,14 +564,7 @@ export default function LocationSection() {
                 >
                   {displayImages.map((img, i) => (
                     <div key={i} className="flex-1 relative overflow-hidden">
-                      <Image
-                        src={img}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 25vw"
-                        priority={activeIdx === 0 && i === 0}
-                      />
+                      <Image src={img} alt="" fill className="object-cover" sizes="25vw" priority={activeIdx === 0 && i === 0} />
                     </div>
                   ))}
                   <div className="absolute inset-0 bg-linear-to-t from-brand-black/50 via-transparent to-transparent pointer-events-none" />
@@ -588,9 +580,7 @@ export default function LocationSection() {
           </div>
         </div>
 
-
       </div>
     </section>
   );
 }
-

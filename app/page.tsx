@@ -1,20 +1,24 @@
 // app/page.tsx
 import Hero from "@/components/sections/Hero";
 import LocationSection from "@/components/sections/LocationSection";
-import ProjectSection from "@/components/sections/ProjectSection";
+import CinematicJourney from "@/components/sections/CinematicJourney";
+import ProjectGallery from "@/components/sections/ProjectGallery";
+import PlanpointSection from "@/components/sections/PlanpointSection";
 import DeveloperSection from "@/components/sections/DeveloperSection";
 import ProcessJourney from "@/components/sections/ProcessJourney";
-import InquiryForm from "@/components/ui/InquiryForm";
+import InquirySection from "@/components/sections/InquirySection";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
       <LocationSection />
-      <ProjectSection />
+      <CinematicJourney />
+      <ProjectGallery />
+      <PlanpointSection />
       <DeveloperSection />
       <ProcessJourney />
-      <InquiryForm/>
+      <InquirySection />
     </>
   );
 }
