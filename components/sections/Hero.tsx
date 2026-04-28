@@ -74,8 +74,8 @@ export default function Hero() {
       </video>
 
       {/* Subtle overlays — top shadow + bottom vignette for legibility */}
-      <div className="absolute inset-0 z-0 bg-linear-to-b from-black/40 via-transparent to-black/80" />
-      <div className="absolute inset-0 z-0 bg-black/15" />
+      <div className="absolute inset-0 z-0 bg-linear-to-b from-cream/50 via-transparent to-cream/90" />
+      <div className="absolute inset-0 z-0 bg-cream/25" />
 
       {/* ── VIP PRESALE TICKER ── */}
       <motion.div

@@ -29,10 +29,10 @@ const FIELD_LABEL_CLS =
   "absolute left-0 -top-4 text-[10px] tracking-widest uppercase text-cream/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-cream/40 peer-placeholder-shown:top-2 peer-placeholder-shown:normal-case peer-focus:-top-4 peer-focus:text-[10px] peer-focus:tracking-widest peer-focus:uppercase peer-focus:text-[#C9A55A]";
 
 const INPUT_CLS =
-  "w-full bg-transparent border-b border-white/20 py-2 text-cream placeholder-transparent focus:outline-none focus:border-[#C9A55A] transition-colors peer";
+  "w-full bg-transparent border-b border-cream/20 py-2 text-cream placeholder-transparent focus:outline-none focus:border-[#C9A55A] transition-colors peer";
 
 const SELECT_CLS =
-  "w-full bg-transparent border-b border-white/20 py-2 text-cream focus:outline-none focus:border-[#C9A55A] transition-colors appearance-none cursor-pointer";
+  "w-full bg-transparent border-b border-cream/20 py-2 text-cream focus:outline-none focus:border-[#C9A55A] transition-colors appearance-none cursor-pointer";
 
 const SELECT_LABEL_CLS =
   "absolute left-0 -top-4 text-[10px] tracking-widest uppercase text-[#C9A55A]";
@@ -94,7 +94,7 @@ export default function InquiryForm() {
             className="hidden" tabIndex={-1} autoComplete="off" />
 
           {/* Header */}
-          <div className="border-b border-white/10 pb-6">
+          <div className="border-b border-cream/10 pb-6">
             <p className="text-[10px] tracking-[0.3em] uppercase mb-2" style={{ color: GOLD }}>Get Started</p>
             <h3 className="font-display text-2xl text-cream mb-3">Fill Your Informations</h3>
             <p className="text-cream/50 text-sm leading-relaxed">
@@ -204,7 +204,7 @@ export default function InquiryForm() {
             <textarea
               name="message" id="message" rows={3}
               value={formData.message} onChange={handleChange}
-              className="w-full bg-transparent border-b border-white/20 py-2 text-cream placeholder-cream/30 focus:outline-none focus:border-[#C9A55A] transition-colors resize-none peer"
+              className="w-full bg-transparent border-b border-cream/20 py-2 text-cream placeholder-cream/30 focus:outline-none focus:border-[#C9A55A] transition-colors resize-none peer"
               placeholder="Tell us what you're looking for or any questions…"
             />
             <label htmlFor="message" className="absolute left-0 -top-4 text-[10px] tracking-widest uppercase text-[#C9A55A]">

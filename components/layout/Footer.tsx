@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-brand-black text-cream pt-20 pb-8 border-t border-white/10 relative overflow-hidden">
+    <footer className="w-full bg-brand-black text-cream pt-20 pb-8 border-t border-cream/10 relative overflow-hidden">
       <div className="px-6 md:px-12 lg:px-24">
         
         {/* Top Grid */}
@@ -68,7 +68,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 text-cream/40 text-xs gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-cream/10 text-cream/40 text-xs gap-4">
           <p>© {new Date().getFullYear()} Azurea Estate. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-cream transition-colors">Privacy Policy</Link>

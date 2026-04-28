@@ -67,7 +67,7 @@ const GOLD = "#C9A55A";
 
 function MobileFinancials() {
   return (
-    <div className="mt-8 border-t border-white/10 pt-8">
+    <div className="mt-8 border-t border-cream/10 pt-8">
       <div className="grid grid-cols-2 gap-5 mb-8">
         {[
           { label: "Purchase Price",   val: "$400,000", gold: false },
@@ -89,7 +89,7 @@ function MobileFinancials() {
           { label: "10-Year", roi: "15.31%", total: "$612,223"   },
           { label: "25-Year", roi: "12.98%", total: "$1,313,378" },
         ].map((s, i) => (
-          <div key={i} className="flex items-center justify-between border border-white/10 px-4 py-3 bg-white/[0.02]">
+          <div key={i} className="flex items-center justify-between border border-cream/10 px-4 py-3 bg-white/[0.02]">
             <span className="text-cream/50 text-xs uppercase tracking-widest">{s.label}</span>
             <span className="text-cream/70 text-xs">{s.total} total</span>
             <span className="text-xs font-semibold" style={{ color: GOLD }}>{s.roi}</span>
@@ -180,13 +180,13 @@ export default function CinematicJourney() {
   };
 
   return (
-    <section id="project" ref={sectionEl} className="relative w-full bg-brand-black text-cream border-b border-white/10">
+    <section id="project" ref={sectionEl} className="relative w-full bg-brand-black text-cream border-b border-cream/10">
 
       {/* ══════════════════════════════════════════════════════════════════════
           MOBILE LAYOUT  (lg:hidden)
       ══════════════════════════════════════════════════════════════════════ */}
       <div className="lg:hidden">
-        <div className="px-6 pt-16 pb-10 border-b border-white/10">
+        <div className="px-6 pt-16 pb-10 border-b border-cream/10">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -221,7 +221,7 @@ export default function CinematicJourney() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-8%" }}
               transition={{ duration: 0.7, ease: EASE }}
-              className="border-b border-white/10"
+              className="border-b border-cream/10"
             >
               {chapter.imgMain && (
                 <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
@@ -280,7 +280,7 @@ export default function CinematicJourney() {
             opacity: isInvestment ? 0     : 1,
           }}
           transition={{ duration: 1.2, ease: EASE }}
-          className="sticky top-0 h-screen overflow-hidden shrink-0 border-r border-white/10"
+          className="sticky top-0 h-screen overflow-hidden shrink-0 border-r border-cream/10"
         >
           <div className="relative w-full h-full bg-brand-black">
 
@@ -296,15 +296,15 @@ export default function CinematicJourney() {
                   <circle key={i} cx={`${x}%`} cy={`${y}%`} r="4" fill={GOLD} className="animate-pulse" />
                 ))}
               </svg>
-              <div className="absolute top-[10%] left-[5%] w-[40%] h-[30%] border border-white/10 shadow-2xl bg-white/5">
+              <div className="absolute top-[10%] left-[5%] w-[40%] h-[30%] border border-cream/10 shadow-2xl bg-white/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgTopLeft} alt="" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute top-[25%] right-[5%] w-[55%] h-[50%] z-20 border border-white/10 shadow-2xl bg-white/5">
+              <div className="absolute top-[25%] right-[5%] w-[55%] h-[50%] z-20 border border-cream/10 shadow-2xl bg-white/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgMain} alt="" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute bottom-[10%] left-[15%] w-[35%] h-[35%] border border-white/10 shadow-2xl bg-white/5">
+              <div className="absolute bottom-[10%] left-[15%] w-[35%] h-[35%] border border-cream/10 shadow-2xl bg-white/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgBottomLeft} alt="" className="w-full h-full object-cover" />
               </div>
@@ -334,7 +334,7 @@ export default function CinematicJourney() {
                       initial={false}
                       animate={{ scale: isThisActive ? 1 : 0.95 }}
                       transition={{ duration: 1.2, ease: EASE }}
-                      className="absolute inset-0 overflow-hidden shadow-2xl border border-white/10 bg-white/5"
+                      className="absolute inset-0 overflow-hidden shadow-2xl border border-cream/10 bg-white/5"
                     >
                       {isArch ? (
                         <AnimatePresence mode="wait">

@@ -23,3 +23,10 @@ Remove the black around images so no gap
 
 VIP presale 
 remove the material 
+airport change to pool 
+the map should be the bigger row 
+brochure put it in the acrhitecture 
+change the rgb group
+remove hte white on the picture 
+logo click brings back up 
+What are your next stepst on the inquriy section before 

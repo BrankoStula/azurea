@@ -63,10 +63,10 @@ export default function PlanpointSection() {
   };
 
   return (
-    <section id="masterplan" className="bg-brand-black border-t border-white/10 flex flex-col">
+    <section id="masterplan" className="bg-brand-black border-t border-cream/10 flex flex-col">
 
       {/* ─── Header ─── */}
-      <div className="px-6 md:px-12 lg:px-16 py-16 flex flex-col md:flex-row md:items-end md:justify-between gap-8 border-b border-white/10">
+      <div className="px-6 md:px-12 lg:px-16 py-16 flex flex-col md:flex-row md:items-end md:justify-between gap-8 border-b border-cream/10">
         <div>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -101,7 +101,7 @@ export default function PlanpointSection() {
           <p className="text-cream/50 text-sm max-w-xs md:text-right">
             Select a villa to view its floorplan, or explore the 3D estate for real-time availability.
           </p>
-          <button className="hidden lg:flex items-center gap-2 px-5 py-3 border border-white/10 hover:border-[#C9A55A]/50 hover:bg-white/5 transition-colors duration-300 rounded-sm group cursor-pointer">
+          <button className="hidden lg:flex items-center gap-2 px-5 py-3 border border-cream/10 hover:border-[#C9A55A]/50 hover:bg-white/5 transition-colors duration-300 rounded-sm group cursor-pointer">
             <Download size={14} className="text-[#C9A55A] group-hover:-translate-y-0.5 transition-transform" />
             <span className="text-[10px] uppercase tracking-widest text-cream">Floorplans</span>
           </button>
@@ -109,7 +109,7 @@ export default function PlanpointSection() {
       </div>
 
       {/* ─── Split Screen Layout ─── */}
-      <div className="flex flex-col lg:flex-row w-full border-b border-white/10" style={{ height: "80vh", minHeight: "650px" }}>
+      <div className="flex flex-col lg:flex-row w-full border-b border-cream/10" style={{ height: "80vh", minHeight: "650px" }}>
 
         {/* LEFT: 3D Viewer or Floorplan (65%) */}
         <div className="w-full lg:w-[65%] h-[50vh] lg:h-full relative shrink-0 overflow-hidden">
@@ -138,7 +138,7 @@ export default function PlanpointSection() {
                 {/* Back button */}
                 <button
                   onClick={() => setFloorplanVilla(null)}
-                  className="absolute top-5 left-5 z-10 flex items-center gap-2 bg-brand-black/80 hover:bg-brand-black px-4 py-2.5 backdrop-blur-md border border-white/20 hover:border-[#C9A55A]/50 transition-all rounded-sm cursor-pointer"
+                  className="absolute top-5 left-5 z-10 flex items-center gap-2 bg-brand-black/80 hover:bg-brand-black px-4 py-2.5 backdrop-blur-md border border-cream/20 hover:border-[#C9A55A]/50 transition-all rounded-sm cursor-pointer"
                 >
                   <ArrowLeft size={12} className="text-cream/80" />
                   <span className="text-[9px] uppercase tracking-widest text-cream/90">Back to 3D View</span>
@@ -165,7 +165,7 @@ export default function PlanpointSection() {
 
                 {/* Interactive badge */}
                 <div className="absolute bottom-5 right-5 z-20 pointer-events-none">
-                  <div className="flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-white/10 rounded-sm">
+                  <div className="flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-cream/10 rounded-sm">
                     <Maximize2 size={12} className="text-cream/60" />
                     <span className="text-[9px] uppercase tracking-widest text-cream/70">Interactive 3D</span>
                   </div>
@@ -197,11 +197,11 @@ export default function PlanpointSection() {
         </div>
 
         {/* RIGHT: Availability List (35%) */}
-        <div className="w-full lg:w-[35%] h-[50vh] lg:h-full bg-brand-black border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col relative">
+        <div className="w-full lg:w-[35%] h-[50vh] lg:h-full bg-brand-black border-t lg:border-t-0 lg:border-l border-cream/10 flex flex-col relative">
 
           {/* Table Header */}
           <div
-            className="sticky top-0 backdrop-blur-md z-10 px-6 py-4 border-b border-white/10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-cream/40"
+            className="sticky top-0 backdrop-blur-md z-10 px-6 py-4 border-b border-cream/10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-cream/40"
             style={{
               backgroundColor: "color-mix(in srgb, var(--color-brand-black) 97%, transparent)",
               backgroundImage: "var(--surface-pattern)",
@@ -233,8 +233,8 @@ export default function PlanpointSection() {
                     isSelected
                       ? "bg-[#C9A55A]/5 border-[#C9A55A]/30"
                       : hoveredUnit === villa.id
-                        ? "bg-white/[0.03] border-white/10"
-                        : "bg-transparent border-white/5"
+                        ? "bg-white/[0.03] border-cream/10"
+                        : "bg-transparent border-cream/5"
                   } ${isSold ? "opacity-60 grayscale" : "opacity-100"}`}
                 >
                   {/* Unit Number */}
@@ -264,7 +264,7 @@ export default function PlanpointSection() {
                         ? "border-[#C9A55A]/30 text-[#C9A55A] bg-[#C9A55A]/5"
                         : isReserved
                         ? "border-amber-200/20 text-amber-200/80 bg-amber-200/5"
-                        : "border-white/10 text-white/40 bg-white/5"
+                        : "border-cream/10 text-white/40 bg-white/5"
                     }`}>
                       {isAvailable && <div className="w-1 h-1 rounded-full bg-[#C9A55A] animate-pulse" />}
                       {isReserved && <div className="w-1 h-1 rounded-full bg-amber-200/60" />}

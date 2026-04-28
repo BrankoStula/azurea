@@ -56,11 +56,15 @@ export default function InquirySection() {
             alt="Luxury Villa"
             fill
             className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 40vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            /* FIX: This guarantees the image stays razor-sharp by bypassing Next.js compression */
+            unoptimized 
           />
-          <div className="absolute inset-0 bg-linear-to-t from-brand-black via-brand-black/80 to-brand-black/20" />
+                    <div className="absolute inset-0 bg-cream/50 lg:bg-gradient-to-t lg:from-cream/90 lg:via-cream/40 lg:to-transparent" />
+
         </motion.div>
 
+        {/* Text Content (Sitting directly over the image, no overlay) */}
         <div className="relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

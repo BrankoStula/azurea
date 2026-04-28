@@ -120,7 +120,7 @@ export default function ProjectGallery() {
   }, []);
 
   return (
-    <div className="bg-brand-black border-t border-white/10 overflow-hidden relative">
+    <div className="bg-brand-black border-t border-cream/10 overflow-hidden relative">
 
       {/* ── Header ── */}
       <div className="px-6 md:px-12 lg:px-16 pt-20 lg:pt-28 pb-8 flex justify-between items-end gap-6 relative z-10">
@@ -155,7 +155,7 @@ export default function ProjectGallery() {
                 className={`relative shrink-0 flex items-center gap-2 px-5 py-2.5 text-[10px] sm:text-[11px] uppercase tracking-widest transition-all duration-300 border rounded-sm ${
                   isActive
                     ? "bg-[#C9A55A]/10 border-[#C9A55A] text-[#C9A55A] shadow-sm shadow-[#C9A55A]/5"
-                    : "bg-white/[0.03] border-white/10 text-cream/60 hover:text-cream hover:border-white/30 hover:bg-white/10"
+                    : "bg-white/[0.03] border-cream/10 text-cream/60 hover:text-cream hover:border-cream/30 hover:bg-white/10"
                 }`}
               >
                 {cat}
@@ -185,7 +185,7 @@ export default function ProjectGallery() {
           >
             
             {/* 1. Main Large Image Swiper (Left / Top) */}
-            <div className="w-full lg:w-[80%] h-[80%] lg:h-full relative group rounded-sm overflow-hidden border border-white/10 shadow-2xl">
+            <div className="w-full lg:w-[80%] h-[80%] lg:h-full relative group rounded-sm overflow-hidden border border-cream/10 shadow-2xl">
               <Swiper
                 modules={[FreeMode, Navigation, Thumbs]}
                 thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed && thumbsSwiper.el ? thumbsSwiper : null }}
@@ -222,10 +222,10 @@ export default function ProjectGallery() {
               </Swiper>
 
               {/* Prominent Overlay Navigation Arrows */}
-              <button className="gallery-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-brand-black/50 backdrop-blur-md border border-white/20 text-cream hover:bg-[#C9A55A] hover:border-[#C9A55A] hover:text-brand-black transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0 shadow-xl cursor-pointer">
+              <button className="gallery-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-brand-black/50 backdrop-blur-md border border-cream/20 text-cream hover:bg-[#C9A55A] hover:border-[#C9A55A] hover:text-brand-black transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0 shadow-xl cursor-pointer">
                 <ChevronLeft size={24} strokeWidth={1.5} />
               </button>
-              <button className="gallery-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-brand-black/50 backdrop-blur-md border border-white/20 text-cream hover:bg-[#C9A55A] hover:border-[#C9A55A] hover:text-brand-black transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0 shadow-xl cursor-pointer">
+              <button className="gallery-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-brand-black/50 backdrop-blur-md border border-cream/20 text-cream hover:bg-[#C9A55A] hover:border-[#C9A55A] hover:text-brand-black transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0 shadow-xl cursor-pointer">
                 <ChevronRight size={24} strokeWidth={1.5} />
               </button>
             </div>

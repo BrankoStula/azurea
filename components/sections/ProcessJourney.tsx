@@ -67,7 +67,7 @@ export default function ProcessJourney() {
 
   return (
     // 600vh: 100vh visible + 500vh scroll travel (100vh per step)
-    <div ref={containerRef} style={{ height: "600vh" }} className="relative bg-brand-black border-y border-white/8">
+    <div ref={containerRef} style={{ height: "600vh" }} className="relative bg-brand-black border-y border-cream/8">
       <div className="sticky top-0 h-screen flex overflow-hidden">
 
         {/* ══ LEFT — content column ══════════════════════════════════════════ */}
@@ -75,11 +75,11 @@ export default function ProcessJourney() {
           layout
           style={{ order: activeIdx % 2 === 0 ? 1 : 2 }}
           transition={{ duration: 0.55, ease: SNAP }}
-          className={`relative flex flex-col w-full lg:w-[55%] px-8 md:px-12 lg:px-16 ${activeIdx % 2 === 0 ? "border-r" : "border-l"} border-white/8`}
+          className={`relative flex flex-col w-full lg:w-[55%] px-8 md:px-12 lg:px-16 ${activeIdx % 2 === 0 ? "border-r" : "border-l"} border-cream/8`}
         >
 
           {/* Top bar */}
-          <div className="flex items-center justify-between py-7 border-b border-white/8 shrink-0">
+          <div className="flex items-center justify-between py-7 border-b border-cream/8 shrink-0">
             <p className="text-[20px] uppercase tracking-[0.3em] text-cream/30">
               From Purchase to Income · Fully Managed
             </p>
@@ -101,7 +101,7 @@ export default function ProcessJourney() {
           </div>
 
           {/* Step nav list */}
-          <div className="flex gap-6 py-5 border-b border-white/8 shrink-0 overflow-x-auto">
+          <div className="flex gap-6 py-5 border-b border-cream/8 shrink-0 overflow-x-auto">
             {STEPS.map((s, i) => (
               <button
                 key={s.num}
@@ -207,7 +207,6 @@ export default function ProcessJourney() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={step.img} alt="" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-brand-black/20" />
             </motion.div>
           ))}
 
@@ -216,7 +215,7 @@ export default function ProcessJourney() {
             {STEPS.map((step, i) => (
               <motion.span
                 key={step.num}
-                className="font-display text-white/10 block absolute bottom-0 right-0"
+                className="font-display text-[#C9A55A] block absolute bottom-0 right-0"
                 style={{ fontSize: "clamp(8rem, 14vw, 16rem)", lineHeight: 0.9 }}
                 initial={false}
                 animate={{ opacity: i === activeIdx ? 1 : 0, x: i === activeIdx ? 0 : 30 }}

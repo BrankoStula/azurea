@@ -138,7 +138,7 @@ const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
 
 function DirectionsCard() {
   return (
-    <div className="border border-white/10 p-5">
+    <div className="border border-cream/10 p-5">
       <div className="flex items-start gap-3 mb-3">
         <Plane size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
         <div>
@@ -161,7 +161,7 @@ function DirectionsCard() {
           <p className="text-cream/40 text-[11px] tracking-wide">Munggu, Bali</p>
         </div>
       </div>
-      <div className="border-t border-white/8 pt-4 flex gap-6">
+      <div className="border-t border-cream/8 pt-4 flex gap-6">
         {[{ val: "25", label: "min by car" }, { val: "28", label: "km coastal" }, { val: "50+", label: "direct routes" }].map((s, i, arr) => (
           <div key={s.label} className="flex items-center gap-6">
             <div>
@@ -266,7 +266,7 @@ export default function LocationSection() {
       <div className="lg:hidden">
 
         {/* Tab row */}
-        <div className="border-b border-white/8 px-5">
+        <div className="border-b border-cream/8 px-5">
           <div className="flex overflow-x-auto scrollbar-hide -mb-px">
             {SUBSECTIONS.map((s, i) => {
               const isActive = i === activeIdx;
@@ -346,7 +346,7 @@ export default function LocationSection() {
                     return (
                       <div
                         key={poi.label}
-                        className="flex items-center gap-1.5 px-3 py-1.5 border border-white/15 text-cream/50 text-[9px] uppercase tracking-widest"
+                        className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/15 text-cream/50 text-[9px] uppercase tracking-widest"
                       >
                         <Icon size={11} strokeWidth={1.8} style={{ color: GOLD, opacity: 0.7 }} />
                         {poi.label}
@@ -389,7 +389,7 @@ export default function LocationSection() {
               <div
                 key={s.id}
                 ref={(el) => { sectionRefs.current[i] = el; }}
-                className="min-h-screen flex flex-col justify-center px-12 py-28 border-b border-white/5 last:border-b-0"
+                className="min-h-screen flex flex-col justify-center px-12 py-28 border-b border-cream/5 last:border-b-0"
               >
                 <motion.p
                   animate={{ opacity: isActive ? 1 : 0.25, x: isActive ? 0 : -8 }}
@@ -438,7 +438,7 @@ export default function LocationSection() {
                             "flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.12em] uppercase transition-all duration-300 cursor-pointer",
                             isSelected
                               ? "bg-[#C9A55A] text-brand-black font-semibold"
-                              : "border border-white/15 text-cream/55 hover:border-[#C9A55A]/60 hover:text-cream",
+                              : "border border-cream/15 text-cream/55 hover:border-[#C9A55A]/60 hover:text-cream",
                           ].join(" ")}
                         >
                           <Icon size={12} strokeWidth={1.8} />
@@ -466,7 +466,7 @@ export default function LocationSection() {
 
         {/* RIGHT — sticky map + images */}
         <div className="lg:col-span-8">
-          <div className="sticky top-0 h-screen flex flex-col border-l border-white/5">
+          <div className="sticky top-0 h-screen flex flex-col border-l border-cream/5">
 
             {/* Nav dots */}
             <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">

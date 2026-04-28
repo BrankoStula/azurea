@@ -119,7 +119,7 @@ export default function DeveloperSection() {
         </motion.p>
 
         {/* Tagline */}
-        <motion.div variants={fadeUp} className="border-t border-white/10 pt-8 mt-4 relative w-full max-w-lg">
+        <motion.div variants={fadeUp} className="border-t border-cream/10 pt-8 mt-4 relative w-full max-w-lg">
           <p className="font-display text-cream text-lg md:text-xl leading-snug" style={{ letterSpacing: "var(--tracking-heading)" }}>
             A single partner from acquisition to income.
           </p>
@@ -219,7 +219,7 @@ export default function DeveloperSection() {
             href="https://royalbaligroup.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-3 border border-white/15 px-6 py-3 hover:border-[#C9A55A]/60 hover:bg-[#C9A55A]/5 transition-all duration-300 shrink-0"
+            className="group flex items-center gap-3 border border-cream/15 px-6 py-3 hover:border-[#C9A55A]/60 hover:bg-[#C9A55A]/5 transition-all duration-300 shrink-0"
           >
             <span className="font-display text-[11px] uppercase tracking-widest text-cream/70 group-hover:text-cream transition-colors">
               Visit Royal Bali Group
