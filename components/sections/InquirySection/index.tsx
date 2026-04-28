@@ -59,10 +59,6 @@ export default function InquirySection() {
             sizes="(max-width: 1024px) 100vw, 40vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brand-black via-brand-black/80 to-brand-black/20" />
-          <div
-            className="absolute inset-0 mix-blend-overlay opacity-60 pointer-events-none"
-            style={{ backgroundImage: "url('/backgroundpattern.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }}
-          />
         </motion.div>
 
         <div className="relative z-10">

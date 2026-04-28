@@ -352,25 +352,20 @@ export default function CinematicJourney() {
 
                             {/* UPDATED: Large Square Floating Material Swatches with Architectural Lines */}
                             {activeArchSpace.materials.map((mat, mIdx) => (
-                              <motion.div 
-                                key={mIdx} 
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 + (mIdx * 0.1), duration: 0.6 }}
-                                className={`absolute ${mat.position} flex items-center gap-3 drop-shadow-2xl ${mat.layout === 'left' ? 'flex-row-reverse' : 'flex-row'}`}
+                              <motion.div
+                                key={mIdx}
+                                initial={{ opacity: 0, x: mat.layout === "left" ? 16 : -16 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.3 + mIdx * 0.12, duration: 0.6 }}
+                                className={`absolute ${mat.position} flex items-center gap-3 drop-shadow-2xl ${mat.layout === "left" ? "flex-row-reverse" : "flex-row"}`}
                               >
-                                {/* Large Square Image (No text inside) */}
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img 
-                                  src={mat.img} 
-                                  alt={mat.name} 
-                                  className="w-16 h-16 sm:w-20 sm:h-20 object-cover border border-white/20 shadow-2xl rounded-sm" 
-                                />
-                                
-                                {/* Connecting Structural Line & External Label */}
-                                <div className={`flex items-center ${mat.layout === 'left' ? 'flex-row-reverse' : 'flex-row'}`}>
-                                  <div className="w-6 sm:w-10 h-px bg-white/50" />
-                                  <span className={`text-white text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-medium drop-shadow-md ${mat.layout === 'left' ? 'mr-3 text-right' : 'ml-3 text-left'}`}>
+                                {/* Abstract geometric indicator */}
+                                <div className="w-10 h-10 border border-[#C9A55A]/60 bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                                  <div className="w-3 h-3 border border-[#C9A55A]/80 rotate-45" />
+                                </div>
+                                <div className={`flex items-center ${mat.layout === "left" ? "flex-row-reverse" : "flex-row"}`}>
+                                  <div className="w-6 sm:w-10 h-px bg-white/40" />
+                                  <span className={`text-white text-[9px] uppercase tracking-[0.2em] font-medium drop-shadow-md ${mat.layout === "left" ? "mr-3 text-right" : "ml-3 text-left"}`}>
                                     {mat.name}
                                   </span>
                                 </div>

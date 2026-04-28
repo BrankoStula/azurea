@@ -36,10 +36,10 @@ export const ARCH_SPACES = [
     label: "Rooftop Terrace",
     icon: Sun,
     mainImg: `${CDN}/azurea_gallery_26.webp`,
-    desc: "Designed for sunset viewing and private entertaining. The structural concrete provides a seamless, low-maintenance foundation, while teak accents add warmth to the open-air environment.",
+    desc: "Designed for sunset viewing and private entertaining. Open volumes and warm natural tones define the atmosphere — a seamless transition between sky, structure, and landscape.",
     materials: [
-      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`, position: "top-10 left-10", layout: "right" },
-      { name: "Teak Timber",       img: `${CDN}/teak-timber.webp`,      position: "bottom-10 right-10", layout: "left" },
+      { name: "Open Volume",     position: "top-10 left-10",    layout: "right" as const },
+      { name: "Natural Warmth",  position: "bottom-10 right-10", layout: "left" as const },
     ]
   },
   {
@@ -47,10 +47,10 @@ export const ARCH_SPACES = [
     label: "Private Pool & Deck",
     icon: Waves,
     mainImg: `${CDN}/azurea_gallery_6.webp`,
-    desc: "A completely private tropical oasis. Natural travertine stone remains cool under the Bali sun, contrasting beautifully with the deep azure water and lush landscaping.",
+    desc: "A completely private tropical oasis. Cool stone underfoot, lush landscaping on all sides, and a deep azure water feature designed for year-round use.",
     materials: [
-      { name: "Travertine Stone", img: `${CDN}/polished_concreete.webp`, position: "top-10 right-10", layout: "left" }, 
-      { name: "Teak Timber",      img: `${CDN}/teak-timber.webp`,        position: "bottom-10 left-10", layout: "right" },
+      { name: "Organic Texture", position: "top-10 right-10",   layout: "left" as const },
+      { name: "Tropical Form",   position: "bottom-10 left-10", layout: "right" as const },
     ]
   },
   {
@@ -58,10 +58,10 @@ export const ARCH_SPACES = [
     label: "Enclosed Living",
     icon: Home,
     mainImg: `${CDN}/azurea_gallery_3.webp`,
-    desc: "Climate-controlled comfort meets indoor-outdoor flow. Full-height glazing maximizes natural light, reflecting beautifully off the cool travertine floors and natural wood tones.",
+    desc: "Climate-controlled comfort meets indoor-outdoor flow. Full-height glazing maximizes natural light and blurs the boundary between interior space and the garden beyond.",
     materials: [
-      { name: "Travertine Stone",  img: `${CDN}/polished_concreete.webp`, position: "top-10 left-10", layout: "right" },
-      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`,   position: "bottom-10 right-10", layout: "left" },
+      { name: "Biophilic Flow",   position: "top-10 left-10",    layout: "right" as const },
+      { name: "Soft Neutrals",    position: "bottom-10 right-10", layout: "left" as const },
     ]
   },
   {
@@ -69,10 +69,10 @@ export const ARCH_SPACES = [
     label: "Luxury Ensuites",
     icon: Bath,
     mainImg: `${CDN}/azurea_gallery_29.webp`,
-    desc: "Spa-inspired sanctuaries featuring deep soaking tubs and rain showers. The interplay of raw stone and warm timber creates a calming, tactile experience.",
+    desc: "Spa-inspired sanctuaries with deep soaking tubs and rain showers. Designed around calm, tactile surfaces that reward slowing down.",
     materials: [
-      { name: "Polished Concrete", img: `${CDN}/concreete_finish.webp`, position: "top-10 right-10", layout: "left" },
-      { name: "Teak Timber",       img: `${CDN}/teak-timber.webp`,      position: "bottom-10 left-10", layout: "right" },
+      { name: "Calm Surfaces",   position: "top-10 right-10",   layout: "left" as const },
+      { name: "Tactile Depth",   position: "bottom-10 left-10", layout: "right" as const },
     ]
   },
 ];

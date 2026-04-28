@@ -72,10 +72,10 @@ export default function Navbar() {
         }`}
         style={isScrolled && !isOpen ? {
           backgroundColor: "var(--color-brand-black)",
-          backgroundImage: "var(--surface-pattern)",
-          backgroundSize: "var(--surface-pattern-size)",
+          backgroundImage: "url('/hexagonal_pattern_bw.jpg')",
+          backgroundSize: "200px",
           backgroundPosition: "center",
-          backgroundBlendMode: "var(--surface-pattern-blend)",
+          backgroundBlendMode: "multiply",
         } : undefined}
       >
         {/* Left: Hamburger Menu */}
@@ -112,12 +112,12 @@ export default function Navbar() {
         <div className="absolute right-4 md:right-8 top-0 h-20 md:h-24 flex items-center z-50 pointer-events-auto">
           <button
             onClick={() => handleHashNav("#inquiry")}
-            className="group flex items-center gap-3 border border-white/20 hover:border-[#C9A55A]/70 px-4 md:px-5 py-2 transition-all duration-300"
+            className="group flex items-center gap-2 md:gap-3 border border-[#C9A55A]/50 hover:border-[#C9A55A] hover:bg-[#C9A55A]/10 px-4 md:px-6 py-2 md:py-2.5 transition-all duration-300"
           >
-            <span className="font-display text-[10px] md:text-[11px] uppercase tracking-widest text-cream/60 group-hover:text-cream transition-colors whitespace-nowrap">
+            <span className="font-display text-[11px] md:text-[12px] uppercase tracking-widest text-cream group-hover:text-[#C9A55A] transition-colors whitespace-nowrap">
               Contact
             </span>
-            <span className="block w-3 h-px bg-[#C9A55A]/40 group-hover:w-5 group-hover:bg-[#C9A55A] transition-all duration-300" />
+            <span className="block w-4 h-px bg-[#C9A55A]/60 group-hover:w-6 group-hover:bg-[#C9A55A] transition-all duration-300" />
           </button>
         </div>
       </motion.header>

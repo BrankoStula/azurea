@@ -53,7 +53,7 @@ export default function Hero() {
   const scrollToProject = () => document.querySelector("#project")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section className={`relative w-full h-svh min-h-150 overflow-hidden bg-brand-black ${isPointerFine ? "cursor-none" : ""}`}>
+    <section className={`relative w-full h-svh min-h-150 overflow-hidden bg-black ${isPointerFine ? "cursor-none" : ""}`}>
 
       {/* Custom cursor — pointer devices only */}
       {isPointerFine && (
@@ -73,22 +73,16 @@ export default function Hero() {
         <source src="https://d1pjqs5r0ua4f1.cloudfront.net/azurea_render_web.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradient overlays — mobile needs stronger bottom coverage */}
-      <div className="absolute inset-0 z-0 bg-linear-to-b from-brand-black/50 via-transparent to-brand-black/95 md:to-brand-black/85" />
-      <div className="absolute inset-0 z-0 bg-linear-to-r from-brand-black/30 via-transparent to-transparent md:hidden" />
-
-      {/* Texture overlay — above video/gradients, below content */}
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none mix-blend-overlay opacity-60"
-        style={{ backgroundImage: "url('/backgroundpattern.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }}
-      />
+      {/* Subtle overlays — top shadow + bottom vignette for legibility */}
+      <div className="absolute inset-0 z-0 bg-linear-to-b from-black/40 via-transparent to-black/80" />
+      <div className="absolute inset-0 z-0 bg-black/15" />
 
       {/* ── VIP PRESALE TICKER ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="absolute top-20 md:top-24 left-0 right-0 z-10 overflow-hidden border-t border-b border-white/[0.07] pointer-events-none"
+        className="absolute top-20 md:top-24 left-0 right-0 z-10 overflow-hidden border-t border-b border-white/15 pointer-events-none"
       >
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
@@ -110,7 +104,7 @@ export default function Hero() {
                 <span key={j} className="flex items-center">
                   <span
                     className="text-[9px] uppercase tracking-[0.28em] px-5"
-                    style={{ color: item.gold ? GOLD : "rgba(255,255,255,0.35)" }}
+                    style={{ color: item.gold ? GOLD : "rgba(255,255,255,0.7)" }}
                   >
                     {item.text}
                   </span>
@@ -133,7 +127,7 @@ export default function Hero() {
           className="md:hidden flex items-center gap-2"
         >
           <span className="w-4 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
-          <span className="text-[9px] uppercase tracking-[0.35em]" style={{ color: GOLD }}>Seseh, Bali</span>
+          <span className="text-[9px] uppercase tracking-[0.35em]" style={{ color: GOLD }}>VIP · Presale</span>
         </motion.div>
 
         {/* Desktop: right-anchored with extending accent line */}
@@ -147,10 +141,10 @@ export default function Hero() {
           />
           <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
             <div className="overflow-hidden mb-1">
-              <motion.p variants={maskReveal} className="text-[10px] tracking-[0.4em] uppercase" style={{ color: `${GOLD}CC` }}>Location</motion.p>
+              <motion.p variants={maskReveal} className="text-[10px] tracking-[0.4em] uppercase" style={{ color: `${GOLD}CC` }}>VIP</motion.p>
             </div>
             <div className="overflow-hidden">
-              <motion.h2 variants={maskRevealDelay} className="font-display text-2xl md:text-3xl uppercase tracking-[0.2em] text-cream">Seseh, Bali</motion.h2>
+              <motion.h2 variants={maskRevealDelay} className="font-display text-2xl md:text-3xl uppercase tracking-[0.2em] text-white">Presale</motion.h2>
             </div>
           </motion.div>
         </div>
@@ -184,7 +178,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-4 md:mb-6">
             <motion.h1
               variants={maskReveal}
-              className="font-display leading-[1.08] tracking-tight text-cream font-light"
+              className="font-display leading-[1.08] tracking-tight text-white font-light"
               style={{ fontSize: "clamp(2rem, 6.5vw, 4.5rem)" }}
             >
               Investment-Grade<br className="hidden sm:block" />
@@ -240,7 +234,7 @@ export default function Hero() {
             </button>
             <button
               onClick={scrollToInquiry}
-              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-cream font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200 whitespace-nowrap"
+              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-white font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200 whitespace-nowrap"
             >
               Download Investment Deck
             </button>

@@ -163,92 +163,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   THEME SYSTEM — Three presentation themes. CSS custom properties drive color
-   swaps automatically: bg-brand-black and text-cream update via var() so
-   every component adapts without class changes.
-
-   Strategy: override --color-brand-black (dark surface) and --color-cream
-   (light surface / primary text) per theme. Tailwind resolves the tokens at
-   render time, so bg-brand-black, text-cream, border-cream/10 etc. all adapt.
-
-   Note: hardcoded white/* opacity classes (border-white/10, bg-white/5) are
-   intentionally left — they read as subtle on dark bg and near-invisible on
-   light. Acceptable for a presentation demo. A full semantic refactor would
-   replace those with border-cream/10 etc.
+   THEME — Ivory (light). bg-brand-black = soft white, cream = dark navy.
 ──────────────────────────────────────────────────────────────────────────────── */
-
-/* ── Navy (default) ─────────────────────────────────────────────────────────── */
-:root,
-[data-theme="navy"] {
-  --color-brand-black:    #001b51;
-  --color-cream:          #F5F3EE;
-  --surface-pattern:      url('/backgroundpattern.jpeg');
-  --surface-pattern-blend: overlay;
-}
-
-/* ── Ivory ───────────────────────────────────────────────────────────────────── */
-[data-theme="ivory"] {
-  --color-brand-black:    #F8F8F6;
-  --color-cream:          #0d1833;
-  --surface-pattern:      none;
+:root {
+  --color-brand-black:     #F8F8F6;
+  --color-cream:           #0d1833;
+  --surface-pattern:       none;
+  --surface-pattern-size:  cover;
   --surface-pattern-blend: normal;
 }
 
-/* ── Azure ───────────────────────────────────────────────────────────────────── */
-[data-theme="azure"] {
-  --color-brand-black:    #091e3f;
-  --color-cream:          #F0ECE4;
-  --surface-pattern:      url('/hexagonal_pattern_bw.jpg');
-  --surface-pattern-blend: soft-light;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   TEXTURE — per-theme background patterns on .bg-brand-black surfaces.
-   Direct selectors are more reliable than CSS variable interpolation for
-   complex gradient values.
-──────────────────────────────────────────────────────────────────────────────── */
-
-/* Navy: grain texture overlay */
-[data-theme="navy"] .bg-brand-black,
+/*
+  background-blend-mode blends the background-image with background-color
+  on the SAME element only. Child images/videos/iframes are never affected.
+*/
 .bg-brand-black {
-  background-image: url('/backgroundpattern.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: overlay;
-}
-
-/* Ivory: B&W hexagonal texture on light surfaces */
-[data-theme="ivory"] .bg-brand-black {
   background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 48px 48px;
-  background-position: center;
-  /* soft-light is excellent for elegantly blending a B&W texture into a white background */
-  background-blend-mode: multiply; 
-}
-
-/* Ivory: global pattern on body */
-[data-theme="ivory"] body {
-  background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 160px;
+  background-size: 200px;
   background-attachment: fixed;
-  background-blend-mode: soft-light;
+  background-blend-mode: multiply;
 }
 
-/* Azure: B&W hexagonal texture on dark surfaces */
-[data-theme="azure"] .bg-brand-black {
+body {
   background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 160px;
-  background-position: center;
-  background-blend-mode: soft-light;
-}
-
-/* Azure: global pattern on body */
-[data-theme="azure"] body {
-  background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 160px;
+  background-size: 200px;
   background-attachment: fixed;
-  background-blend-mode: soft-light;
+  background-blend-mode: multiply;
 }
+
 
 /* Placeholder section baseline — removed in production when real components land */
 [data-placeholder] {
