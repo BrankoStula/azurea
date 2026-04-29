@@ -31,8 +31,21 @@ const REASONS = [
 
 export default function EarlyInvestorSection() {
   return (
-    <section className="bg-brand-black border-b border-cream/10 overflow-hidden">
-      <div className="px-6 md:px-12 lg:px-24">
+    <section className="relative bg-brand-black border-b border-cream/10 overflow-hidden">
+      
+      {/* ── TOP RIGHT PALM SHADOW ── */}
+      <div className="absolute top-0 right-0 w-full max-w-lg md:max-w-2xl h-[500px] pointer-events-none z-0 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/leafs_transparent_top_right.png" 
+          alt=""
+          className="absolute -top-10 -right-10 w-full h-auto object-contain opacity-30"
+          style={{ mixBlendMode: 'multiply' }} 
+        />
+      </div>
+
+      {/* ── Content (z-10 ensures it stays above the waves and shadows) ── */}
+      <div className="relative z-10 px-6 md:px-12 lg:px-24">
 
         {/* ── Header ── */}
         <div className="py-16 md:py-20 border-b border-cream/10">
@@ -86,7 +99,6 @@ export default function EarlyInvestorSection() {
               transition={{ duration: 0.65, delay: i * 0.09, ease: EASE }}
               className="relative grid grid-cols-12 gap-6 md:gap-12 items-start py-10 md:py-12 border-b border-cream/[0.08] group"
             >
-              {/* Animated gold underline — draws on view */}
               <motion.div
                 className="absolute bottom-0 left-0 h-px origin-left"
                 initial={{ scaleX: 0 }}
@@ -96,7 +108,6 @@ export default function EarlyInvestorSection() {
                 style={{ backgroundColor: `${GOLD}35`, width: "100%" }}
               />
 
-              {/* Hover: gold left bar */}
               <motion.div
                 className="absolute left-0 top-0 h-full w-[2px] origin-top"
                 initial={{ scaleY: 0 }}
@@ -105,7 +116,6 @@ export default function EarlyInvestorSection() {
                 style={{ backgroundColor: GOLD }}
               />
 
-              {/* Ghost number */}
               <div className="col-span-2 md:col-span-1 flex items-start pt-1">
                 <motion.span
                   className="font-display leading-none select-none tabular-nums"
@@ -119,7 +129,6 @@ export default function EarlyInvestorSection() {
                 </motion.span>
               </div>
 
-              {/* Title */}
               <div className="col-span-10 md:col-span-4 lg:col-span-3 pt-1">
                 <motion.h3
                   initial={{ opacity: 0, x: -20 }}
@@ -133,7 +142,6 @@ export default function EarlyInvestorSection() {
                 </motion.h3>
               </div>
 
-              {/* Body */}
               <motion.div
                 className="col-span-12 md:col-span-7 lg:col-span-8 md:pt-1"
                 initial={{ opacity: 0, x: 20 }}
@@ -162,7 +170,7 @@ export default function EarlyInvestorSection() {
           </p>
           <motion.button
             onClick={() => document.querySelector("#inquiry")?.scrollIntoView({ behavior: "smooth" })}
-            className="shrink-0 px-8 py-3.5 font-display text-sm uppercase tracking-widest text-brand-black transition-colors duration-200 whitespace-nowrap"
+            className="shrink-0 px-8 py-3.5 font-display text-sm uppercase tracking-widest text-brand-black transition-colors duration-200 whitespace-nowrap backdrop-blur-md"
             style={{ backgroundColor: GOLD }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -174,6 +182,40 @@ export default function EarlyInvestorSection() {
         </motion.div>
 
       </div>
+
+      {/* ── ADVANCED, ASYMMETRIC PURE CSS SVG WAVE OVERLAY ── */}
+      {/* Increased height here: h-64 on mobile, h-[32rem] on desktop to make waves much larger */}
+      <div className="absolute bottom-0 left-0 w-full h-64 md:h-[32rem] pointer-events-none z-0">
+        <svg 
+          viewBox="0 0 1440 300" 
+          preserveAspectRatio="none" 
+          className="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g stroke={GOLD} strokeWidth="0.8" fill="none" opacity="0.4">
+            {Array.from({ length: 22 }).map((_, i) => {
+              const baseStackY = 280 - (i * 4);
+              const peakHeight = 120 + i * 5; 
+              
+              const pathData = `M-50,${baseStackY} 
+                                C240,${peakHeight} 
+                                1080,${peakHeight + 100} 
+                                1500,${260 + (i*0.4) - (i * 4)}`; 
+
+              const lineOpacity = 0.5 - (i * 0.015); 
+
+              return (
+                <path
+                  key={i}
+                  d={pathData}
+                  opacity={Math.max(0.08, lineOpacity)} 
+                />
+              );
+            })}
+          </g>
+        </svg>
+      </div>
+
     </section>
   );
 }

@@ -180,12 +180,58 @@ export default function CinematicJourney() {
   };
 
   return (
-    <section id="project" ref={sectionEl} className="relative w-full bg-brand-black text-cream border-b border-cream/10">
+    <section id="project" ref={sectionEl} className="relative w-full bg-brand-black text-cream border-y border-cream/10">
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          STICKY GLOBAL DECOR LAYER (Locked Behind Content)
+          *FIX*: Removed overflow-hidden so the sticky element works correctly!
+      ══════════════════════════════════════════════════════════════════════ */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="sticky top-0 w-full h-screen overflow-hidden">
+          
+          {/* Top Right Plant */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src="/plant_version_3.png" 
+            alt=""
+            className="absolute -top-12 -right-12 w-64 lg:w-[28rem] h-auto opacity-20 object-contain object-top object-right"
+          />
+
+          {/* Bottom Left Plant (JPG requires multiply to remove white background) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src="/left_plant_bottom_1.jpg" 
+            alt=""
+            className="absolute -bottom-12 -left-12 w-64 lg:w-[28rem] h-auto opacity-20 object-contain object-bottom object-left"
+            style={{ mixBlendMode: 'multiply' }}
+          />
+
+          {/* Flowing Abstract Gold Waves */}
+          <div className="absolute top-[20%] left-0 w-full h-[60vh] opacity-30">
+            <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <g stroke={GOLD} strokeWidth="1" fill="none">
+                {Array.from({ length: 12 }).map((_, i) => {
+                  const y1 = 300 - i * 15;
+                  const peak = 100 + i * 5;
+                  const y2 = 200 + i * 20;
+                  return (
+                    <path 
+                      key={i} 
+                      d={`M-100,${y1} C200,${peak} 600,${peak + 150} 1100,${y2}`} 
+                      opacity={0.6 - i * 0.04} 
+                    />
+                  );
+                })}
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
           MOBILE LAYOUT  (lg:hidden)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="lg:hidden">
+      <div className="relative z-10 lg:hidden">
         <div className="px-6 pt-16 pb-10 border-b border-cream/10">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -271,7 +317,7 @@ export default function CinematicJourney() {
       {/* ══════════════════════════════════════════════════════════════════════
           DESKTOP LAYOUT  (hidden lg:flex)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="hidden lg:flex flex-row">
+      <div className="relative z-10 hidden lg:flex flex-row">
 
         {/* ── LEFT PANE — sticky media ── */}
         <motion.div
@@ -280,9 +326,9 @@ export default function CinematicJourney() {
             opacity: isInvestment ? 0     : 1,
           }}
           transition={{ duration: 1.2, ease: EASE }}
-          className="sticky top-0 h-screen overflow-hidden shrink-0 border-r border-cream/10"
+          className="sticky top-0 h-screen overflow-hidden shrink-0 border-r border-cream/10 z-10"
         >
-          <div className="relative w-full h-full bg-brand-black">
+          <div className="relative w-full h-full">
 
             {/* Layer 0: Vision collage */}
             <motion.div
@@ -296,15 +342,15 @@ export default function CinematicJourney() {
                   <circle key={i} cx={`${x}%`} cy={`${y}%`} r="4" fill={GOLD} className="animate-pulse" />
                 ))}
               </svg>
-              <div className="absolute top-[10%] left-[5%] w-[40%] h-[30%] border border-cream/10 shadow-2xl bg-white/5">
+              <div className="absolute top-[10%] left-[5%] w-[40%] h-[30%] border border-cream/10 shadow-2xl bg-white/5 backdrop-blur-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgTopLeft} alt="" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute top-[25%] right-[5%] w-[55%] h-[50%] z-20 border border-cream/10 shadow-2xl bg-white/5">
+              <div className="absolute top-[25%] right-[5%] w-[55%] h-[50%] z-20 border border-cream/10 shadow-2xl bg-white/5 backdrop-blur-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgMain} alt="" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute bottom-[10%] left-[15%] w-[35%] h-[35%] border border-cream/10 shadow-2xl bg-white/5">
+              <div className="absolute bottom-[10%] left-[15%] w-[35%] h-[35%] border border-cream/10 shadow-2xl bg-white/5 backdrop-blur-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CHAPTERS[0].imgBottomLeft} alt="" className="w-full h-full object-cover" />
               </div>
@@ -334,7 +380,7 @@ export default function CinematicJourney() {
                       initial={false}
                       animate={{ scale: isThisActive ? 1 : 0.95 }}
                       transition={{ duration: 1.2, ease: EASE }}
-                      className="absolute inset-0 overflow-hidden shadow-2xl border border-cream/10 bg-white/5"
+                      className="absolute inset-0 overflow-hidden shadow-2xl border border-cream/10 bg-white/5 backdrop-blur-md"
                     >
                       {isArch ? (
                         <AnimatePresence mode="wait">
@@ -350,7 +396,6 @@ export default function CinematicJourney() {
                             <img src={activeArchSpace.mainImg} alt="" className="w-full h-full object-cover" />
                             <div className="absolute inset-0 bg-brand-black/20" />
 
-                            {/* UPDATED: Large Square Floating Material Swatches with Architectural Lines */}
                             {activeArchSpace.materials.map((mat, mIdx) => (
                               <motion.div
                                 key={mIdx}
@@ -359,7 +404,6 @@ export default function CinematicJourney() {
                                 transition={{ delay: 0.3 + mIdx * 0.12, duration: 0.6 }}
                                 className={`absolute ${mat.position} flex items-center gap-3 drop-shadow-2xl ${mat.layout === "left" ? "flex-row-reverse" : "flex-row"}`}
                               >
-                                {/* Abstract geometric indicator */}
                                 <div className="w-10 h-10 border border-[#C9A55A]/60 bg-black/30 backdrop-blur-sm flex items-center justify-center">
                                   <div className="w-3 h-3 border border-[#C9A55A]/80 rotate-45" />
                                 </div>
@@ -379,7 +423,6 @@ export default function CinematicJourney() {
                           <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-brand-black/20" />
                           
-                          {/* Standard Hotspots for Villa chapter */}
                           {chapter.hotspots?.map((spot, i) => (
                              <div key={i} className="absolute group cursor-pointer z-50" style={{ top: spot.top, left: spot.left }}>
                                 <div className="w-4 h-4 flex items-center justify-center">
@@ -410,6 +453,7 @@ export default function CinematicJourney() {
         <motion.div
           animate={{ width: isInvestment ? "100%" : "50%" }}
           transition={{ duration: 1.2, ease: EASE }}
+          /* *FIX*: Removed background and blur from here so the CSS Grid pattern shows up clearly! */
           className="w-[50%] shrink-0"
         >
           {/* Sticky progress nav */}
@@ -464,7 +508,6 @@ export default function CinematicJourney() {
                       {displayBody}
                     </p>
 
-                    {/* Render the specific extra content for each chapter */}
                     {chapter.id === "vision"       && <VisionStats />}
                     {chapter.id === "architecture" && <MaterialSwatches activeId={archSpaceId} onSelect={setArchSpaceId} />}
                     {chapter.id === "villa"        && <VillaFeatures />}

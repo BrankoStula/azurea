@@ -177,20 +177,23 @@ h1, h2, h3, h4, h5, h6 {
   background-blend-mode blends the background-image with background-color
   on the SAME element only. Child images/videos/iframes are never affected.
 */
-.bg-brand-black {
-  background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 200px;
+/* Apply the transparent SVG pattern from the public folder */
+.bg-brand-black, body {
+  /* Link directly to the file in your public folder */
+  background-image: url('/hexagonal_pattern_2.svg');
+  
+  /* Make it tile infinitely */
+  background-repeat: repeat; 
+  
+  /* Keep it locked in place while scrolling */
   background-attachment: fixed;
-  background-blend-mode: multiply;
+  
+  /* Change this to make the pattern bigger or smaller */
+  background-size: 100px; 
+  
+  /* No messy blend modes needed since the SVG background is already transparent! */
+  background-blend-mode: normal; 
 }
-
-body {
-  background-image: url('/hexagonal_pattern_bw.jpg');
-  background-size: 200px;
-  background-attachment: fixed;
-  background-blend-mode: multiply;
-}
-
 
 /* Placeholder section baseline — removed in production when real components land */
 [data-placeholder] {

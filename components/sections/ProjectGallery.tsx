@@ -62,37 +62,11 @@ const GALLERY: GalleryItem[] = [
   { src: `${CDN}/azurea_gallery_19.webp`, label: "Bedroom",               category: "Bedrooms"        },
 ];
 
-// FIX: Moved "All" to the start of the list for better UX
+// Moved "All" to the start of the list for better UX
 const CATEGORIES: Category[] = ["All", "Exterior", "Living & Dining", "Kitchen", "Pool & Outdoor", "Bedrooms", "Bathrooms"];
 
-// Animation Directions
-const DIRS = ["up", "right", "down", "left", "up"];
-
-const getClipPath = (dir: string) => {
-  switch (dir) {
-    case "up":    return "inset(100% 0% 0% 0%)";
-    case "down":  return "inset(0% 0% 100% 0%)";
-    case "left":  return "inset(0% 0% 0% 100%)";
-    case "right": return "inset(0% 100% 0% 0%)";
-    default:      return "inset(100% 0% 0% 0%)";
-  }
-};
-
-const itemVariants = {
-  hidden: (dir: string) => ({ clipPath: getClipPath(dir), opacity: 0 }),
-  visible: { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, transition: { duration: 1.1, ease: LUXURY } },
-  exit:    (dir: string) => ({ clipPath: getClipPath(dir), opacity: 0, transition: { duration: 0.5, ease: LUXURY } }),
-};
-
-const imgVariants = {
-  hidden:  { scale: 1.12 },
-  visible: { scale: 1,    transition: { duration: 1.1, ease: LUXURY } },
-  exit:    { scale: 1.05, transition: { duration: 0.5, ease: LUXURY } },
-};
 
 export default function ProjectGallery() {
-  // FIX: Changed default to "All" since I reordered the array, but you could use
-  // "Exterior" if you want to explicitly start with that chapter.
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [isDesktop, setIsDesktop] = useState(true);
@@ -121,6 +95,39 @@ export default function ProjectGallery() {
 
   return (
     <div className="bg-brand-black border-t border-cream/10 overflow-hidden relative">
+
+      {/* ── BACKGROUND DECORATION LAYER (z-0 sits behind text/interactive elements) ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Top Left Botanical Accent */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/leaves_right_top_4.jpg" 
+          alt="" 
+          className="absolute -top-10 -right-10 w-64 lg:w-[32rem] opacity-20 object-contain object-top object-left"
+          style={{ mixBlendMode: 'multiply' }} 
+        />
+
+        {/* Abstract Gold Lines (sweeping topographic curves) */}
+        <div className="absolute top-0 left-0 w-full lg:w-[60%] h-full opacity-30">
+          <svg viewBox="0 0 500 1000" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <g stroke={GOLD} strokeWidth="0.7" fill="none">
+              {/* Generated curves flowing top-left to bottom-right across background */}
+              {Array.from({ length: 15 }).map((_, i) => {
+                const y1 = -100 + (i * 20);
+                const xPeak = 300 + (i * 10);
+                const y2 = 800 + (i * 15);
+                return (
+                  <path 
+                    key={i} 
+                    d={`M-50,${y1} C100,${y1 + 100} ${xPeak},500 600,${y2}`} 
+                    opacity={0.6 - (i * 0.03)} 
+                  />
+                );
+              })}
+            </g>
+          </svg>
+        </div>
+      </div>
 
       {/* ── Header ── */}
       <div className="px-6 md:px-12 lg:px-16 pt-20 lg:pt-28 pb-8 flex justify-between items-end gap-6 relative z-10">
@@ -208,7 +215,6 @@ export default function ProjectGallery() {
                         sizes="(max-width: 1024px) 100vw, 80vw"
                         priority={i === 0}
                       />
-                      {/* FIX: Removed the Gradient for text readability */}
                       
                       {/* Inner Text overlay */}
                       <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 z-10 pointer-events-none">

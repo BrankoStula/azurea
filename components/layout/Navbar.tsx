@@ -67,16 +67,10 @@ export default function Navbar() {
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
         className={`fixed top-0 left-0 w-full h-20 md:h-24 px-4 md:px-12 flex items-start pt-5 md:pt-6 justify-between z-50 overflow-visible transition-all duration-500 ${
           isScrolled && !isOpen
-            ? "backdrop-blur-md border-b border-cream/10 pointer-events-auto"
+            ? "bg-brand-black backdrop-blur-md border-b border-cream/10 pointer-events-auto"
             : "bg-transparent pointer-events-none"
         }`}
-        style={isScrolled && !isOpen ? {
-          backgroundColor: "var(--color-brand-black)",
-          backgroundImage: "url('/hexagonal_pattern_bw.jpg')",
-          backgroundSize: "200px",
-          backgroundPosition: "center",
-          backgroundBlendMode: "multiply",
-        } : undefined}
+        /* The inline style blocking the global SVG was removed from here! */
       >
         {/* Left: Hamburger Menu */}
         <button
@@ -112,7 +106,7 @@ export default function Navbar() {
         <div className="absolute right-4 md:right-8 top-0 h-20 md:h-24 flex items-center z-50 pointer-events-auto">
           <button
             onClick={() => handleHashNav("#inquiry")}
-            className="group flex items-center gap-2 md:gap-3 border border-[#C9A55A]/50 hover:border-[#C9A55A] hover:bg-[#C9A55A]/10 px-4 md:px-6 py-2 md:py-2.5 transition-all duration-300"
+            className="group flex items-center gap-2 md:gap-3 border border-[#C9A55A]/50 hover:border-[#C9A55A] hover:bg-[#C9A55A]/10 px-4 md:px-6 py-2 md:py-2.5 transition-all duration-300 backdrop-blur-sm bg-black/20"
           >
             <span className="font-display text-[11px] md:text-[12px] uppercase tracking-widest text-cream group-hover:text-[#C9A55A] transition-colors whitespace-nowrap">
               Contact

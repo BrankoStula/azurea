@@ -114,7 +114,7 @@ const SUBSECTIONS: SubSection[] = [
     label: "04 — Getting Here",
     title: "Easy Access from Bali International Airport",
     body: "Connected to 50+ global cities, Azurea is a scenic 25-minute coastal drive from the airport — perfectly positioned for effortless arrivals while remaining a sanctuary away from the crowds.",
-    images: [`${CDN}/denpasar_airport.webp`, `${CDN}/azurea_gallery_6.webp`, `${CDN}/bali_road.webp`],
+    images: [`${CDN}/denpasar_airport.webp`, `${CDN}/bali_airport.webp`, `${CDN}/bali_road.webp`],
     camera: { longitude: 115.145, latitude: -8.683, zoom: 11, pitch: 0, bearing: 0 },
     pois: [
       { label: "Ngurah Rai Airport", longitude: 115.168190, latitude: -8.746512, type: "airport" as POIType, images: [u("1583212292454-1dea0f959c21")] },
@@ -138,7 +138,7 @@ const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
 
 function DirectionsCard() {
   return (
-    <div className="border border-cream/10 p-5">
+    <div className="border border-cream/10 p-5 backdrop-blur-sm bg-black/10">
       <div className="flex items-start gap-3 mb-3">
         <Plane size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
         <div>
@@ -257,14 +257,13 @@ export default function LocationSection() {
       ref={sectionEl}
       id="why-bali"
       aria-label="Location — Why Bali"
-      className="relative bg-brand-black text-cream"
+      className="relative bg-brand-black text-cream border-y-1 border-brand-black"
     >
 
       {/* ════════════════════════════════════════════════════════════════════
-          MOBILE LAYOUT — tab navigation + immersive cards
+          MOBILE LAYOUT
       ════════════════════════════════════════════════════════════════════ */}
       <div className="lg:hidden">
-
         {/* Tab row */}
         <div className="border-b border-cream/8 px-5">
           <div className="flex overflow-x-auto scrollbar-hide -mb-px">
@@ -303,23 +302,13 @@ export default function LocationSection() {
           >
             {/* Hero image */}
             <div className="relative w-full overflow-hidden" style={{ height: "58vw", minHeight: "220px", maxHeight: "340px" }}>
-              <Image
-                src={active.images[0]}
-                alt={active.title}
-                fill
-                quality={90}
-                className="object-cover"
-                sizes="100vw"
-                priority={activeIdx === 0}
-              />
+              <Image src={active.images[0]} alt={active.title} fill quality={90} className="object-cover" sizes="100vw" priority={activeIdx === 0} />
               <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-brand-black/70" />
-              {/* Counter */}
               <div className="absolute top-4 right-4 bg-brand-black/60 backdrop-blur-sm px-2.5 py-1">
                 <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: GOLD }}>
                   {String(activeIdx + 1).padStart(2, "0")} / 04
                 </span>
               </div>
-              {/* Bottom label */}
               <div className="absolute bottom-4 left-5 flex items-center gap-2">
                 <span className="w-3 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
                 <span className="text-[9px] uppercase tracking-[0.3em] text-cream/50">{active.label}</span>
@@ -327,27 +316,34 @@ export default function LocationSection() {
             </div>
 
             {/* Text content */}
-            <div className="px-5 pt-8 pb-6">
+            <div className="relative px-5 pt-8 pb-6 overflow-hidden">
+              
+              {/* Mobile Palm Overlay (Firmly pushed to top right) */}
+              <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none opacity-15">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src="/palm_tree_transparent_right.png" 
+                  alt=""
+                  className="w-full h-full object-contain object-top object-right transform translate-x-4 -translate-y-4"
+                />
+              </div>
+
               <h2
-                className="font-display text-cream leading-tight mb-4"
+                className="relative z-10 font-display text-cream leading-tight mb-4"
                 style={{ fontSize: "clamp(1.6rem, 6.5vw, 2.4rem)", letterSpacing: "var(--tracking-heading)" }}
               >
                 {active.title}
               </h2>
-              <p className="text-cream/55 text-sm leading-relaxed mb-7">
+              <p className="relative z-10 text-cream/55 text-sm leading-relaxed mb-7">
                 {active.body}
               </p>
 
-              {/* POI chips */}
               {interactivePOIs.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-7">
+                <div className="relative z-10 flex flex-wrap gap-2 mb-7">
                   {interactivePOIs.map(poi => {
                     const Icon = POI_ICONS[poi.type];
                     return (
-                      <div
-                        key={poi.label}
-                        className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/15 text-cream/50 text-[9px] uppercase tracking-widest"
-                      >
+                      <div key={poi.label} className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/15 text-cream/50 text-[9px] uppercase tracking-widest bg-black/20 backdrop-blur-md">
                         <Icon size={11} strokeWidth={1.8} style={{ color: GOLD, opacity: 0.7 }} />
                         {poi.label}
                       </div>
@@ -356,11 +352,13 @@ export default function LocationSection() {
                 </div>
               )}
 
-              {/* Directions card */}
-              {active.id === "directions" && <DirectionsCard />}
+              {active.id === "directions" && (
+                <div className="relative z-10">
+                  <DirectionsCard />
+                </div>
+              )}
             </div>
 
-            {/* Secondary images strip */}
             {active.images.length > 1 && (
               <div className="px-5 pb-10 flex gap-2">
                 {active.images.slice(1).map((img, j) => (
@@ -373,95 +371,137 @@ export default function LocationSection() {
             )}
           </motion.div>
         </AnimatePresence>
-
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════
-          DESKTOP LAYOUT — scroll panels + sticky map/images
+          DESKTOP LAYOUT
       ════════════════════════════════════════════════════════════════════ */}
-      <div className="hidden lg:grid lg:grid-cols-12">
+      <div className="hidden lg:grid lg:grid-cols-12 relative">
 
         {/* LEFT — 4× min-h-screen panels */}
-        <div className="lg:col-span-4">
-          {SUBSECTIONS.map((s, i) => {
-            const isActive = i === activeIdx;
-            return (
-              <div
-                key={s.id}
-                ref={(el) => { sectionRefs.current[i] = el; }}
-                className="min-h-screen flex flex-col justify-center px-12 py-28 border-b border-cream/5 last:border-b-0"
-              >
-                <motion.p
-                  animate={{ opacity: isActive ? 1 : 0.25, x: isActive ? 0 : -8 }}
-                  transition={{ duration: 0.5 }}
-                  className="label-caps mb-6 flex items-center gap-3"
-                  style={{ color: GOLD }}
-                >
-                  <span className="w-5 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
-                  {s.label}
-                </motion.p>
+        <div className="lg:col-span-4 relative bg-brand-black">
+          
+          {/* ── STICKY BACKGROUND LAYER (Left column decor) ── */}
+          <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none z-0">
+            
+            {/* Top Right Palm Tree (Pinned securely to top right of the text column) */}
+            <div className="absolute top-0 -left-12 lg:-left-20 w-80 lg:w-96 h-80 opacity-20 drop-shadow-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/palm_tree_transparent_right.png" 
+                alt=""
+                /* CHANGED: object-left forces the image to stick to the left boundary */
+                className="w-full h-full object-contain object-top object-left"
+              />
+            </div>
+            
+            {/* Massive Vertical Gold Waves (Sweeping down the left edge) */}
+            {/* ── Two Vertical Gold Lines (Sweeping down the right edge) ── */}
+            <div className="absolute top-0 right-0 w-[400px] h-[120vh] opacity-40">
+              <svg viewBox="0 0 400 1200" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <g stroke={GOLD} strokeWidth="1.5" fill="none">
+                  {/* Changed length to 2 for exactly two lines */}
+                  {Array.from({ length: 7 }).map((_, i) => {
+                    // Lines start on the right side, curve left, then return right
+                    const startX = 350 - (i * 20);
+                    const peakX = 100 - (i * 30); 
+                    const endX = 380 - (i * 20);
+                    
+                    return (
+                      <path 
+                        key={i} 
+                        d={`M${startX},-100 C${peakX},400 ${peakX + 100},800 ${endX},1300`} 
+                        opacity={0.7 - (i * 0.2)} 
+                      />
+                    );
+                  })}
+                </g>
+              </svg>
+            </div>
+          </div>
 
-                <div className="overflow-hidden mb-6">
-                  <motion.h2
-                    animate={{ y: isActive ? "0%" : "110%" }}
-                    transition={{ duration: 0.85, ease: EASE }}
-                    className="font-display text-cream leading-tight"
-                    style={{ fontSize: "clamp(2.25rem, 4vw, 4rem)", letterSpacing: "var(--tracking-heading)" }}
+          {/* ── SCROLLING TEXT CONTENT ── */}
+          <div className="relative z-10 w-full h-full -mt-[100vh]">
+            {SUBSECTIONS.map((s, i) => {
+              const isActive = i === activeIdx;
+              return (
+                <div
+                  key={s.id}
+                  ref={(el) => { sectionRefs.current[i] = el; }}
+                  className="min-h-screen flex flex-col justify-center px-12 py-28 border-b border-cream/5 last:border-b-0"
+                >
+                  <motion.p
+                    animate={{ opacity: isActive ? 1 : 0.25, x: isActive ? 0 : -8 }}
+                    transition={{ duration: 0.22 }}
+                    className="label-caps mb-6 flex items-center gap-3 drop-shadow-md"
+                    style={{ color: GOLD }}
                   >
-                    {s.title}
-                  </motion.h2>
+                    <span className="w-5 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
+                    {s.label}
+                  </motion.p>
+
+                  <div className="overflow-hidden mb-6">
+                    <motion.h2
+                      animate={{ y: isActive ? "0%" : "110%" }}
+                      transition={{ duration: 0.38, ease: EASE }}
+                      className="font-display text-cream leading-tight drop-shadow-lg"
+                      style={{ fontSize: "clamp(2.25rem, 4vw, 4rem)", letterSpacing: "var(--tracking-heading)" }}
+                    >
+                      {s.title}
+                    </motion.h2>
+                  </div>
+
+                  <motion.p
+                    animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 12 }}
+                    transition={{ duration: 0.3, delay: isActive ? 0.06 : 0 }}
+                    className="text-cream/60 leading-relaxed text-lg max-w-sm mb-8 drop-shadow-md"
+                  >
+                    {s.body}
+                  </motion.p>
+
+                  {interactivePOIs.length > 0 && isActive && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.22, delay: 0.1 }}
+                      className="flex flex-wrap gap-2"
+                    >
+                      {interactivePOIs.map(poi => {
+                        const Icon = POI_ICONS[poi.type];
+                        const isSelected = selectedPOI?.label === poi.label;
+                        return (
+                          <button
+                            key={poi.label}
+                            onClick={() => setSelectedPOI(isSelected ? null : poi)}
+                            className={[
+                              "flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.12em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-md",
+                              isSelected
+                                ? "bg-[#C9A55A] text-brand-black font-semibold"
+                                : "bg-black/40 border border-cream/15 text-cream/60 hover:border-[#C9A55A]/60 hover:text-cream",
+                            ].join(" ")}
+                          >
+                            <Icon size={12} strokeWidth={1.8} />
+                            {poi.label}
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+
+                  {s.id === "directions" && isActive && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.22, delay: 0.1 }}
+                      className="mt-2"
+                    >
+                      <DirectionsCard />
+                    </motion.div>
+                  )}
                 </div>
-
-                <motion.p
-                  animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 12 }}
-                  transition={{ duration: 0.7, delay: isActive ? 0.15 : 0 }}
-                  className="text-cream/60 leading-relaxed text-lg max-w-sm mb-8"
-                >
-                  {s.body}
-                </motion.p>
-
-                {interactivePOIs.length > 0 && isActive && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.25 }}
-                    className="flex flex-wrap gap-2"
-                  >
-                    {interactivePOIs.map(poi => {
-                      const Icon = POI_ICONS[poi.type];
-                      const isSelected = selectedPOI?.label === poi.label;
-                      return (
-                        <button
-                          key={poi.label}
-                          onClick={() => setSelectedPOI(isSelected ? null : poi)}
-                          className={[
-                            "flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.12em] uppercase transition-all duration-300 cursor-pointer",
-                            isSelected
-                              ? "bg-[#C9A55A] text-brand-black font-semibold"
-                              : "border border-cream/15 text-cream/55 hover:border-[#C9A55A]/60 hover:text-cream",
-                          ].join(" ")}
-                        >
-                          <Icon size={12} strokeWidth={1.8} />
-                          {poi.label}
-                        </button>
-                      );
-                    })}
-                  </motion.div>
-                )}
-
-                {s.id === "directions" && isActive && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.25 }}
-                    className="mt-2"
-                  >
-                    <DirectionsCard />
-                  </motion.div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* RIGHT — sticky map + images */}
@@ -489,10 +529,10 @@ export default function LocationSection() {
               ))}
             </div>
 
-            {/* Top half — map */}
-            <div className="flex-1 relative min-h-0">
+            {/* Top 2/3 — map */}
+            <div className="flex-[2] relative min-h-0">
               <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
-              <div className="absolute top-5 left-5 z-10 bg-brand-black/80 backdrop-blur-sm px-3 py-1.5 pointer-events-none">
+              <div className="absolute top-5 left-5 z-10 bg-brand-black/80 backdrop-blur-sm px-3 py-1.5 pointer-events-none border border-white/5">
                 <span className="text-[10px] tracking-[0.2em] uppercase font-semibold" style={{ color: GOLD }}>
                   {String(activeIdx + 1).padStart(2, "0")} / {String(SUBSECTIONS.length).padStart(2, "0")}
                 </span>
@@ -505,7 +545,7 @@ export default function LocationSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute top-5 right-5 z-10 bg-[#C9A55A] px-3 py-1.5 pointer-events-none"
+                    className="absolute top-5 right-5 z-10 bg-[#C9A55A] px-3 py-1.5 pointer-events-none shadow-xl"
                   >
                     <span className="text-brand-black text-[10px] tracking-[0.2em] uppercase font-semibold">
                       {selectedPOI.label}
@@ -515,15 +555,15 @@ export default function LocationSection() {
               </AnimatePresence>
             </div>
 
-            {/* Bottom half — image strip */}
-            <div className="flex-1 relative min-h-0 overflow-hidden">
+            {/* Bottom 1/3 — image strip */}
+            <div className="flex-1 relative min-h-0 overflow-hidden border-t border-cream/10">
               <AnimatePresence mode="sync">
                 <motion.div
                   key={displayImages.join("|")}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="absolute inset-0 flex"
                 >
                   {displayImages.map((img, i) => (
@@ -531,9 +571,9 @@ export default function LocationSection() {
                       <Image src={img} alt="" fill className="object-cover" sizes="25vw" quality={90} priority={activeIdx === 0 && i === 0} />
                     </div>
                   ))}
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-black/50 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-black/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-5 left-6 z-10">
-                    <p className="text-cream/40 text-[10px] tracking-[0.25em] uppercase">
+                    <p className="text-cream/50 text-[10px] tracking-[0.25em] uppercase drop-shadow-md">
                       {selectedPOI ? selectedPOI.label : active.label}
                     </p>
                   </div>

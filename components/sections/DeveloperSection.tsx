@@ -72,19 +72,60 @@ export default function DeveloperSection() {
       viewport={{ once: true, amount: 0.1 }}
       variants={sectionVariants}
     >
+      {/* ── BACKGROUND DECORATION LAYER (z-0) ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        
+        {/* Top Right Palm Element - Inverted to White */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/palm_tree_transparent_right.png" 
+          alt="" 
+          className="absolute -top-16 -right-16 w-72 lg:w-[36rem] opacity-10 object-contain object-top object-right transform rotate-[-270deg]"
+        />
+
+        {/* Bottom Left Leaf Element (JPG requires multiply) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/left_plant_bottom_1.jpg" 
+          alt="" 
+          className="absolute -bottom-10 -left-10 w-64 lg:w-[32rem] opacity-20 object-contain object-bottom object-left"
+          style={{ mixBlendMode: 'multiply' }} 
+        />
+
+        {/* Abstract Gold Waves (Sweeping across the section) */}
+        <div className="absolute top-[30%] left-0 w-full h-[80%] opacity-25">
+          <svg viewBox="0 0 1000 600" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <g stroke={GOLD} strokeWidth="1" fill="none">
+              {Array.from({ length: 12 }).map((_, i) => {
+                const y1 = 100 + (i * 20);
+                const xPeak = 400 + (i * 15);
+                const y2 = 500 + (i * 10);
+                return (
+                  <path 
+                    key={i} 
+                    d={`M-100,${y1} C200,${y1 + 50} ${xPeak},100 1100,${y2}`} 
+                    opacity={0.6 - (i * 0.04)} 
+                  />
+                );
+              })}
+            </g>
+          </svg>
+        </div>
+      </div>
+
       {/* Top Border Animation */}
       <motion.div 
-        className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
+        className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left z-10"
         variants={drawLineRight}
       />
 
       {/* ── Header (Centered Layout) ── */}
-      <div className="flex flex-col items-center text-center gap-8 py-20 lg:py-28 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center text-center gap-8 py-20 lg:py-28 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto backdrop-blur-[2px]">
         
         {/* Eyebrow */}
         <motion.p 
           variants={fadeUp} 
-          className="text-[10px] uppercase tracking-[0.35em] flex items-center gap-4" 
+          className="text-[10px] uppercase tracking-[0.35em] flex items-center gap-4 drop-shadow-md" 
           style={{ color: GOLD }}
         >
           <span className="w-8 h-px bg-[#C9A55A]/40 inline-block" />
@@ -93,7 +134,7 @@ export default function DeveloperSection() {
         </motion.p>
 
         {/* Logo */}
-        <motion.div variants={fadeIn} className="flex justify-center my-2">
+        <motion.div variants={fadeIn} className="flex justify-center my-2 drop-shadow-2xl">
           <Image
             src="https://d1pjqs5r0ua4f1.cloudfront.net/royal_bali_group_logo-removebg-preview.webp"
             alt="Royal Bali Group"
@@ -106,29 +147,29 @@ export default function DeveloperSection() {
         {/* Subheading */}
         <motion.h2
           variants={fadeUp}
-          className="font-display text-cream leading-tight mt-2"
+          className="font-display text-cream leading-tight mt-2 drop-shadow-lg"
           style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", letterSpacing: "var(--tracking-heading)" }}
         >
           A Fully Integrated Development and Management Group
         </motion.h2>
 
         {/* Body */}
-        <motion.p variants={fadeUp} className="text-cream/55 text-base lg:text-lg leading-relaxed max-w-3xl">
+        <motion.p variants={fadeUp} className="text-cream/60 text-base lg:text-lg leading-relaxed max-w-3xl drop-shadow-md">
           Azurea is developed by Royal Bali Group, a Bali-based company delivering residential villa projects through a fully integrated approach.
           From land sourcing and development to legal structuring and post-handover operations, every stage is handled internally to ensure consistency, transparency, and long-term performance.
         </motion.p>
 
         {/* Tagline */}
-        <motion.div variants={fadeUp} className="border-t border-cream/10 pt-8 mt-4 relative w-full max-w-lg">
-          <p className="font-display text-cream text-lg md:text-xl leading-snug" style={{ letterSpacing: "var(--tracking-heading)" }}>
+        <motion.div variants={fadeUp} className="border-t border-cream/20 pt-8 mt-4 relative w-full max-w-lg">
+          <p className="font-display text-cream text-lg md:text-xl leading-snug drop-shadow-md" style={{ letterSpacing: "var(--tracking-heading)" }}>
             A single partner from acquisition to income.
           </p>
         </motion.div>
 
       </div>
 
-      {/* ── Three Pillars ── */}
-      <div className="relative w-full">
+      {/* ── Three Pillars (Blur removed) ── */}
+      <div className="relative z-10 w-full">
         {/* Main animated top border for the pillars grid */}
         <motion.div 
           className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
@@ -161,9 +202,9 @@ export default function DeveloperSection() {
                 )}
 
                 {/* Gold bar — animated left to right */}
-                <div className="w-full h-px bg-white/5 mb-10 overflow-hidden relative">
+                <div className="w-full h-px bg-white/10 mb-10 overflow-hidden relative">
                   <motion.div
-                    className="absolute inset-y-0 left-0 h-full"
+                    className="absolute inset-y-0 left-0 h-full shadow-[0_0_8px_rgba(201,165,90,0.5)]"
                     style={{ backgroundColor: GOLD }}
                     initial={{ width: "0%" }}
                     whileInView={{ width: "100%" }}
@@ -175,20 +216,20 @@ export default function DeveloperSection() {
                 {/* Content */}
                 <div className="flex-1">
                   {/* Number - Increased Size */}
-                  <p className="font-display font-thin leading-none text-[#C9A55A] mb-8 select-none" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
+                  <p className="font-display font-thin leading-none text-[#C9A55A] mb-8 select-none drop-shadow-lg" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
                     {pillar.num}
                   </p>
 
                   {/* Icon + title */}
                   <div className="flex items-center gap-4 mb-6">
                     <Icon size={20} style={{ color: GOLD }} strokeWidth={1.5} />
-                    <h3 className="font-display text-cream uppercase tracking-[0.15em] text-lg">
+                    <h3 className="font-display text-cream uppercase tracking-[0.15em] text-lg drop-shadow-sm">
                       {pillar.title}
                     </h3>
                   </div>
 
                   {/* Body - Increased Size */}
-                  <p className="text-cream/50 text-base leading-relaxed max-w-sm">
+                  <p className="text-cream/60 text-base leading-relaxed max-w-sm drop-shadow-sm">
                     {pillar.body}
                   </p>
                 </div>
@@ -199,7 +240,7 @@ export default function DeveloperSection() {
       </div>
 
       {/* ── Footer strip ── */}
-      <div className="relative w-full">
+      <div className="relative z-10 w-full backdrop-blur-md bg-brand-black/40">
         {/* Animated Top Border for footer strip */}
         <motion.div 
           className="absolute top-0 left-0 w-full h-px bg-white/10 origin-left"
@@ -210,7 +251,7 @@ export default function DeveloperSection() {
           variants={fadeIn}
           className="py-8 px-6 md:px-12 lg:px-24 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
-          <p className="text-cream/30 text-xs leading-relaxed max-w-md">
+          <p className="text-cream/40 text-xs leading-relaxed max-w-md drop-shadow-md">
             All stages are managed internally to reduce reliance on third parties and ensure a consistent delivery standard.
           </p>
 
@@ -219,12 +260,12 @@ export default function DeveloperSection() {
             href="https://royalbaligroup.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-3 border border-cream/15 px-6 py-3 hover:border-[#C9A55A]/60 hover:bg-[#C9A55A]/5 transition-all duration-300 shrink-0"
+            className="group flex items-center gap-3 border border-[#C9A55A]/30 bg-[#C9A55A]/5 px-6 py-3 hover:border-[#C9A55A]/80 hover:bg-[#C9A55A]/10 transition-all duration-300 shrink-0"
           >
-            <span className="font-display text-[11px] uppercase tracking-widest text-cream/70 group-hover:text-cream transition-colors">
+            <span className="font-display text-[11px] uppercase tracking-widest text-[#C9A55A] group-hover:text-cream transition-colors">
               Visit Royal Bali Group
             </span>
-            <ArrowUpRight size={13} className="text-cream/40 group-hover:text-[#C9A55A] transition-colors" />
+            <ArrowUpRight size={13} className="text-[#C9A55A] group-hover:text-cream transition-colors" />
           </Link>
         </motion.div>
       </div>
