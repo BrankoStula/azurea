@@ -21,6 +21,7 @@ type SubPOI = {
 type SubSection = {
   id: string;
   label: string;
+  shortLabel: string;
   title: string;
   body: string;
   images: string[];
@@ -72,6 +73,7 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "overview",
     label: "01 — Overview",
+    shortLabel: "Overview",
     title: "A Private Coastal Enclave",
     body: "Azurea is located in Seseh, one of Bali's fastest-growing coastal areas, offering a more private and residential environment just minutes from Canggu. This positioning provides direct access to the island's most active lifestyle and rental zones while maintaining a quieter, more refined setting.",
     images: [`${CDN}/azurea_gallery_13.webp`, `${CDN}/azurea_gallery_12.webp`, `${CDN}/azurea_gallery_3.webp`],
@@ -83,6 +85,7 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "coastline",
     label: "02 — The Coastline",
+    shortLabel: "Coastline",
     title: "Minutes From Bali's Most Sought-After Beaches",
     body: "Located in Seseh, Azurea is just 4–6 minutes from Seseh Beach and within 10 minutes of Pererenan's coastline. Canggu's main beachfront and beach clubs are accessible within 15–20 minutes.",
     images: [`${CDN}/canggu_beach.webp`, `${CDN}/canggu_beach_club.webp`],
@@ -96,6 +99,7 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "canggu",
     label: "03 — Active Lifestyle",
+    shortLabel: "Lifestyle",
     title: "Access to Canggu's Leading Lifestyle Infrastructure",
     body: "Azurea benefits from immediate proximity to Omni Gym, with additional access to Canggu's top fitness, wellness, and social hubs within 10–15 minutes. This ecosystem consistently attracts long-stay guests and high-value renters.",
     images: [`${CDN}/omni_real.webp`, `${CDN}/nirvana_real.webp`, `${CDN}/open_house_seseh.webp`],
@@ -112,6 +116,7 @@ const SUBSECTIONS: SubSection[] = [
   {
     id: "directions",
     label: "04 — Getting Here",
+    shortLabel: "Directions",
     title: "Easy Access from Bali International Airport",
     body: "Connected to 50+ global cities, Azurea is a scenic 25-minute coastal drive from the airport — perfectly positioned for effortless arrivals while remaining a sanctuary away from the crowds.",
     images: [`${CDN}/denpasar_airport.webp`, `${CDN}/bali_airport.webp`, `${CDN}/bali_road.webp`],
@@ -269,19 +274,45 @@ export default function LocationSection() {
           MOBILE LAYOUT
       ════════════════════════════════════════════════════════════════════ */}
       <div className="lg:hidden">
-        {/* Tab row */}
-        <div className="border-b border-cream/8 px-5">
-          <div className="flex overflow-x-auto scrollbar-hide -mb-px">
+
+        {/* Section header */}
+        <div className="px-5 pt-14 pb-8 border-b border-cream/10">
+          <motion.p
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="label-caps mb-4 flex items-center gap-3"
+            style={{ color: GOLD }}
+          >
+            <span className="w-5 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
+            Why Bali
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+            className="font-display text-cream leading-tight"
+            style={{ fontSize: "clamp(1.8rem, 8vw, 2.6rem)", letterSpacing: "var(--tracking-heading)" }}
+          >
+            Location &amp; Surroundings
+          </motion.h2>
+        </div>
+
+        {/* Tab row — short labels, cream colour scheme */}
+        <div className="border-b border-cream/10">
+          <div className="flex overflow-x-auto scrollbar-hide px-5 -mb-px">
             {SUBSECTIONS.map((s, i) => {
               const isActive = i === activeIdx;
               return (
                 <button
                   key={s.id}
                   onClick={() => { setActiveIdx(i); setSelectedPOI(null); }}
-                  className="relative shrink-0 px-4 py-4 text-[9px] uppercase tracking-[0.2em] transition-colors duration-200"
-                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.35)" }}
+                  className="relative shrink-0 px-4 py-4 text-[10px] uppercase tracking-[0.2em] transition-colors duration-200 whitespace-nowrap cursor-pointer"
+                  style={{ color: isActive ? GOLD : "var(--color-cream)", opacity: isActive ? 1 : 0.4 }}
                 >
-                  {s.label}
+                  {s.shortLabel}
                   {isActive && (
                     <motion.div
                       layoutId="mobile-loc-tab"
@@ -303,53 +334,50 @@ export default function LocationSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.3 }}
           >
-            {/* Hero image */}
-            <div className="relative w-full overflow-hidden" style={{ height: "58vw", minHeight: "220px", maxHeight: "340px" }}>
-              <Image src={active.images[0]} alt={active.title} fill quality={90} className="object-cover" sizes="100vw" priority={activeIdx === 0} />
-              <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-brand-black/70" />
-              <div className="absolute top-4 right-4 bg-brand-black/60 backdrop-blur-sm px-2.5 py-1">
+            {/* Hero image — gradient uses black not brand-black (= ivory) */}
+            <div className="relative w-full overflow-hidden" style={{ height: "60vw", minHeight: "240px", maxHeight: "340px" }}>
+              <Image
+                src={active.images[0]}
+                alt={active.title}
+                fill quality={90}
+                className="object-cover"
+                sizes="100vw"
+                priority={activeIdx === 0}
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)" }} />
+              <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm px-2.5 py-1">
                 <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: GOLD }}>
                   {String(activeIdx + 1).padStart(2, "0")} / 04
                 </span>
               </div>
               <div className="absolute bottom-4 left-5 flex items-center gap-2">
-                <span className="w-3 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
-                <span className="text-[9px] uppercase tracking-[0.3em] text-cream/50">{active.label}</span>
+                <span className="w-3 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.7 }} />
+                <span className="text-[9px] uppercase tracking-[0.3em] text-white/70">{active.label}</span>
               </div>
             </div>
 
             {/* Text content */}
-            <div className="relative px-5 pt-8 pb-6 overflow-hidden">
-              
-              {/* Mobile Palm Overlay (Firmly pushed to top right) */}
-              <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none opacity-15">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src="/palm_tree_transparent_right.png" 
-                  alt=""
-                  className="w-full h-full object-contain object-top object-right transform translate-x-4 -translate-y-4"
-                />
-              </div>
-
-              <h2
-                className="relative z-10 font-display text-cream leading-tight mb-4"
-                style={{ fontSize: "clamp(1.6rem, 6.5vw, 2.4rem)", letterSpacing: "var(--tracking-heading)" }}
+            <div className="px-5 pt-8 pb-4">
+              <h3
+                className="font-display text-cream leading-tight mb-4"
+                style={{ fontSize: "clamp(1.4rem, 6vw, 2rem)", letterSpacing: "var(--tracking-heading)" }}
               >
                 {active.title}
-              </h2>
-              <p className="relative z-10 text-cream/55 text-sm leading-relaxed mb-7">
+              </h3>
+              <p className="text-cream/55 text-sm leading-relaxed mb-6">
                 {active.body}
               </p>
 
+              {/* POI pills — no dark bg (jarring on ivory) */}
               {interactivePOIs.length > 0 && (
-                <div className="relative z-10 flex flex-wrap gap-2 mb-7">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {interactivePOIs.map(poi => {
                     const Icon = POI_ICONS[poi.type];
                     return (
-                      <div key={poi.label} className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/15 text-cream/50 text-[9px] uppercase tracking-widest bg-black/20 backdrop-blur-md">
-                        <Icon size={11} strokeWidth={1.8} style={{ color: GOLD, opacity: 0.7 }} />
+                      <div key={poi.label} className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/20 text-[9px] uppercase tracking-widest" style={{ color: "var(--color-cream)", opacity: 0.65 }}>
+                        <Icon size={11} strokeWidth={1.8} style={{ color: GOLD }} />
                         {poi.label}
                       </div>
                     );
@@ -357,19 +385,15 @@ export default function LocationSection() {
                 </div>
               )}
 
-              {active.id === "directions" && (
-                <div className="relative z-10">
-                  <DirectionsCard />
-                </div>
-              )}
+              {active.id === "directions" && <DirectionsCard />}
             </div>
 
+            {/* Secondary images */}
             {active.images.length > 1 && (
               <div className="px-5 pb-10 flex gap-2">
                 {active.images.slice(1).map((img, j) => (
-                  <div key={j} className="flex-1 relative overflow-hidden" style={{ height: "26vw", minHeight: "90px" }}>
+                  <div key={j} className="flex-1 relative overflow-hidden border border-cream/10" style={{ height: "28vw", minHeight: "100px" }}>
                     <Image src={img} alt="" fill quality={90} className="object-cover" sizes="33vw" />
-                    <div className="absolute inset-0 bg-brand-black/10" />
                   </div>
                 ))}
               </div>

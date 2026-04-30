@@ -75,18 +75,21 @@ export default function DeveloperSection() {
       {/* ── BACKGROUND DECORATION LAYER (z-0) ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         
-        {/* Top Right Palm Element - Inverted to White */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img 
-          src="/palm_tree_transparent_right.png" 
-          alt="" 
-          className="absolute -top-16 -right-16 w-72 lg:w-[36rem] opacity-10 object-contain object-top object-right transform rotate-[-270deg] invert"
-        />
+        {/* ── TOP RIGHT PALM SHADOW ── */}
+        <div className="absolute top-0 right-0 w-full max-w-lg md:max-w-2xl h-[500px] pointer-events-none z-0 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/leafs_transparent_top_right.png"
+            alt=""
+            className="absolute -top-10 -right-10 w-full h-auto object-contain opacity-30"
+            style={{ mixBlendMode: "multiply" }}
+          />
+        </div>
 
         {/* Bottom Left Leaf Element (JPG requires multiply) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
-          src="/left_plant_bottom_1.jpg" 
+          src="/left_plant_bottom_1.png" 
           alt="" 
           className="absolute -bottom-10 -left-10 w-64 lg:w-[32rem] opacity-20 object-contain object-bottom object-left"
           style={{ mixBlendMode: 'multiply' }} 
@@ -96,7 +99,7 @@ export default function DeveloperSection() {
         <div className="absolute top-[30%] left-0 w-full h-[80%] opacity-25">
           <svg viewBox="0 0 1000 600" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <g stroke={GOLD} strokeWidth="1" fill="none">
-              {Array.from({ length: 1 }).map((_, i) => {
+              {Array.from({ length: 7 }).map((_, i) => {
                 const y1 = 100 + (i * 20);
                 const xPeak = 400 + (i * 15);
                 const y2 = 500 + (i * 10);
@@ -272,7 +275,6 @@ export default function DeveloperSection() {
           variants={fadeIn}
           className="py-8 px-6 md:px-12 lg:px-24 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
-
 
           {/* CTA using Next.js Link */}
           <Link

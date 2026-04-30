@@ -181,7 +181,7 @@ export default function CinematicJourney() {
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/left_plant_bottom_1.jpg"
+            src="/left_plant_bottom_1.png"
             alt=""
             className="absolute -bottom-12 -left-12 w-64 lg:w-[28rem] h-auto opacity-20 object-contain object-bottom object-left"
             style={{ mixBlendMode: "multiply" }}

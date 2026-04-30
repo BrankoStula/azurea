@@ -29,7 +29,7 @@ type GalleryItem = { src: string; label: string; category: Category };
 const GALLERY: GalleryItem[] = [
   // ── Exterior ──
   { src: `${CDN}/azurea_gallery_13.webp`, label: "Villa Exterior",        category: "Exterior"        },
-  { src: `${CDN}/azurea_gallery_23.webp`, label: "Entry Courtyard",       category: "Exterior"        },
+  { src: `${CDN}/azurea_gallery_23.webp`, label: "Living Area",       category: "Living & Dining"        },
   { src: `${CDN}/azurea_gallery_24.webp`, label: "Living Room",           category: "Living & Dining" },
   { src: `${CDN}/azurea_gallery_26.webp`, label: "Rooftop",               category: "Exterior"        },
   // ── Living & Dining ──
@@ -130,7 +130,7 @@ export default function ProjectGallery() {
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
-          src="/leaves_right_top_4.jpg" 
+          src="/leaves_right_top_4.png" 
           alt="" 
           className="absolute -top-10 -right-10 w-64 lg:w-[32rem] opacity-20 object-contain object-top object-left"
           style={{ mixBlendMode: 'multiply' }} 

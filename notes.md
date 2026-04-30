@@ -30,3 +30,9 @@ change the rgb group
 remove hte white on the picture 
 logo click brings back up 
 What are your next stepst on the inquriy section before 
+
+
+witouth the car qw1_3WQy3juToBNJXQ52V_DrclDh9g.png 
+ypfFwE_VdPGbeIZJnfYOF_vTxTXV6y.png new render
+qfbSf0U2WKfvOCWZlCCRT_DGFaDIvD.png fountain
+cahnge the video 

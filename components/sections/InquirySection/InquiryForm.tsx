@@ -25,18 +25,14 @@ type FormData = {
   honeyPot: string;
 };
 
+// Unified static gold label for ALL fields
 const LABEL = "absolute left-0 -top-5 text-[10px] tracking-widest uppercase text-[#C9A55A]";
 
-const FLOAT_LABEL =
-  "absolute left-0 -top-5 text-[10px] tracking-widest uppercase text-cream/40 transition-all " +
-  "peer-placeholder-shown:text-sm peer-placeholder-shown:text-cream/30 peer-placeholder-shown:top-2.5 peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal " +
-  "peer-focus:-top-5 peer-focus:text-[10px] peer-focus:tracking-widest peer-focus:uppercase peer-focus:text-[#C9A55A]";
-
+// Removed 'peer' and 'placeholder-transparent', added 'placeholder-cream/30'
 const INPUT =
-  "w-full bg-transparent border-b border-cream/20 py-3 text-cream text-sm placeholder-transparent focus:outline-none focus:border-[#C9A55A] transition-colors peer";
+  "w-full bg-transparent border-b border-cream/20 py-3 text-cream text-sm placeholder-cream/30 focus:outline-none focus:border-[#C9A55A] transition-colors";
 
-const SELECT =
-  "w-full bg-transparent border-b border-cream/20 py-3 text-cream text-sm focus:outline-none focus:border-[#C9A55A] transition-colors appearance-none cursor-pointer";
+const SELECT = "w-full bg-transparent border-b border-cream/20 py-3 text-sm focus:outline-none focus:border-[#C9A55A] transition-colors appearance-none cursor-pointer";
 
 export default function InquiryForm() {
   const [formData, setFormData] = useState<FormData>({
@@ -112,18 +108,18 @@ export default function InquiryForm() {
           </div>
 
           {/* ── First + Last Name ── */}
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-8 mt-2">
             {(["firstName", "lastName"] as const).map((field) => (
               <div key={field} className="relative">
+                <label htmlFor={field} className={LABEL}>
+                  {field === "firstName" ? "First Name" : "Last Name"}
+                </label>
                 <input
                   type="text" name={field} id={field} required
                   value={formData[field]} onChange={handleChange}
                   className={INPUT}
-                  placeholder={field === "firstName" ? "First Name" : "Last Name"}
+                  placeholder={field === "firstName" ? "e.g. John" : "e.g. Doe"}
                 />
-                <label htmlFor={field} className={FLOAT_LABEL}>
-                  {field === "firstName" ? "First Name" : "Last Name"}
-                </label>
               </div>
             ))}
           </div>
@@ -131,16 +127,16 @@ export default function InquiryForm() {
           {/* ── Email + Phone ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="relative">
+              <label htmlFor="email" className={LABEL}>Email Address</label>
               <input type="email" name="email" id="email" required
                 value={formData.email} onChange={handleChange}
-                className={INPUT} placeholder="Email Address" />
-              <label htmlFor="email" className={FLOAT_LABEL}>Email Address</label>
+                className={INPUT} placeholder="e.g. john@example.com" />
             </div>
             <div className="relative">
+              <label htmlFor="phone" className={LABEL}>Phone / WhatsApp</label>
               <input type="tel" name="phone" id="phone" required
                 value={formData.phone} onChange={handleChange}
-                className={INPUT} placeholder="Phone / WhatsApp" />
-              <label htmlFor="phone" className={FLOAT_LABEL}>Phone / WhatsApp</label>
+                className={INPUT} placeholder="e.g. +1 234 567 8900" />
             </div>
           </div>
 
@@ -148,7 +144,14 @@ export default function InquiryForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="relative">
               <label htmlFor="budget" className={LABEL}>Anticipated Budget</label>
-              <select name="budget" id="budget" required value={formData.budget} onChange={handleChange} className={SELECT}>
+              <select 
+                name="budget" 
+                id="budget" 
+                required 
+                value={formData.budget} 
+                onChange={handleChange} 
+                className={`${SELECT} ${formData.budget === "" ? "text-cream/40" : "text-cream"}`}
+              >
                 <option value="" disabled className="bg-[#F8F8F6]">Select range</option>
                 <option value="$0 – $150K"     className="bg-[#F8F8F6]">$0 – $150K</option>
                 <option value="$150K – $250K"   className="bg-[#F8F8F6]">$150K – $250K</option>
@@ -161,7 +164,14 @@ export default function InquiryForm() {
             </div>
             <div className="relative">
               <label htmlFor="timeline" className={LABEL}>Investment Timeline</label>
-              <select name="timeline" id="timeline" required value={formData.timeline} onChange={handleChange} className={SELECT}>
+              <select 
+                name="timeline" 
+                id="timeline" 
+                required 
+                value={formData.timeline} 
+                onChange={handleChange} 
+                className={`${SELECT} ${formData.timeline === "" ? "text-cream/40" : "text-cream"}`}
+              >
                 <option value="" disabled className="bg-[#F8F8F6]">Select timeline</option>
                 <option value="Ready now"  className="bg-[#F8F8F6]">Ready now</option>
                 <option value="1–3 months" className="bg-[#F8F8F6]">1–3 months</option>
@@ -176,7 +186,14 @@ export default function InquiryForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="relative">
               <label htmlFor="buyerType" className={LABEL}>Buyer Profile</label>
-              <select name="buyerType" id="buyerType" required value={formData.buyerType} onChange={handleChange} className={SELECT}>
+              <select 
+                name="buyerType" 
+                id="buyerType" 
+                required 
+                value={formData.buyerType} 
+                onChange={handleChange} 
+                className={`${SELECT} ${formData.buyerType === "" ? "text-cream/40" : "text-cream"}`}
+              >
                 <option value="" disabled className="bg-[#F8F8F6]">Select profile</option>
                 <option value="Investor (rental income focus)" className="bg-[#F8F8F6]">Investor</option>
                 <option value="End user (personal use)"        className="bg-[#F8F8F6]">Personal use</option>
@@ -186,7 +203,14 @@ export default function InquiryForm() {
             </div>
             <div className="relative">
               <label htmlFor="financing" className={LABEL}>Purchase Method</label>
-              <select name="financing" id="financing" required value={formData.financing} onChange={handleChange} className={SELECT}>
+              <select 
+                name="financing" 
+                id="financing" 
+                required 
+                value={formData.financing} 
+                onChange={handleChange} 
+                className={`${SELECT} ${formData.financing === "" ? "text-cream/40" : "text-cream"}`}
+              >
                 <option value="" disabled className="bg-[#F8F8F6]">Select method</option>
                 <option value="Cash purchase"    className="bg-[#F8F8F6]">Cash purchase</option>
                 <option value="Partial financing" className="bg-[#F8F8F6]">Partial financing</option>
