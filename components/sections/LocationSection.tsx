@@ -138,37 +138,42 @@ const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
 
 function DirectionsCard() {
   return (
-    <div className="border border-cream/10 p-5 backdrop-blur-sm bg-black/10">
+    // Replaced bg-black/10 with bg-cream (your brand blue)
+    <div className="border border-white/20 p-5 backdrop-blur-md bg-cream shadow-xl">
       <div className="flex items-start gap-3 mb-3">
         <Plane size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
         <div>
-          <p className="text-cream text-[13px] font-medium leading-snug">Ngurah Rai International</p>
-          <p className="text-cream/40 text-[11px] tracking-wide">Denpasar, Bali — DPS</p>
+          {/* Changed text to white for contrast against blue */}
+          <p className="text-white text-[13px] font-medium leading-snug">Ngurah Rai International</p>
+          <p className="text-white/40 text-[11px] tracking-wide">Denpasar, Bali — DPS</p>
         </div>
       </div>
+      
       <div className="ml-1.75 flex flex-col gap-1.5 mb-3">
         {["Via Kuta", "Via Seminyak", "Via Canggu"].map(step => (
           <div key={step} className="flex items-center gap-2.5">
-            <div className="w-px h-4 bg-[#C9A55A]/25 ml-px" />
-            <span className="text-cream/35 text-[10px] tracking-widest uppercase">{step}</span>
+            <div className="w-px h-4 bg-[#C9A55A]/40 ml-px" />
+            <span className="text-white/50 text-[10px] tracking-widest uppercase">{step}</span>
           </div>
         ))}
       </div>
+
       <div className="flex items-start gap-3 mb-4">
         <MapPin size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
         <div>
-          <p className="text-cream text-[13px] font-medium leading-snug">Azurea</p>
-          <p className="text-cream/40 text-[11px] tracking-wide">Munggu, Bali</p>
+          <p className="text-white text-[13px] font-medium leading-snug">Azurea</p>
+          <p className="text-white/40 text-[11px] tracking-wide">Munggu, Bali</p>
         </div>
       </div>
-      <div className="border-t border-cream/8 pt-4 flex gap-6">
+
+      <div className="border-t border-white/10 pt-4 flex gap-6">
         {[{ val: "25", label: "min by car" }, { val: "28", label: "km coastal" }, { val: "50+", label: "direct routes" }].map((s, i, arr) => (
           <div key={s.label} className="flex items-center gap-6">
             <div>
               <p className="font-display text-2xl leading-none" style={{ color: GOLD }}>{s.val}</p>
-              <p className="text-cream/35 text-[10px] uppercase tracking-widest mt-1">{s.label}</p>
+              <p className="text-white/40 text-[10px] uppercase tracking-widest mt-1">{s.label}</p>
             </div>
-            {i < arr.length - 1 && <div className="w-px h-8 bg-white/8" />}
+            {i < arr.length - 1 && <div className="w-px h-8 bg-white/10" />}
           </div>
         ))}
       </div>
@@ -476,8 +481,8 @@ export default function LocationSection() {
                             className={[
                               "flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.12em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-md",
                               isSelected
-                                ? "bg-[#C9A55A] text-brand-black font-semibold"
-                                : "bg-black/40 border border-cream/15 text-cream/60 hover:border-[#C9A55A]/60 hover:text-cream",
+                                ? "bg-[#C9A55A] text-white font-semibold"
+                                : "bg-cream border border-[#C9A55A] text-white hover:border-[#C9A55A]/60 hover:text-[#C9A55A]",
                             ].join(" ")}
                           >
                             <Icon size={12} strokeWidth={1.8} />

@@ -189,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
   background-attachment: fixed;
   
   /* Change this to make the pattern bigger or smaller */
-  background-size: 100px; 
+  background-size: 200px; 
   
   /* No messy blend modes needed since the SVG background is already transparent! */
   background-blend-mode: normal; 

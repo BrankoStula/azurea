@@ -103,15 +103,28 @@ export default function Navbar() {
         </div>
 
         {/* Right: Contact CTA */}
+        {/* Right: Contact CTA */}
         <div className="absolute right-4 md:right-8 top-0 h-20 md:h-24 flex items-center z-50 pointer-events-auto">
           <button
             onClick={() => handleHashNav("#inquiry")}
-            className="group flex items-center gap-2 md:gap-3 border border-[#C9A55A]/50 hover:border-[#C9A55A] hover:bg-[#C9A55A]/10 px-4 md:px-6 py-2 md:py-2.5 transition-all duration-300 backdrop-blur-sm bg-black/20"
+            className={`group flex items-center gap-2 md:gap-3 border px-4 md:px-6 py-2 md:py-2.5 transition-all duration-300 backdrop-blur-sm bg-transparent ${
+              isScrolled 
+                ? "border-cream/50 hover:border-cream hover:bg-cream/10" // "Blue" (cream) state when navbar is solid
+                : "border-[#C9A55A]/50 hover:border-[#C9A55A] hover:bg-[#C9A55A]/10" // Gold state when at the top
+            }`}
           >
-            <span className="font-display text-[11px] md:text-[12px] uppercase tracking-widest text-cream group-hover:text-[#C9A55A] transition-colors whitespace-nowrap">
+            <span className={`font-display text-[11px] md:text-[12px] uppercase tracking-widest transition-colors whitespace-nowrap ${
+              isScrolled 
+                ? "text-cream group-hover:text-cream/80" 
+                : "text-white group-hover:text-[#C9A55A]"
+            }`}>
               Contact
             </span>
-            <span className="block w-4 h-px bg-[#C9A55A]/60 group-hover:w-6 group-hover:bg-[#C9A55A] transition-all duration-300" />
+            <span className={`block w-4 h-px transition-all duration-300 group-hover:w-6 ${
+              isScrolled 
+                ? "bg-cream/70 group-hover:bg-cream" 
+                : "bg-white/70 group-hover:bg-[#C9A55A]"
+            }`} />
           </button>
         </div>
       </motion.header>

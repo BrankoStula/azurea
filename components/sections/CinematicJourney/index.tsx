@@ -2,14 +2,14 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import FinancialDashboard from "./FinancialDashboard";
-import { VisionStats, MaterialSwatches, VillaFeatures, ARCH_SPACES } from "./ChapterExtras";
+import { VisionStats, VillaFeatures } from "./ChapterExtras";
 
 type Hotspot = { top: string; left: string; label: string };
 
 type Chapter = {
-  id: "vision" | "architecture" | "villa" | "investment";
+  id: "vision" | "villa" | "investment";
   num: string;
   label: string;
   heading: string;
@@ -32,17 +32,8 @@ const CHAPTERS: Chapter[] = [
     imgBottomLeft: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_11.webp",
   },
   {
-    id: "architecture",
-    num: "02",
-    label: "The Architecture",
-    // These will be overridden dynamically by the active tab
-    heading: "",
-    body: "",
-    imgMain: "https://d1pjqs5r0ua4f1.cloudfront.net/azurea_gallery_6.webp",
-  },
-  {
     id: "investment",
-    num: "03",
+    num: "02",
     label: "The Investment",
     heading: "Built to Perform",
     body: "Prime Bali delivers exceptional yields and sustained capital appreciation. Limited supply in Seseh combined with surging international demand makes Azurea a rare acquisition.",
@@ -50,7 +41,7 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: "villa",
-    num: "04",
+    num: "03",
     label: "The Villa",
     heading: "Designed for Private Living and High-Performing Rentals",
     body: "Each villa is configured with three ensuite bedrooms, a private pool, enclosed living areas, and a rooftop terrace, designed to meet the expectations of both residents and short-term guests. The layout prioritizes privacy, functionality, and comfort within 180 m² of optimized built space.",
@@ -107,15 +98,14 @@ function MobileFinancials() {
 export default function CinematicJourney() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [archSpaceId, setArchSpaceId] = useState(ARCH_SPACES[0].id);
 
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const sectionEl   = useRef<HTMLElement>(null);
+  const sectionRefs  = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionEl    = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
   const navigating   = useRef(false);
 
-  const isInvestment = activeIdx === 2;
-  const activeArchSpace = ARCH_SPACES.find(s => s.id === archSpaceId) || ARCH_SPACES[0];
+  // investment is now index 1
+  const isInvestment = activeIdx === 1;
 
   useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
 
@@ -124,7 +114,6 @@ export default function CinematicJourney() {
     const mq = window.matchMedia("(min-width: 1024px)");
     const initializeDesktopState = () => setIsDesktop(mq.matches);
     initializeDesktopState();
-    
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -145,7 +134,7 @@ export default function CinematicJourney() {
   }, [isDesktop]);
 
   useEffect(() => {
-    if (!isDesktop) return; 
+    if (!isDesktop) return;
     const section = sectionEl.current;
     if (!section) return;
 
@@ -159,14 +148,13 @@ export default function CinematicJourney() {
       if (isDown && cur >= CHAPTERS.length - 1) return;
       if (!isDown && cur <= 0) return;
 
-      const target = isDown ? cur + 1 : cur - 1;
+      const target   = isDown ? cur + 1 : cur - 1;
       const targetEl = sectionRefs.current[target];
       if (!targetEl) return;
 
       e.preventDefault();
       if (navigating.current) return;
       navigating.current = true;
-
       targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => { navigating.current = false; }, 1000);
     };
@@ -182,44 +170,30 @@ export default function CinematicJourney() {
   return (
     <section id="project" ref={sectionEl} className="relative w-full bg-brand-black text-cream border-y border-cream/10">
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          STICKY GLOBAL DECOR LAYER (Locked Behind Content)
-      ══════════════════════════════════════════════════════════════════════ */}
+      {/* ── STICKY GLOBAL DECOR LAYER ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="sticky top-0 w-full h-screen overflow-hidden">
-          
-          {/* Top Right Plant */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src="/plant_version_3.png" 
+          <img
+            src="/plant_version_3.png"
             alt=""
             className="absolute -top-12 -right-12 w-64 lg:w-[28rem] h-auto opacity-20 object-contain object-top object-right"
           />
-
-          {/* Bottom Left Plant (JPG requires multiply to remove white background) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src="/left_plant_bottom_1.jpg" 
+          <img
+            src="/left_plant_bottom_1.jpg"
             alt=""
             className="absolute -bottom-12 -left-12 w-64 lg:w-[28rem] h-auto opacity-20 object-contain object-bottom object-left"
-            style={{ mixBlendMode: 'multiply' }}
+            style={{ mixBlendMode: "multiply" }}
           />
-
-          {/* Flowing Abstract Gold Waves */}
           <div className="absolute top-[20%] left-0 w-full h-[60vh] opacity-30">
             <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <g stroke={GOLD} strokeWidth="1" fill="none">
                 {Array.from({ length: 12 }).map((_, i) => {
-                  const y1 = 300 - i * 15;
+                  const y1   = 300 - i * 15;
                   const peak = 100 + i * 5;
-                  const y2 = 200 + i * 20;
-                  return (
-                    <path 
-                      key={i} 
-                      d={`M-100,${y1} C200,${peak} 600,${peak + 150} 1100,${y2}`} 
-                      opacity={0.6 - i * 0.04} 
-                    />
-                  );
+                  const y2   = 200 + i * 20;
+                  return <path key={i} d={`M-100,${y1} C200,${peak} 600,${peak + 150} 1100,${y2}`} opacity={0.6 - i * 0.04} />;
                 })}
               </g>
             </svg>
@@ -250,71 +224,56 @@ export default function CinematicJourney() {
             transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
             className="font-display text-3xl text-cream leading-tight"
           >
-            Four Chapters.<br />One Investment.
+            Three Chapters.<br />One Investment.
           </motion.h2>
         </div>
 
-        {CHAPTERS.map((chapter, i) => {
-          const isArch = chapter.id === "architecture";
-          const displayHeading = isArch ? activeArchSpace.label : chapter.heading;
-          const displayBody = isArch ? activeArchSpace.desc : chapter.body;
-
-          return (
-            <motion.div
-              key={chapter.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-8%" }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className="border-b border-cream/10"
-            >
-              {chapter.imgMain && (
-                <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={isArch ? activeArchSpace.mainImg : chapter.imgMain} 
-                    alt="" 
-                    className="w-full h-full object-cover transition-all duration-500" 
-                  />
-                  
-                  {/* FIX: Avoided the 'transparent' bug which creates a white haze in Safari. 
-                           Explicitly fading to brand-black with 0 opacity. Reduced height so image is clear! */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-brand-black/90 to-brand-black/0 pointer-events-none" />
-                  
-                  <div className="absolute bottom-4 left-5 pointer-events-none z-10">
-                    <span className="font-display leading-none select-none" style={{ fontSize: "clamp(3rem, 18vw, 6rem)", color: `${GOLD}40` }}>
-                      {chapter.num}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="px-6 py-8">
-                {!chapter.imgMain && (
-                  <span className="font-display leading-none block mb-4 select-none" style={{ fontSize: "clamp(4rem, 22vw, 7rem)", color: `${GOLD}25` }}>
+        {CHAPTERS.map((chapter) => (
+          <motion.div
+            key={chapter.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-8%" }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="border-b border-cream/10"
+          >
+            {chapter.imgMain && (
+              <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
+                {/* Dark gradient so ghost number is legible — uses black not brand-black (ivory) */}
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-5 pointer-events-none z-10">
+                  <span className="font-display leading-none select-none" style={{ fontSize: "clamp(3rem, 18vw, 6rem)", color: `${GOLD}40` }}>
                     {chapter.num}
                   </span>
-                )}
-                <p className="label-caps mb-5 flex items-center gap-3" style={{ color: GOLD }}>
-                  <span className="w-4 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
-                  {chapter.label}
-                </p>
-                {/* Dynamically swap header and body */}
-                <h3 className="font-display text-cream leading-tight mb-4 transition-all duration-300" style={{ fontSize: "clamp(1.5rem, 6vw, 2.25rem)" }}>
-                  {displayHeading}
-                </h3>
-                <p className="text-cream/60 leading-relaxed text-sm transition-all duration-300">
-                  {displayBody}
-                </p>
-
-                {chapter.id === "vision"       && <VisionStats />}
-                {chapter.id === "architecture" && <MaterialSwatches activeId={archSpaceId} onSelect={setArchSpaceId} />}
-                {chapter.id === "villa"        && <VillaFeatures />}
-                {chapter.id === "investment"   && <MobileFinancials />}
+                </div>
               </div>
-            </motion.div>
-          );
-        })}
+            )}
+
+            <div className="px-6 py-8">
+              {!chapter.imgMain && (
+                <span className="font-display leading-none block mb-4 select-none" style={{ fontSize: "clamp(4rem, 22vw, 7rem)", color: `${GOLD}25` }}>
+                  {chapter.num}
+                </span>
+              )}
+              <p className="label-caps mb-5 flex items-center gap-3" style={{ color: GOLD }}>
+                <span className="w-4 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
+                {chapter.label}
+              </p>
+              <h3 className="font-display text-cream leading-tight mb-4" style={{ fontSize: "clamp(1.5rem, 6vw, 2.25rem)" }}>
+                {chapter.heading}
+              </h3>
+              <p className="text-cream/60 leading-relaxed text-sm">
+                {chapter.body}
+              </p>
+
+              {chapter.id === "vision"     && <VisionStats />}
+              {chapter.id === "villa"      && <VillaFeatures />}
+              {chapter.id === "investment" && <MobileFinancials />}
+            </div>
+          </motion.div>
+        ))}
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
@@ -359,15 +318,12 @@ export default function CinematicJourney() {
               </div>
             </motion.div>
 
-            {/* Layers 1 & 3: Architecture + Villa framed image */}
-            {[1, 3].map((idx) => {
-              const isThisActive = activeIdx === idx;
-              const chapter = CHAPTERS[idx];
-              const isArch = idx === 1;
-
+            {/* Layer 2: Villa framed image (index 2 after arch removal) */}
+            {(() => {
+              const chapter = CHAPTERS[2]; // villa
+              const isThisActive = activeIdx === 2;
               return (
                 <motion.div
-                  key={chapter.id}
                   animate={{ opacity: isThisActive ? 1 : 0 }}
                   transition={{ duration: 0.8 }}
                   className={`absolute inset-0 z-20 flex items-center justify-center p-12 xl:p-24 ${isThisActive ? "pointer-events-auto" : "pointer-events-none"}`}
@@ -378,72 +334,30 @@ export default function CinematicJourney() {
                     ].map((cls, j) => (
                       <div key={j} className={`absolute ${cls} bg-[#C9A55A]/60 transition-all duration-700 ${isThisActive ? "opacity-100" : "opacity-0"}`} />
                     ))}
-                    
                     <motion.div
                       initial={false}
                       animate={{ scale: isThisActive ? 1 : 0.95 }}
                       transition={{ duration: 1.2, ease: EASE }}
                       className="absolute inset-0 overflow-hidden shadow-2xl border border-cream/10 bg-white/5 backdrop-blur-md"
                     >
-                      {isArch ? (
-                        <AnimatePresence mode="wait">
-                          <motion.div
-                            key={activeArchSpace.id}
-                            initial={{ opacity: 0, scale: 1.05 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.6, ease: EASE }}
-                            className="absolute inset-0 w-full h-full"
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={activeArchSpace.mainImg} alt="" className="w-full h-full object-cover" />
-                            {/* FIX: Removed dark overlay so images pop fully */}
-                            
-                            {activeArchSpace.materials.map((mat, mIdx) => (
-                              <motion.div
-                                key={mIdx}
-                                initial={{ opacity: 0, x: mat.layout === "left" ? 16 : -16 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.3 + mIdx * 0.12, duration: 0.6 }}
-                                className={`absolute ${mat.position} flex items-center gap-3 drop-shadow-2xl ${mat.layout === "left" ? "flex-row-reverse" : "flex-row"}`}
-                              >
-                                <div className="w-10 h-10 border border-[#C9A55A]/60 bg-black/30 backdrop-blur-sm flex items-center justify-center">
-                                  <div className="w-3 h-3 border border-[#C9A55A]/80 rotate-45" />
-                                </div>
-                                <div className={`flex items-center ${mat.layout === "left" ? "flex-row-reverse" : "flex-row"}`}>
-                                  <div className="w-6 sm:w-10 h-px bg-white/40" />
-                                  <span className={`text-white text-[9px] uppercase tracking-[0.2em] font-medium drop-shadow-md ${mat.layout === "left" ? "mr-3 text-right" : "ml-3 text-left"}`}>
-                                    {mat.name}
-                                  </span>
-                                </div>
-                              </motion.div>
-                            ))}
-                          </motion.div>
-                        </AnimatePresence>
-                      ) : (
-                        <>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
-                          {/* FIX: Removed dark overlay so images pop fully */}
-                          
-                          {chapter.hotspots?.map((spot, i) => (
-                             <div key={i} className="absolute group cursor-pointer z-50" style={{ top: spot.top, left: spot.left }}>
-                                <div className="w-4 h-4 flex items-center justify-center">
-                                  <div className="absolute inset-0 bg-[#C9A55A] rounded-full animate-ping opacity-50" />
-                                  <div className="relative w-2 h-2 bg-[#C9A55A] rounded-full" />
-                                </div>
-                                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-brand-black/80 px-3 py-1.5 rounded-sm absolute left-6 top-0 whitespace-nowrap">
-                                  <span className="text-[10px] tracking-widest uppercase text-cream">{spot.label}</span>
-                                </div>
-                             </div>
-                          ))}
-                        </>
-                      )}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
+                      {chapter.hotspots?.map((spot, i) => (
+                        <div key={i} className="absolute group cursor-pointer z-50" style={{ top: spot.top, left: spot.left }}>
+                          <div className="w-4 h-4 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-[#C9A55A] rounded-full animate-ping opacity-50" />
+                            <div className="relative w-2 h-2 bg-[#C9A55A] rounded-full" />
+                          </div>
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-brand-black/80 px-3 py-1.5 rounded-sm absolute left-6 top-0 whitespace-nowrap">
+                            <span className="text-[10px] tracking-widest uppercase text-cream">{spot.label}</span>
+                          </div>
+                        </div>
+                      ))}
                     </motion.div>
                   </div>
                 </motion.div>
               );
-            })}
+            })()}
 
             <div className="absolute bottom-10 left-10 z-50 flex items-center gap-4 pointer-events-none">
               <div className="w-12 h-px bg-[#C9A55A]" />
@@ -463,7 +377,7 @@ export default function CinematicJourney() {
             <div className="flex flex-col gap-4 pointer-events-auto relative">
               <div className={`absolute left-1/2 -translate-x-1/2 top-4 bottom-4 w-px bg-white/10 -z-10 transition-opacity duration-700 ${isInvestment ? "opacity-0" : "opacity-100"}`} />
               {CHAPTERS.map((_, i) => (
-                <button key={i} onClick={() => scrollTo(i)} className="w-12 h-12 flex justify-center items-center group relative z-10">
+                <button key={i} onClick={() => scrollTo(i)} className="w-12 h-12 flex justify-center items-center group relative z-10 cursor-pointer">
                   <span className={`w-0.5 transition-all duration-500 ease-out rounded-full ${i === activeIdx ? "h-8 bg-[#C9A55A]" : "h-2 bg-white/20 group-hover:bg-white/50 group-hover:h-4"}`} />
                 </button>
               ))}
@@ -471,65 +385,57 @@ export default function CinematicJourney() {
           </div>
 
           {/* Chapter panels */}
-          {CHAPTERS.map((chapter, i) => {
-            const isArch = chapter.id === "architecture";
-            // Dynamically override heading and body if this is the architecture tab
-            const displayHeading = isArch ? activeArchSpace.label : chapter.heading;
-            const displayBody = isArch ? activeArchSpace.desc : chapter.body;
+          {CHAPTERS.map((chapter, i) => (
+            <div
+              key={chapter.id}
+              ref={(el) => { sectionRefs.current[i] = el; }}
+              className="w-full h-dvh flex items-center px-12 lg:px-24 relative overflow-hidden"
+            >
+              <div className={`w-full ${isInvestment && i === 1 ? "lg:grid lg:grid-cols-[1fr_2.2fr] lg:gap-20 items-center" : ""}`}>
 
-            return (
-              <div
-                key={chapter.id}
-                ref={(el) => { sectionRefs.current[i] = el; }}
-                className="w-full h-dvh flex items-center px-12 lg:px-24 relative overflow-hidden"
-              >
-                <div className={`w-full ${isInvestment && i === 2 ? "lg:grid lg:grid-cols-[1fr_2.2fr] lg:gap-20 items-center" : ""}`}>
+                {/* Text content */}
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: activeIdx === i ? 1 : 0, y: activeIdx === i ? 0 : 30, scale: activeIdx === i ? 1 : 0.98 }}
+                  transition={{ duration: 0.8, ease: EASE }}
+                  className="relative z-10 flex flex-col justify-center"
+                >
+                  <div className="absolute -right-10 top-1/2 -translate-y-1/2 font-display text-[24rem] leading-none text-white/5 select-none pointer-events-none">
+                    {chapter.num}
+                  </div>
 
-                  {/* Text content */}
+                  <p className="label-caps mb-6 flex items-center gap-4" style={{ color: GOLD }}>
+                    <span className="text-white/40">{chapter.num}</span>
+                    <span className="w-6 h-px inline-block bg-[#C9A55A]/50" />
+                    {chapter.label}
+                  </p>
+
+                  <h2 className="font-display text-cream leading-tight block pb-2 mb-8" style={{ fontSize: "clamp(2.5rem, 4vw, 4rem)", letterSpacing: "var(--tracking-heading)" }}>
+                    {chapter.heading}
+                  </h2>
+
+                  <p className="text-cream/60 text-lg leading-relaxed max-w-md">
+                    {chapter.body}
+                  </p>
+
+                  {chapter.id === "vision" && <VisionStats />}
+                  {chapter.id === "villa"  && <VillaFeatures />}
+                </motion.div>
+
+                {/* Financial dashboard — investment chapter only */}
+                {chapter.id === "investment" && (
                   <motion.div
                     initial={false}
-                    animate={{ opacity: activeIdx === i ? 1 : 0, y: activeIdx === i ? 0 : 30, scale: activeIdx === i ? 1 : 0.98 }}
-                    transition={{ duration: 0.8, ease: EASE }}
-                    className="relative z-10 flex flex-col justify-center"
+                    animate={{ opacity: activeIdx === i ? 1 : 0, y: activeIdx === i ? 0 : 30 }}
+                    transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+                    className="w-full h-full mt-12 lg:mt-0 flex flex-col justify-center overflow-y-auto no-scrollbar"
                   >
-                    <div className="absolute -right-10 top-1/2 -translate-y-1/2 font-display text-[24rem] leading-none text-white/5 select-none pointer-events-none">
-                      {chapter.num}
-                    </div>
-
-                    <p className="label-caps mb-6 flex items-center gap-4" style={{ color: GOLD }}>
-                      <span className="text-white/40">{chapter.num}</span>
-                      <span className="w-6 h-px inline-block bg-[#C9A55A]/50" />
-                      {chapter.label}
-                    </p>
-
-                    <h2 className="font-display text-cream leading-tight block pb-2 mb-8 transition-all duration-400" style={{ fontSize: "clamp(2.5rem, 4vw, 4rem)", letterSpacing: "var(--tracking-heading)" }}>
-                      {displayHeading}
-                    </h2>
-
-                    <p className="text-cream/60 text-lg leading-relaxed max-w-md transition-all duration-400">
-                      {displayBody}
-                    </p>
-
-                    {chapter.id === "vision"       && <VisionStats />}
-                    {chapter.id === "architecture" && <MaterialSwatches activeId={archSpaceId} onSelect={setArchSpaceId} />}
-                    {chapter.id === "villa"        && <VillaFeatures />}
+                    <FinancialDashboard />
                   </motion.div>
-
-                  {/* Financial dashboard — investment chapter only */}
-                  {chapter.id === "investment" && (
-                    <motion.div
-                      initial={false}
-                      animate={{ opacity: activeIdx === i ? 1 : 0, y: activeIdx === i ? 0 : 30 }}
-                      transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-                      className="w-full h-full mt-12 lg:mt-0 flex flex-col justify-center overflow-y-auto no-scrollbar"
-                    >
-                      <FinancialDashboard />
-                    </motion.div>
-                  )}
-                </div>
+                )}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </motion.div>
 
       </div>

@@ -96,7 +96,7 @@ export default function DeveloperSection() {
         <div className="absolute top-[30%] left-0 w-full h-[80%] opacity-25">
           <svg viewBox="0 0 1000 600" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <g stroke={GOLD} strokeWidth="1" fill="none">
-              {Array.from({ length: 12 }).map((_, i) => {
+              {Array.from({ length: 1 }).map((_, i) => {
                 const y1 = 100 + (i * 20);
                 const xPeak = 400 + (i * 15);
                 const y2 = 500 + (i * 10);
@@ -119,9 +119,8 @@ export default function DeveloperSection() {
         variants={drawLineRight}
       />
 
-      {/* ── Header (Centered Layout) ── */}
-      {/* ── Header (Centered Layout) ── */}
-      <div className="relative z-10 flex flex-col items-center gap-6 pt-20 lg:pt-28 pb-10 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto backdrop-blur-[2px]">
+      {/* ── Intro Header (Centered Layout) ── */}
+      <div className="relative z-10 flex flex-col items-center gap-6 pt-20 lg:pt-28 pb-12 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto backdrop-blur-[2px]">
         
         {/* Eyebrow */}
         <motion.p 
@@ -154,7 +153,7 @@ export default function DeveloperSection() {
           A Fully Integrated Development and Management Group
         </motion.h2>
 
-        {/* Body - FIXED: Removed md:text-center so it stays text-justify everywhere */}
+        {/* Body */}
         <motion.p 
           variants={fadeUp} 
           className="text-cream/60 text-base lg:text-lg leading-relaxed max-w-3xl drop-shadow-md text-justify"
@@ -164,15 +163,30 @@ export default function DeveloperSection() {
         </motion.p>
       </div>
 
-      {/* ── Pillars Title (Pulled out of header to sit tightly above pillars) ── */}
-      <div className="relative z-10 w-full px-6 md:px-12 lg:px-24 pb-8 flex justify-center">
-        <motion.h3 
-          variants={fadeUp} 
-          className="font-display text-cream text-[1.4rem] sm:text-2xl md:text-3xl lg:text-4xl text-center max-w-3xl drop-shadow-md" 
-          style={{ letterSpacing: "var(--tracking-heading)" }}
+      {/* ── Pillars Header (Left-aligned, matching EarlyInvestorSection) ── */}
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-24 pt-16 md:pt-20 pb-4  mt-8">
+        <motion.p
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: EASE }}
+          className="text-[10px] uppercase tracking-[0.35em] mb-5 flex items-center gap-4"
+          style={{ color: GOLD }}
         >
-          A single partner from acquisition to income.
-        </motion.h3>
+          <span className="w-8 h-px inline-block" style={{ backgroundColor: GOLD }} />
+          The Structure
+        </motion.p>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          className="font-display text-cream leading-tight w-full drop-shadow-lg"
+          style={{ fontSize: "clamp(2.2rem, 4vw, 3.75rem)", letterSpacing: "var(--tracking-heading)" }}
+        >
+          A Single Partner From Acquisition to Income
+        </motion.h2>
       </div>
 
       {/* ── Three Pillars ── */}
@@ -201,7 +215,6 @@ export default function DeveloperSection() {
               <motion.div
                 key={pillar.num}
                 variants={fadeUp}
-                // Reduced top padding (pt-12) to pull it closer to the title
                 className={`relative pt-12 pb-24 flex flex-col ${getPillarPadding(i)}`}
               >
                 {/* Mobile horizontal separator */}
@@ -259,9 +272,7 @@ export default function DeveloperSection() {
           variants={fadeIn}
           className="py-8 px-6 md:px-12 lg:px-24 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
-          <p className="text-cream/40 text-xs leading-relaxed max-w-md drop-shadow-md">
-            All stages are managed internally to reduce reliance on third parties and ensure a consistent delivery standard.
-          </p>
+
 
           {/* CTA using Next.js Link */}
           <Link

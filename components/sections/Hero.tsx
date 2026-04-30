@@ -1,8 +1,7 @@
 // components/sections/Hero.tsx
 "use client";
 
-import { motion, Variants, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -26,42 +25,10 @@ const staggerContainer: Variants = {
 };
 
 export default function Hero() {
-  const [isPointerFine, setIsPointerFine] = useState(false);
-  const cursorX = useMotionValue(-200);
-  const cursorY = useMotionValue(-200);
-  const cursorXSpring = useSpring(cursorX, { damping: 25, stiffness: 150, mass: 0.5 });
-  const cursorYSpring = useSpring(cursorY, { damping: 25, stiffness: 150, mass: 0.5 });
-
-  useEffect(() => {
-    const mq = window.matchMedia("(pointer: fine)");
-    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsPointerFine(e.matches);
-    handler(mq);
-    mq.addEventListener("change", handler as (e: MediaQueryListEvent) => void);
-
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 16);
-      cursorY.set(e.clientY - 16);
-    };
-    window.addEventListener("mousemove", moveCursor);
-    return () => {
-      mq.removeEventListener("change", handler as (e: MediaQueryListEvent) => void);
-      window.removeEventListener("mousemove", moveCursor);
-    };
-  }, [cursorX, cursorY]);
-
   const scrollToInquiry = () => document.querySelector("#inquiry")?.scrollIntoView({ behavior: "smooth" });
-  const scrollToProject = () => document.querySelector("#project")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section className={`relative w-full h-svh min-h-150 overflow-hidden bg-black ${isPointerFine ? "cursor-none" : ""}`}>
-
-      {/* Custom cursor — pointer devices only */}
-      {isPointerFine && (
-        <motion.div
-          style={{ x: cursorXSpring, y: cursorYSpring }}
-          className="fixed top-0 left-0 w-8 h-8 rounded-full border-[1.5px] border-cream/80 mix-blend-difference pointer-events-none z-9999"
-        />
-      )}
+    <section className="relative w-full h-svh min-h-[600px] overflow-hidden bg-black">
 
       {/* Background video */}
       <video
@@ -118,19 +85,7 @@ export default function Hero() {
 
       {/* ── TOP ROW — location badge ── */}
       <div className="absolute top-0 left-0 right-0 z-10 px-5 md:px-12 pt-36 md:pt-40 flex justify-between items-start pointer-events-none">
-
-        {/* Mobile: compact left badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1, ease: EASE }}
-          className="md:hidden flex items-center gap-2"
-        >
-          <span className="w-4 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
-          <span className="text-[9px] uppercase tracking-[0.35em]" style={{ color: GOLD }}>VIP · Presale</span>
-        </motion.div>
-
-        {/* Desktop: right-anchored with extending accent line */}
+        {/* Desktop: right-anchored with extending accent line (Hidden on mobile to save space) */}
         <div className="hidden md:flex ml-auto text-right relative">
           <motion.div
             className="absolute left-full top-[45%] h-0.5 origin-left ml-8"
@@ -151,7 +106,8 @@ export default function Hero() {
       </div>
 
       {/* ── MAIN CONTENT — bottom-anchored ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 px-5 md:px-12 pb-10 md:pb-14 pointer-events-none">
+      {/* Increased mobile bottom padding (pb-24) to clear the scroll arrow */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 px-5 md:px-12 pb-24 md:pb-14 pointer-events-none">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -179,15 +135,15 @@ export default function Hero() {
             <motion.h1
               variants={maskReveal}
               className="font-display leading-[1.08] tracking-tight text-white font-light"
-              style={{ fontSize: "clamp(2rem, 6.5vw, 4.5rem)" }}
+              style={{ fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)" }}
             >
               Investment-Grade<br className="hidden sm:block" />
               {" "}Villas in Seseh
             </motion.h1>
           </div>
 
-          {/* Subtitle */}
-          <div className="overflow-hidden mb-6 md:mb-8">
+          {/* Subtitle - HIDDEN ON MOBILE to save space */}
+          <div className="hidden md:block overflow-hidden mb-6 md:mb-8">
             <motion.p
               variants={maskRevealDelay}
               className="text-sm md:text-base font-light leading-relaxed max-w-sm md:max-w-xl"
@@ -198,13 +154,13 @@ export default function Hero() {
           </div>
 
           {/* Proof strip */}
-          <motion.div variants={maskRevealDelay} className="mb-7 md:mb-9">
-            {/* Mobile: 2-col grid */}
+          <motion.div variants={maskRevealDelay} className="mb-8 md:mb-9">
+            {/* Mobile: 2-col grid, reduced to 4 items to save a row */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-3 md:hidden">
-              {PROOF_ITEMS.map((item, i) => (
+              {PROOF_ITEMS.slice(0, 4).map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: GOLD, opacity: 0.6 }} />
-                  <span className="text-[9px] uppercase tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  <span className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: GOLD, opacity: 0.8 }} />
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/60">
                     {item}
                   </span>
                 </div>
@@ -222,19 +178,30 @@ export default function Hero() {
           </motion.div>
 
           {/* CTA buttons */}
-          <motion.div variants={maskRevealDelay} className="flex flex-col sm:flex-row gap-3 pointer-events-auto">
+          <motion.div variants={maskRevealDelay} className="flex flex-col sm:flex-row items-center gap-4 sm:gap-3 pointer-events-auto">
+            {/* Primary Button */}
             <button
               onClick={scrollToInquiry}
-              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 font-display text-sm uppercase tracking-wide sm:tracking-widest transition-colors duration-200 text-brand-black whitespace-nowrap"
+              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 font-display text-sm uppercase tracking-widest transition-colors duration-200 text-brand-black whitespace-nowrap shadow-xl"
               style={{ backgroundColor: GOLD }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8904a")}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
             >
               Request VIP Access
             </button>
+            
+            {/* Desktop Secondary Button */}
             <button
               onClick={scrollToInquiry}
-              className="w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-white font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200 whitespace-nowrap"
+              className="hidden sm:block w-full sm:w-auto px-7 py-4 sm:py-3.5 border border-white/30 text-white font-display text-sm uppercase tracking-widest hover:border-white/60 hover:bg-white/5 transition-all duration-200 whitespace-nowrap"
+            >
+              Download Investment Deck
+            </button>
+
+            {/* Mobile Secondary Link (Saves vertical space) */}
+            <button
+              onClick={scrollToInquiry}
+              className="sm:hidden text-[10px] uppercase tracking-widest text-white/50 hover:text-white transition-colors underline decoration-white/20 underline-offset-4 py-2"
             >
               Download Investment Deck
             </button>
@@ -243,13 +210,14 @@ export default function Hero() {
       </div>
 
       {/* ── SCROLL INDICATOR — mobile only ── */}
+      {/* Pushed down to bottom-6 to prevent overlap */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.2, duration: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 sm:hidden pointer-events-none"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 sm:hidden pointer-events-none"
       >
-        <span className="text-[8px] uppercase tracking-[0.3em]" style={{ color: "rgba(255,255,255,0.3)" }}>Scroll</span>
+        <span className="text-[8px] uppercase tracking-[0.3em]" style={{ color: "rgba(255,255,255,0.2)" }}>Scroll</span>
         <motion.div
           animate={{ y: [0, 5, 0] }}
           transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
