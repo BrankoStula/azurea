@@ -271,21 +271,21 @@ export default function LocationSection() {
     >
 
       {/* ════════════════════════════════════════════════════════════════════
-          MOBILE LAYOUT
+          MOBILE LAYOUT (Reimagined App-like Interface)
       ════════════════════════════════════════════════════════════════════ */}
-      <div className="lg:hidden">
+      <div className="flex flex-col lg:hidden w-full">
 
-        {/* Section header */}
-        <div className="px-5 pt-14 pb-8 border-b border-cream/10">
+        {/* 1. Header */}
+        <div className="px-6 pt-16 pb-6">
           <motion.p
             initial={{ opacity: 0, x: -16 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="label-caps mb-4 flex items-center gap-3"
+            className="text-[10px] uppercase tracking-[0.35em] mb-4 flex items-center gap-4"
             style={{ color: GOLD }}
           >
-            <span className="w-5 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.5 }} />
+            <span className="w-6 h-px inline-block" style={{ backgroundColor: GOLD }} />
             Why Bali
           </motion.p>
           <motion.h2
@@ -294,116 +294,144 @@ export default function LocationSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
             className="font-display text-cream leading-tight"
-            style={{ fontSize: "clamp(1.8rem, 8vw, 2.6rem)", letterSpacing: "var(--tracking-heading)" }}
+            style={{ fontSize: "clamp(2rem, 8vw, 2.75rem)", letterSpacing: "var(--tracking-heading)" }}
           >
             Location &amp; Surroundings
           </motion.h2>
         </div>
 
-        {/* Tab row — short labels, cream colour scheme */}
-        <div className="border-b border-cream/10">
-          <div className="flex overflow-x-auto scrollbar-hide px-5 -mb-px">
+        {/* 2. Scrollable Tabs (Pill style) */}
+        <div className="w-full border-b border-cream/10 pb-5 mb-2">
+          <div className="flex overflow-x-auto scrollbar-hide px-6 gap-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {SUBSECTIONS.map((s, i) => {
               const isActive = i === activeIdx;
               return (
                 <button
                   key={s.id}
                   onClick={() => { setActiveIdx(i); setSelectedPOI(null); }}
-                  className="relative shrink-0 px-4 py-4 text-[10px] uppercase tracking-[0.2em] transition-colors duration-200 whitespace-nowrap cursor-pointer"
-                  style={{ color: isActive ? GOLD : "var(--color-cream)", opacity: isActive ? 1 : 0.4 }}
+                  className={`relative shrink-0 px-5 py-2.5 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 rounded-full border ${
+                    isActive
+                      ? "bg-[#C9A55A] text-brand-black border-[#C9A55A] font-semibold"
+                      : "bg-transparent text-cream/60 border-cream/20"
+                  }`}
                 >
                   {s.shortLabel}
-                  {isActive && (
-                    <motion.div
-                      layoutId="mobile-loc-tab"
-                      className="absolute bottom-0 left-0 right-0 h-px"
-                      style={{ backgroundColor: GOLD }}
-                      transition={{ duration: 0.3, ease: EASE }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Active section content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIdx}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Hero image — gradient uses black not brand-black (= ivory) */}
-            <div className="relative w-full overflow-hidden" style={{ height: "60vw", minHeight: "240px", maxHeight: "340px" }}>
-              <Image
-                src={active.images[0]}
-                alt={active.title}
-                fill quality={90}
-                className="object-cover"
-                sizes="100vw"
-                priority={activeIdx === 0}
-              />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)" }} />
-              <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm px-2.5 py-1">
-                <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: GOLD }}>
-                  {String(activeIdx + 1).padStart(2, "0")} / 04
-                </span>
-              </div>
-              <div className="absolute bottom-4 left-5 flex items-center gap-2">
-                <span className="w-3 h-px inline-block" style={{ backgroundColor: GOLD, opacity: 0.7 }} />
-                <span className="text-[9px] uppercase tracking-[0.3em] text-white/70">{active.label}</span>
-              </div>
-            </div>
-
-            {/* Text content */}
-            <div className="px-5 pt-8 pb-4">
-              <h3
-                className="font-display text-cream leading-tight mb-4"
-                style={{ fontSize: "clamp(1.4rem, 6vw, 2rem)", letterSpacing: "var(--tracking-heading)" }}
+        {/* 3. The Interactive Map */}
+        <div className="w-full h-[45vh] min-h-[350px] relative border-b border-cream/10 bg-[#111111]">
+          <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
+          
+          {/* Overlay Badges */}
+          <div className="absolute top-4 left-4 z-10 bg-brand-black/80 backdrop-blur-md px-3 py-1.5 border border-white/10 rounded-sm">
+            <span className="text-[9px] tracking-[0.2em] uppercase font-semibold" style={{ color: GOLD }}>
+              {active.shortLabel}
+            </span>
+          </div>
+          <AnimatePresence>
+            {selectedPOI && (
+              <motion.div
+                key={selectedPOI.label}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                className="absolute top-4 right-4 z-10 bg-[#C9A55A] px-3 py-1.5 shadow-xl rounded-sm"
               >
-                {active.title}
-              </h3>
-              <p className="text-cream/55 text-sm leading-relaxed mb-6">
-                {active.body}
-              </p>
+                <span className="text-brand-black text-[9px] tracking-[0.2em] uppercase font-semibold">
+                  {selectedPOI.label}
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-              {/* POI pills — no dark bg (jarring on ivory) */}
+        {/* 4. Content Area */}
+        <div className="px-6 py-10 flex flex-col gap-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIdx}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-6"
+            >
+              <div>
+                <h3 className="font-display text-cream leading-tight mb-4" style={{ fontSize: "clamp(1.5rem, 6vw, 2rem)" }}>
+                  {active.title}
+                </h3>
+                <p className="text-cream/60 text-sm leading-relaxed">
+                  {active.body}
+                </p>
+              </div>
+
+              {/* POI Interactive Buttons */}
               {interactivePOIs.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {interactivePOIs.map(poi => {
-                    const Icon = POI_ICONS[poi.type];
-                    return (
-                      <div key={poi.label} className="flex items-center gap-1.5 px-3 py-1.5 border border-cream/20 text-[9px] uppercase tracking-widest" style={{ color: "var(--color-cream)", opacity: 0.65 }}>
-                        <Icon size={11} strokeWidth={1.8} style={{ color: GOLD }} />
-                        {poi.label}
-                      </div>
-                    );
-                  })}
+                <div className="flex flex-col gap-4 mt-2">
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-cream/40 border-b border-cream/10 pb-2">Points of Interest</p>
+                  <div className="flex flex-wrap gap-2">
+                    {interactivePOIs.map(poi => {
+                      const Icon = POI_ICONS[poi.type];
+                      const isSelected = selectedPOI?.label === poi.label;
+                      return (
+                        <button
+                          key={poi.label}
+                          onClick={() => setSelectedPOI(isSelected ? null : poi)}
+                          className={`flex items-center gap-2 px-3 py-2 text-[10px] tracking-[0.15em] uppercase transition-all duration-300 cursor-pointer rounded-sm border ${
+                            isSelected
+                              ? "bg-[#C9A55A] text-brand-black border-[#C9A55A] font-semibold shadow-[0_0_10px_rgba(201,165,90,0.3)]"
+                              : "bg-white/5 border-cream/10 text-cream/80 hover:bg-white/10"
+                          }`}
+                        >
+                          <Icon size={12} strokeWidth={1.8} />
+                          {poi.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
 
-              {active.id === "directions" && <DirectionsCard />}
-            </div>
+              {active.id === "directions" && (
+                <div className="mt-2">
+                  <DirectionsCard />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-            {/* Secondary images */}
-            {active.images.length > 1 && (
-              <div className="px-5 pb-10 flex gap-2">
-                {active.images.slice(1).map((img, j) => (
-                  <div key={j} className="flex-1 relative overflow-hidden border border-cream/10" style={{ height: "28vw", minHeight: "100px" }}>
-                    <Image src={img} alt="" fill quality={90} className="object-cover" sizes="33vw" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+        {/* 5. Swipeable Image Gallery */}
+        <div className="w-full pb-16">
+          <div className="px-6 mb-5">
+            <p className="text-[9px] uppercase tracking-[0.3em] text-cream/40 border-b border-cream/10 pb-2">Gallery</p>
+          </div>
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-6 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <AnimatePresence mode="popLayout">
+              {displayImages.map((img, i) => (
+                <motion.div
+                  key={img}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="relative shrink-0 w-[85%] sm:w-[60%] aspect-[4/3] snap-center rounded-sm overflow-hidden border border-cream/10 shadow-lg"
+                >
+                  <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 768px) 85vw, 60vw" quality={90} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════
-          DESKTOP LAYOUT
+          DESKTOP LAYOUT (Unchanged)
       ════════════════════════════════════════════════════════════════════ */}
       <div className="hidden lg:grid lg:grid-cols-12 relative">
 

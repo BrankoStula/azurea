@@ -37,7 +37,7 @@ export default function Hero() {
         className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ opacity: 0.75 }}
       >
-        <source src="https://d1pjqs5r0ua4f1.cloudfront.net/azurea_render_web.mp4" type="video/mp4" />
+        <source src="https://d1pjqs5r0ua4f1.cloudfront.net/azurea_update_render_web.mp4" type="video/mp4" />
       </video>
 
       {/* Subtle overlays — top shadow + bottom vignette for legibility */}

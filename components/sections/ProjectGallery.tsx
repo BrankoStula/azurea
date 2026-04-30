@@ -29,8 +29,8 @@ type GalleryItem = { src: string; label: string; category: Category };
 const GALLERY: GalleryItem[] = [
   // ── Exterior ──
   { src: `${CDN}/azurea_gallery_13.webp`, label: "Villa Exterior",        category: "Exterior"        },
-  { src: `${CDN}/azurea_gallery_23.webp`, label: "Living Area",       category: "Living & Dining"        },
-  { src: `${CDN}/azurea_gallery_24.webp`, label: "Living Room",           category: "Living & Dining" },
+  { src: `${CDN}/azurea_gallery_4_fixed.webp`, label: "Living Area",       category: "Living & Dining"        },
+  { src: `${CDN}/azurea_gallery_3_fixed.webp`, label: "Living Room",           category: "Living & Dining" },
   { src: `${CDN}/azurea_gallery_26.webp`, label: "Rooftop",               category: "Exterior"        },
   // ── Living & Dining ──
   { src: `${CDN}/azurea_gallery_3.webp`,  label: "Living Room",           category: "Living & Dining" },
@@ -54,6 +54,8 @@ const GALLERY: GalleryItem[] = [
   // ── Bedrooms ──
   { src: `${CDN}/azurea_gallery_16.webp`, label: "Living Room",           category: "Living & Dining" },
   { src: `${CDN}/azurea_gallery_27.webp`, label: "Rooftop Terrace",       category: "Exterior"        },
+    { src: `${CDN}/azure_gallery_fontain.webp`, label: "Fountain",       category: "Exterior"        },
+
   // ── Bathrooms ──
   { src: `${CDN}/azurea_gallery_17.webp`, label: "Bedroom",               category: "Bedrooms"        },
   { src: `${CDN}/azurea_gallery_18.webp`, label: "Bedroom Desk",          category: "Bedrooms"        },
