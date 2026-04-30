@@ -184,7 +184,6 @@ export default function CinematicJourney() {
 
       {/* ══════════════════════════════════════════════════════════════════════
           STICKY GLOBAL DECOR LAYER (Locked Behind Content)
-          *FIX*: Removed overflow-hidden so the sticky element works correctly!
       ══════════════════════════════════════════════════════════════════════ */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="sticky top-0 w-full h-screen overflow-hidden">
@@ -277,8 +276,12 @@ export default function CinematicJourney() {
                     alt="" 
                     className="w-full h-full object-cover transition-all duration-500" 
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-black/70 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-5">
+                  
+                  {/* FIX: Avoided the 'transparent' bug which creates a white haze in Safari. 
+                           Explicitly fading to brand-black with 0 opacity. Reduced height so image is clear! */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-brand-black/90 to-brand-black/0 pointer-events-none" />
+                  
+                  <div className="absolute bottom-4 left-5 pointer-events-none z-10">
                     <span className="font-display leading-none select-none" style={{ fontSize: "clamp(3rem, 18vw, 6rem)", color: `${GOLD}40` }}>
                       {chapter.num}
                     </span>
@@ -394,8 +397,8 @@ export default function CinematicJourney() {
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={activeArchSpace.mainImg} alt="" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-brand-black/20" />
-
+                            {/* FIX: Removed dark overlay so images pop fully */}
+                            
                             {activeArchSpace.materials.map((mat, mIdx) => (
                               <motion.div
                                 key={mIdx}
@@ -421,7 +424,7 @@ export default function CinematicJourney() {
                         <>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={chapter.imgMain} alt="" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-brand-black/20" />
+                          {/* FIX: Removed dark overlay so images pop fully */}
                           
                           {chapter.hotspots?.map((spot, i) => (
                              <div key={i} className="absolute group cursor-pointer z-50" style={{ top: spot.top, left: spot.left }}>
@@ -453,7 +456,6 @@ export default function CinematicJourney() {
         <motion.div
           animate={{ width: isInvestment ? "100%" : "50%" }}
           transition={{ duration: 1.2, ease: EASE }}
-          /* *FIX*: Removed background and blur from here so the CSS Grid pattern shows up clearly! */
           className="w-[50%] shrink-0"
         >
           {/* Sticky progress nav */}

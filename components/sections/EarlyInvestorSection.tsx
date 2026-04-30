@@ -88,71 +88,43 @@ export default function EarlyInvestorSection() {
           </div>
         </div>
 
-        {/* ── Reason rows ── */}
-        <div>
+        {/* ── Reason cards ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-cream/[0.06] border border-cream/[0.06] my-2">
           {REASONS.map((r, i) => (
             <motion.div
               key={r.num}
-              initial={{ opacity: 0, y: 32 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-5%" }}
-              transition={{ duration: 0.65, delay: i * 0.09, ease: EASE }}
-              className="relative grid grid-cols-12 gap-6 md:gap-12 items-start py-10 md:py-12 border-b border-cream/[0.08] group"
+              transition={{ duration: 0.55, delay: i * 0.09, ease: EASE }}
+              className="relative bg-brand-black px-8 md:px-12 py-12 flex flex-col items-center text-center group"
             >
               <motion.div
-                className="absolute bottom-0 left-0 h-px origin-left"
+                className="absolute top-0 left-0 w-full h-[2px] origin-left"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.09 + 0.2, ease: EASE }}
-                style={{ backgroundColor: `${GOLD}35`, width: "100%" }}
+                transition={{ duration: 0.7, delay: i * 0.09 + 0.2, ease: EASE }}
+                style={{ backgroundColor: `${GOLD}40` }}
               />
 
-              <motion.div
-                className="absolute left-0 top-0 h-full w-[2px] origin-top"
-                initial={{ scaleY: 0 }}
-                whileHover={{ scaleY: 1 }}
-                transition={{ duration: 0.3, ease: EASE }}
-                style={{ backgroundColor: GOLD }}
-              />
-
-              <div className="col-span-2 md:col-span-1 flex items-start pt-1">
-                <motion.span
-                  className="font-display leading-none select-none tabular-nums"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.09 + 0.3 }}
-                  style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", color: `${GOLD}45` }}
-                >
-                  {r.num}
-                </motion.span>
-              </div>
-
-              <div className="col-span-10 md:col-span-4 lg:col-span-3 pt-1">
-                <motion.h3
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.5, delay: i * 0.09 + 0.1, ease: EASE }}
-                  className="font-display text-cream leading-tight group-hover:text-[#C9A55A] transition-colors duration-300"
-                  style={{ fontSize: "clamp(1.25rem, 2vw, 1.75rem)" }}
-                >
-                  {r.title}
-                </motion.h3>
-              </div>
-
-              <motion.div
-                className="col-span-12 md:col-span-7 lg:col-span-8 md:pt-1"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.09 + 0.25, ease: EASE }}
+              <span
+                className="font-display leading-none select-none tabular-nums mb-6"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: `${GOLD}30` }}
               >
-                <p className="text-cream/45 leading-relaxed text-sm md:text-base max-w-2xl">
-                  {r.body}
-                </p>
-              </motion.div>
+                {r.num}
+              </span>
+
+              <h3
+                className="font-display text-cream leading-tight mb-4 group-hover:text-[#C9A55A] transition-colors duration-300"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
+              >
+                {r.title}
+              </h3>
+
+              <p className="text-cream/45 leading-relaxed text-sm md:text-base max-w-sm">
+                {r.body}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -184,7 +156,6 @@ export default function EarlyInvestorSection() {
       </div>
 
       {/* ── ADVANCED, ASYMMETRIC PURE CSS SVG WAVE OVERLAY ── */}
-      {/* Increased height here: h-64 on mobile, h-[32rem] on desktop to make waves much larger */}
       <div className="absolute bottom-0 left-0 w-full h-64 md:h-[32rem] pointer-events-none z-0">
         <svg 
           viewBox="0 0 1440 300" 

@@ -66,7 +66,7 @@ const getPillarPadding = (i: number) => {
 export default function DeveloperSection() {
   return (
     <motion.section
-      className="bg-brand-black py-30 text-cream relative w-full overflow-hidden"
+      className="bg-brand-black pt-30 text-cream relative w-full overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
@@ -80,7 +80,7 @@ export default function DeveloperSection() {
         <img 
           src="/palm_tree_transparent_right.png" 
           alt="" 
-          className="absolute -top-16 -right-16 w-72 lg:w-[36rem] opacity-10 object-contain object-top object-right transform rotate-[-270deg]"
+          className="absolute -top-16 -right-16 w-72 lg:w-[36rem] opacity-10 object-contain object-top object-right transform rotate-[-270deg] invert"
         />
 
         {/* Bottom Left Leaf Element (JPG requires multiply) */}
@@ -120,7 +120,8 @@ export default function DeveloperSection() {
       />
 
       {/* ── Header (Centered Layout) ── */}
-      <div className="relative z-10 flex flex-col items-center text-center gap-8 py-20 lg:py-28 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto backdrop-blur-[2px]">
+      {/* ── Header (Centered Layout) ── */}
+      <div className="relative z-10 flex flex-col items-center gap-6 pt-20 lg:pt-28 pb-10 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto backdrop-blur-[2px]">
         
         {/* Eyebrow */}
         <motion.p 
@@ -147,28 +148,34 @@ export default function DeveloperSection() {
         {/* Subheading */}
         <motion.h2
           variants={fadeUp}
-          className="font-display text-cream leading-tight mt-2 drop-shadow-lg"
+          className="font-display text-cream leading-tight mt-2 drop-shadow-lg text-center"
           style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", letterSpacing: "var(--tracking-heading)" }}
         >
           A Fully Integrated Development and Management Group
         </motion.h2>
 
-        {/* Body */}
-        <motion.p variants={fadeUp} className="text-cream/60 text-base lg:text-lg leading-relaxed max-w-3xl drop-shadow-md">
+        {/* Body - FIXED: Removed md:text-center so it stays text-justify everywhere */}
+        <motion.p 
+          variants={fadeUp} 
+          className="text-cream/60 text-base lg:text-lg leading-relaxed max-w-3xl drop-shadow-md text-justify"
+        >
           Azurea is developed by Royal Bali Group, a Bali-based company delivering residential villa projects through a fully integrated approach.
           From land sourcing and development to legal structuring and post-handover operations, every stage is handled internally to ensure consistency, transparency, and long-term performance.
         </motion.p>
-
-        {/* Tagline */}
-        <motion.div variants={fadeUp} className="border-t border-cream/20 pt-8 mt-4 relative w-full max-w-lg">
-          <p className="font-display text-cream text-lg md:text-xl leading-snug drop-shadow-md" style={{ letterSpacing: "var(--tracking-heading)" }}>
-            A single partner from acquisition to income.
-          </p>
-        </motion.div>
-
       </div>
 
-      {/* ── Three Pillars (Blur removed) ── */}
+      {/* ── Pillars Title (Pulled out of header to sit tightly above pillars) ── */}
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-24 pb-8 flex justify-center">
+        <motion.h3 
+          variants={fadeUp} 
+          className="font-display text-cream text-[1.4rem] sm:text-2xl md:text-3xl lg:text-4xl text-center max-w-3xl drop-shadow-md" 
+          style={{ letterSpacing: "var(--tracking-heading)" }}
+        >
+          A single partner from acquisition to income.
+        </motion.h3>
+      </div>
+
+      {/* ── Three Pillars ── */}
       <div className="relative z-10 w-full">
         {/* Main animated top border for the pillars grid */}
         <motion.div 
@@ -194,7 +201,8 @@ export default function DeveloperSection() {
               <motion.div
                 key={pillar.num}
                 variants={fadeUp}
-                className={`relative pt-16 pb-24 flex flex-col ${getPillarPadding(i)}`}
+                // Reduced top padding (pt-12) to pull it closer to the title
+                className={`relative pt-12 pb-24 flex flex-col ${getPillarPadding(i)}`}
               >
                 {/* Mobile horizontal separator */}
                 {i > 0 && (
@@ -202,7 +210,7 @@ export default function DeveloperSection() {
                 )}
 
                 {/* Gold bar — animated left to right */}
-                <div className="w-full h-px bg-white/10 mb-10 overflow-hidden relative">
+                <div className="w-full h-px bg-white/10 mb-8 overflow-hidden relative">
                   <motion.div
                     className="absolute inset-y-0 left-0 h-full shadow-[0_0_8px_rgba(201,165,90,0.5)]"
                     style={{ backgroundColor: GOLD }}
@@ -215,7 +223,7 @@ export default function DeveloperSection() {
 
                 {/* Content */}
                 <div className="flex-1">
-                  {/* Number - Increased Size */}
+                  {/* Number */}
                   <p className="font-display font-thin leading-none text-[#C9A55A] mb-8 select-none drop-shadow-lg" style={{ fontSize: "clamp(5rem, 8vw, 8rem)" }}>
                     {pillar.num}
                   </p>
@@ -228,8 +236,8 @@ export default function DeveloperSection() {
                     </h3>
                   </div>
 
-                  {/* Body - Increased Size */}
-                  <p className="text-cream/60 text-base leading-relaxed max-w-sm drop-shadow-sm">
+                  {/* Body - Fixed with Justify */}
+                  <p className="text-cream/60 text-base leading-relaxed max-w-sm drop-shadow-sm text-justify">
                     {pillar.body}
                   </p>
                 </div>

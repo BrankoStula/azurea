@@ -35,7 +35,8 @@ const VILLAS: Villa[] = [
 ];
 
 export default function PlanpointSection() {
-  const [loaded, setLoaded] = useState(false);
+  // Use exact logic from your working example
+  const [isIframeLoading, setIsIframeLoading] = useState(true);
   const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
   const [floorplanVilla, setFloorplanVilla] = useState<Villa | null>(null);
 
@@ -53,13 +54,19 @@ export default function PlanpointSection() {
     });
   }, []);
 
-  useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 12000);
-    return () => clearTimeout(t);
-  }, []);
-
   const handleVillaClick = (villa: Villa) => {
-    setFloorplanVilla(prev => (prev?.id === villa.id ? null : villa));
+    if (floorplanVilla?.id === villa.id) {
+      setFloorplanVilla(null);
+    } else {
+      setFloorplanVilla(villa);
+    }
+  };
+
+  // Exact loader function from working code
+  const handleIframeLoad = () => {
+    setTimeout(() => {
+      setIsIframeLoading(false);
+    }, 1500); 
   };
 
   return (
@@ -67,8 +74,6 @@ export default function PlanpointSection() {
 
       {/* ─── Background Decoration ─── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        
-        {/* Radiating Architectural Contour Lines (Bottom Left to Top Right) */}
         <div className="absolute bottom-0 left-0 w-full h-[150%] opacity-60">
           <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <g stroke={GOLD} strokeWidth="0.7" fill="none">
@@ -80,7 +85,6 @@ export default function PlanpointSection() {
                 const controlY2 = 200 - (i * 40);
                 const endX = 1200;
                 const endY = -100 + (i * 60);
-
                 return (
                   <path 
                     key={i} 
@@ -93,7 +97,6 @@ export default function PlanpointSection() {
           </svg>
         </div>
 
-        {/* Massive Top Right Plant */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
           src="/top_right_leaves_3.jpg" 
@@ -147,21 +150,57 @@ export default function PlanpointSection() {
       </div>
 
       {/* ─── Split Screen Layout ─── */}
-      <div className="relative z-10 flex flex-col lg:flex-row w-full border-b border-cream/10" style={{ height: "80vh", minHeight: "650px" }}>
+      <div className="relative z-10 flex flex-col lg:flex-row w-full border-b border-cream/10">
 
         {/* LEFT: 3D Viewer or Floorplan (65%) */}
-        <div className="w-full lg:w-[65%] h-[50vh] lg:h-full relative shrink-0 overflow-hidden bg-brand-black/50 backdrop-blur-md">
-          <AnimatePresence mode="wait">
-            {floorplanVilla ? (
+        {/* Exact same container classes as working example logic */}
+        <div className="relative w-full lg:w-[65%] min-h-[500px] lg:min-h-[800px] h-[70vh] lg:h-[85vh] shrink-0 bg-brand-black">
+          
+          <div className="w-full h-full relative">
+            
+            {/* Location label */}
+            <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col gap-1">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-cream/70 drop-shadow-md">Azurea</span>
+              <span className="text-[9px] uppercase tracking-widest text-cream/40 drop-shadow-md">Seseh, Bali</span>
+            </div>
 
-              /* ── Floorplan Image View ── */
+            {/* Interactive badge */}
+            <div className="absolute bottom-5 right-5 z-20 pointer-events-none">
+              <div className="flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-cream/10 rounded-sm">
+                <Maximize2 size={12} className="text-cream/60" />
+                <span className="text-[9px] uppercase tracking-widest text-cream/70">Interactive 3D</span>
+              </div>
+            </div>
+
+            {/* Custom Loader Overlay */}
+            {isIframeLoading && (
+              <div className="absolute inset-0 z-30 bg-brand-black flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
+                <div className="w-6 h-6 rounded-full border-2 border-[#C9A55A]/20 border-t-[#C9A55A] animate-spin" />
+                <p className="text-[10px] uppercase tracking-[0.25em] text-cream/30">Loading Masterplan...</p>
+              </div>
+            )}
+
+            {/* Core Iframe ALWAYS Mounted */}
+            <iframe 
+              src={PLANPOINT_BASE_URL}
+              title="Interactive Floor Plan"
+              onLoad={handleIframeLoad}
+              className={`absolute inset-0 w-full h-full border-0 transition-opacity duration-700 z-10 ${isIframeLoading ? 'opacity-0' : 'opacity-100'}`}
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+
+          {/* ── 2. FLOORPLAN OVERLAY (Slides over the iframe) ── */}
+          <AnimatePresence>
+            {floorplanVilla && (
               <motion.div
                 key={`fp-${floorplanVilla.id}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4, ease: EASE }}
-                className="absolute inset-0 flex items-center justify-center"
+                className="absolute inset-0 flex items-center justify-center z-50"
                 style={{ backgroundColor: "#f5f0e8" }}
               >
                 <Image
@@ -171,85 +210,34 @@ export default function PlanpointSection() {
                   className="object-cover"
                   quality={90}
                   sizes="(max-width: 1024px) 100vw, 65vw"
+                  priority
                 />
 
-                {/* Back button */}
                 <button
                   onClick={() => setFloorplanVilla(null)}
-                  className="absolute top-5 left-5 z-10 flex items-center gap-2 bg-brand-black/80 hover:bg-brand-black px-4 py-2.5 backdrop-blur-md border border-cream/20 hover:border-[#C9A55A]/50 transition-all rounded-sm cursor-pointer"
+                  className="absolute top-5 left-5 z-50 flex items-center gap-2 bg-brand-black/80 hover:bg-brand-black px-4 py-2.5 backdrop-blur-md border border-cream/20 hover:border-[#C9A55A]/50 transition-all rounded-sm cursor-pointer shadow-lg"
                 >
                   <ArrowLeft size={12} className="text-cream/80" />
                   <span className="text-[9px] uppercase tracking-widest text-cream/90">Back to 3D View</span>
                 </button>
-
-              </motion.div>
-
-            ) : (
-
-              /* ── 3D Iframe View ── */
-              <motion.div
-                key="iframe"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: EASE }}
-                className="absolute inset-0"
-              >
-                {/* Location label */}
-                <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col gap-1">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-cream/70 drop-shadow-md">Azurea</span>
-                  <span className="text-[9px] uppercase tracking-widest text-cream/40 drop-shadow-md">Seseh, Bali</span>
-                </div>
-
-                {/* Interactive badge */}
-                <div className="absolute bottom-5 right-5 z-20 pointer-events-none">
-                  <div className="flex items-center gap-2 bg-brand-black/50 px-3 py-1.5 backdrop-blur-md border border-cream/10 rounded-sm">
-                    <Maximize2 size={12} className="text-cream/60" />
-                    <span className="text-[9px] uppercase tracking-widest text-cream/70">Interactive 3D</span>
-                  </div>
-                </div>
-
-                {/* Loading skeleton */}
-                <motion.div
-                  animate={{ opacity: loaded ? 0 : 1, pointerEvents: loaded ? "none" : "auto" }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10"
-                >
-                  <div className="w-6 h-6 rounded-full border-2 border-[#C9A55A]/20 border-t-[#C9A55A] animate-spin" />
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-cream/30">Loading Masterplan</p>
-                </motion.div>
-
-                <iframe
-                  src={PLANPOINT_BASE_URL}
-                  className="w-full h-full border-0"
-                  style={{ background: "transparent" }}
-                  allowTransparency={true}
-                  allowFullScreen
-                  allow="autoplay; fullscreen; vr"
-                  title="Azurea Interactive Masterplan"
-                  onLoad={() => setLoaded(true)}
-                />
               </motion.div>
             )}
           </AnimatePresence>
+
         </div>
 
         {/* RIGHT: Availability List (35%) */}
-        <div className="w-full lg:w-[35%] h-[50vh] lg:h-full bg-brand-black/80 backdrop-blur-sm border-t lg:border-t-0 lg:border-l border-cream/10 flex flex-col relative">
+        <div className="w-full lg:w-[35%] min-h-[400px] h-[45vh] lg:h-[80vh] bg-brand-black/90 backdrop-blur-md border-t lg:border-t-0 lg:border-l border-cream/10 flex flex-col relative z-20">
 
-          {/* Table Header */}
           <div
             className="sticky top-0 backdrop-blur-md z-10 px-6 py-4 border-b border-cream/10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-cream/40"
-            style={{
-              backgroundColor: "color-mix(in srgb, var(--color-brand-black) 80%, transparent)",
-            }}
+            style={{ backgroundColor: "color-mix(in srgb, var(--color-brand-black) 90%, transparent)" }}
           >
             <div className="w-16">Unit</div>
             <div className="flex-1">Built Area</div>
             <div className="w-24 text-right">Status</div>
           </div>
 
-          {/* Scrollable List */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
             {VILLAS.map((villa) => {
               const isAvailable = villa.status === "Available";
@@ -271,7 +259,6 @@ export default function PlanpointSection() {
                         : "bg-transparent border-cream/5"
                   } ${isSold ? "opacity-60 grayscale" : "opacity-100"}`}
                 >
-                  {/* Unit Number */}
                   <div className="w-16 flex flex-col gap-0.5">
                     <span className={`font-display text-lg transition-colors ${isSelected ? "text-[#C9A55A]" : "text-cream"}`}>
                       V{villa.id}
@@ -281,7 +268,6 @@ export default function PlanpointSection() {
                     )}
                   </div>
 
-                  {/* Details */}
                   <div className="flex-1 flex flex-col gap-1 pointer-events-none">
                     <span className={`text-sm ${isSold ? "text-cream/50 line-through decoration-white/20" : "text-cream/90"}`}>
                       {villa.built}
@@ -291,7 +277,6 @@ export default function PlanpointSection() {
                     </span>
                   </div>
 
-                  {/* Status Badge */}
                   <div className="w-24 flex justify-end pointer-events-none">
                     <div className={`px-2.5 py-1 text-[9px] uppercase tracking-widest rounded-sm border flex items-center gap-1.5 ${
                       isAvailable
@@ -310,7 +295,6 @@ export default function PlanpointSection() {
             })}
           </div>
 
-          {/* Bottom fade */}
           <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-brand-black to-transparent pointer-events-none" />
         </div>
 

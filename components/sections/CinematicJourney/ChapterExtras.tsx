@@ -138,9 +138,9 @@ export function VillaFeatures() {
           { icon: Home,      label: "Rooftop Terrace"    },
           { icon: Bath,      label: "Ice Bath"           },
         ].map((a, i) => (
-          <div key={i} className="flex items-center gap-3 bg-cream/5 border border-cream/10 p-3">
+          <div key={i} className="flex items-center gap-3 bg-cream border border-cream/10 p-3">
             <a.icon size={16} style={{ color: GOLD }} />
-            <span className="text-cream/80 text-xs tracking-wide">{a.label}</span>
+            <span className="text-white text-xs tracking-wide">{a.label}</span>
           </div>
         ))}
       </div>

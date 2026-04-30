@@ -32,10 +32,10 @@ export default function Footer() {
               The Collection
             </h4>
             <ul className="flex flex-col gap-3 text-cream/70 text-sm">
-              <li><Link href="/project" className="hover:text-cream transition-colors">The Vision</Link></li>
-              <li><Link href="/location" className="hover:text-cream transition-colors">Location</Link></li>
-              <li><Link href="/product" className="hover:text-cream transition-colors">The Villas</Link></li>
-              <li><Link href="/plans" className="hover:text-cream transition-colors">Interactive Masterplan</Link></li>
+              <li><Link href="/#project" className="hover:text-cream transition-colors">The Vision</Link></li>
+              <li><Link href="/#why-bali" className="hover:text-cream transition-colors">Location</Link></li>
+              <li><Link href="/#masterplan" className="hover:text-cream transition-colors">The Villas</Link></li>
+              <li><Link href="/#masterplan" className="hover:text-cream transition-colors">Interactive Masterplan</Link></li>
             </ul>
           </div>
 
@@ -45,8 +45,8 @@ export default function Footer() {
               Connect
             </h4>
             <ul className="flex flex-col gap-3 text-cream/70 text-sm">
-              <li><Link href="/contact" className="hover:text-cream transition-colors">Contact Us</Link></li>
-              <li><Link href="/contact" className="hover:text-cream transition-colors">Schedule a Viewing</Link></li>
+              <li><Link href="/#inquiry" className="hover:text-cream transition-colors">Contact Us</Link></li>
+              <li><Link href="/#inquiry" className="hover:text-cream transition-colors">Schedule a Viewing</Link></li>
               <li><a href="mailto:Admin@royalbalidevelopments.com" className="hover:text-cream transition-colors">Admin@royalbalidevelopments.com</a></li>
               <li><a href="tel:+6285956779721" className="hover:text-cream transition-colors">+62 859 5677 9721</a></li>
             </ul>
@@ -71,8 +71,8 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-cream/10 text-cream/40 text-xs gap-4">
           <p>© {new Date().getFullYear()} Azurea Estate. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-cream transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-cream transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-cream transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-cream transition-colors">Terms of Service</Link>
           </div>
         </div>
 
