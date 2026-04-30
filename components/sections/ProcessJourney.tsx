@@ -80,64 +80,130 @@ const STEPS: Step[] = [
   },
 ];
 
-// ─── EDITORIAL MOBILE LAYOUT (No Accordions) ─────────────────────────────────
+// ─── REVERTED MOBILE ACCORDION ───────────────────────────────────────────────
 
-function MobileEditorialJourney() {
+function MobileProcessJourney() {
+  const [activeIdx, setActiveIdx] = useState(0);
+
   return (
-    <section className="block lg:hidden bg-brand-black pt-16 pb-12">
-      <div className="px-6 mb-12">
-        <p className="text-[10px] uppercase tracking-[0.35em] mb-4 flex items-center gap-4" style={{ color: GOLD }}>
+    <section className="block lg:hidden bg-brand-black border-y border-cream/8">
+      {/* Header */}
+      <div className="px-6 pt-14 pb-10">
+        <p className="text-[10px] uppercase tracking-[0.35em] mb-5 flex items-center gap-4" style={{ color: GOLD }}>
           <span className="w-6 h-px inline-block" style={{ backgroundColor: GOLD }} />
-          Fully Managed
+          From Purchase to Income · Fully Managed
         </p>
-        <h2 className="font-display text-cream leading-tight" style={{ fontSize: "clamp(2.5rem, 10vw, 3.5rem)" }}>
+        <h2
+          className="font-display text-cream leading-tight"
+          style={{ fontSize: "clamp(2rem, 10vw, 3rem)", letterSpacing: "var(--tracking-heading)" }}
+        >
           Your Next Steps
         </h2>
+        {/* Step counter */}
+        <p className="text-[10px] uppercase tracking-widest mt-3" style={{ color: GOLD }}>
+          {String(activeIdx + 1).padStart(2, "0")} / {String(STEPS.length).padStart(2, "0")}
+        </p>
       </div>
 
-      <div className="flex flex-col gap-12 px-6">
-        {STEPS.map((step) => {
+      {/* Accordion rows */}
+      <div className="border-t border-cream/10">
+        {STEPS.map((step, i) => {
+          const isActive = i === activeIdx;
           const Icon = step.Icon;
           return (
-            <div key={step.num} className="flex flex-col gap-6">
-              {/* Framed Image */}
-              <div className="relative w-full aspect-[4/3] p-3 border border-cream/10">
-                <div className="relative w-full h-full overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={step.img} alt={step.heading} className="w-full h-full object-cover" />
-                </div>
-                {/* Floating Meta Badge */}
-                <div className="absolute -bottom-4 right-4 bg-brand-black border border-cream/10 px-4 py-2 flex items-center gap-3 shadow-xl">
-                  <Icon size={14} style={{ color: GOLD }} />
-                  <span className="text-[9px] uppercase tracking-widest text-cream">{step.label}</span>
-                </div>
-              </div>
+            <div key={step.num} className="relative border-b border-cream/10">
+              {/* Gold left accent bar */}
+              <motion.div
+                className="absolute left-0 top-0 bottom-0 w-[3px] origin-top"
+                style={{ backgroundColor: GOLD }}
+                animate={{ scaleY: isActive ? 1 : 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
+              />
 
-              {/* Content */}
-              <div className="pt-4">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="font-display text-3xl" style={{ color: GOLD }}>{step.num}</span>
-                  <div className="h-px flex-1 bg-cream/10" />
-                  <span className="text-[9px] uppercase tracking-[0.3em] text-cream/40">{step.phase}</span>
+              {/* Row header button */}
+              <button
+                onClick={() => setActiveIdx(i)}
+                className="w-full flex items-center gap-5 py-5 px-6 text-left cursor-pointer"
+              >
+                <span
+                  className="font-display text-3xl leading-none w-10 shrink-0 transition-all duration-300"
+                  style={{
+                    color: "transparent",
+                    WebkitTextStroke: `1px ${isActive ? "rgba(201,165,90,0.5)" : "rgba(201,165,90,0.15)"}`,
+                  }}
+                >
+                  {step.num}
+                </span>
+                <span
+                  className={`flex-1 text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300 ${
+                    isActive ? "text-cream" : "text-cream/40"
+                  }`}
+                >
+                  {step.label}
+                </span>
+                <div className="flex items-center gap-3 shrink-0">
+                  <Icon size={14} style={{ color: isActive ? GOLD : "rgba(255,255,255,0.2)" }} strokeWidth={1.5} />
+                  <motion.span
+                    className="text-cream/30 text-xl leading-none"
+                    animate={{ rotate: isActive ? 45 : 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                  >
+                    +
+                  </motion.span>
                 </div>
-                <h3 className="font-display text-cream text-2xl leading-tight mb-3">
-                  {step.heading}
-                </h3>
-                <p className="text-cream/60 text-sm leading-relaxed mb-6">
-                  {step.body}
-                </p>
-                <div className="bg-white/5 border border-white/5 p-5">
-                  <p className="text-[9px] uppercase tracking-widest text-cream/40 mb-4">Key Deliverables</p>
-                  <ul className="flex flex-col gap-3">
-                    {step.deliverables.map((d, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: GOLD }} />
-                        <span className="text-xs text-cream/80 leading-snug">{d}</span>
-                      </li>
-                    ))}
-                  </ul>
+              </button>
+
+              {/* Expandable body */}
+              <motion.div
+                animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }}
+                initial={false}
+                transition={{ duration: 0.55, ease: EASE }}
+                className="overflow-hidden"
+              >
+                <div className="px-6 pb-10 flex flex-col gap-6">
+                  <div className="h-52 border border-cream/10 overflow-hidden">
+                    <motion.img
+                      src={step.img}
+                      alt={step.label}
+                      className="w-full h-full object-cover"
+                      animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 1.04 }}
+                      transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Icon size={14} style={{ color: GOLD }} strokeWidth={1.5} />
+                    <span className="text-[10px] uppercase tracking-[0.3em]" style={{ color: GOLD }}>
+                      Step {step.num} · {step.label}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-cream leading-tight" style={{ fontSize: "clamp(1.5rem, 6vw, 2rem)", letterSpacing: "var(--tracking-heading)" }}>
+                    {step.heading}
+                  </h3>
+                  <p className="text-cream/60 text-sm leading-relaxed">
+                    {step.body}
+                  </p>
+                  
+                  {/* Mobile Deliverables */}
+                  <div className="border-t border-cream/10 pt-5 mt-2">
+                    <p className="text-[9px] uppercase tracking-widest text-cream/30 mb-4">Key Deliverables</p>
+                    <ul className="flex flex-col gap-3">
+                      {step.deliverables.map((d, dIdx) => (
+                        <li key={dIdx} className="flex items-start gap-3">
+                          <Icon size={12} style={{ color: GOLD, marginTop: '2px' }} strokeWidth={1.5} />
+                          <span className="text-xs text-cream/70 leading-snug">{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="h-px bg-cream/10 relative overflow-hidden mt-4">
+                    <div
+                      className="absolute inset-y-0 left-0 h-full transition-all duration-500"
+                      style={{ backgroundColor: GOLD, width: `${((i + 1) / STEPS.length) * 100}%` }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           );
         })}
@@ -145,7 +211,6 @@ function MobileEditorialJourney() {
     </section>
   );
 }
-
 
 // ─── 3-COLUMN DESKTOP ARCHITECTURAL GRID ─────────────────────────────────────
 
@@ -170,7 +235,7 @@ export default function ProcessJourney() {
 
   return (
     <>
-      <MobileEditorialJourney />
+      <MobileProcessJourney />
       
       {/* 600vh total scroll height to allow smooth transitioning through 5 steps. */}
       <div ref={containerRef} className="hidden lg:block relative bg-brand-black border-y border-cream/10 h-[600vh]">
@@ -185,7 +250,7 @@ export default function ProcessJourney() {
             <img 
               src="/left_plant_bottom_1.jpg" 
               alt="" 
-              className="absolute -top-12 right-0 w-[30rem] xl:w-[35rem] opacity-[0.08] object-contain object-top object-right transform -scale-x-100"
+              className="absolute -top-12 right-0 w-[44rem] xl:w-[50rem] opacity-[0.15] object-contain object-top object-right transform -scale-x-100"
               style={{ mixBlendMode: 'multiply' }} 
             />
             {/* Animated Sweeping Abstract Gold Lines */}
