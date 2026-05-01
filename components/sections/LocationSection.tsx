@@ -48,7 +48,7 @@ const u = (id: string) =>
 
 const CDN = "https://d1pjqs5r0ua4f1.cloudfront.net";
 
-// ─── Route data ───────────────────────────────────────────────────────────
+// ─── Route data & Generators ──────────────────────────────────────────────
 
 const DIRECTIONS_ROUTE: [number, number][] = [
   [115.168190, -8.746512],
@@ -66,6 +66,31 @@ const DIRECTIONS_ROUTE: [number, number][] = [
   [115.133214, -8.624151],
   [115.129046, -8.610440],
 ];
+
+// Helper to draw a sleek curved "flight path" between any POI and the Villa
+function getCurvedRoute(start: [number, number], end: [number, number]): [number, number][] {
+  const segments = 30;
+  const route: [number, number][] = [];
+  const midX = (start[0] + end[0]) / 2;
+  const midY = (start[1] + end[1]) / 2;
+  const dx = end[0] - start[0];
+  const dy = end[1] - start[1];
+  
+  // Control point offset perpendicularly to create a smooth arc
+  const ctrlX = midX - dy * 0.15; 
+  const ctrlY = midY + dx * 0.15;
+
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = (1 - t) * (1 - t) * start[0] + 2 * (1 - t) * t * ctrlX + t * t * end[0];
+    const y = (1 - t) * (1 - t) * start[1] + 2 * (1 - t) * t * ctrlY + t * t * end[1];
+    route.push([x, y]);
+  }
+  return route;
+}
+
+const AZUREA_LNG = 115.129046;
+const AZUREA_LAT = -8.610440;
 
 // ─── Section data ─────────────────────────────────────────────────────────
 
@@ -143,12 +168,10 @@ const MapboxMap = dynamic(() => import("@/components/ui/MapboxMap"), {
 
 function DirectionsCard() {
   return (
-    // Replaced bg-black/10 with bg-cream (your brand blue)
     <div className="border border-white/20 p-5 backdrop-blur-md bg-cream shadow-xl">
       <div className="flex items-start gap-3 mb-3">
         <Plane size={15} style={{ color: GOLD }} className="mt-0.5 shrink-0" strokeWidth={1.5} />
         <div>
-          {/* Changed text to white for contrast against blue */}
           <p className="text-white text-[13px] font-medium leading-snug">Ngurah Rai International</p>
           <p className="text-white/40 text-[11px] tracking-wide">Denpasar, Bali — DPS</p>
         </div>
@@ -255,12 +278,40 @@ export default function LocationSection() {
   };
 
   const displayImages: string[] = selectedPOI?.images.length ? selectedPOI.images : active.images;
-  const mapCamera: Camera = selectedPOI
-    ? { longitude: selectedPOI.longitude, latitude: selectedPOI.latitude, zoom: 15, pitch: 45, bearing: 10 }
-    : active.camera;
   const mapPOIs: POI[] = active.pois.map(({ label, longitude, latitude, type }) => ({ label, longitude, latitude, type }));
-  const activeRoute = active.id === "directions" ? DIRECTIONS_ROUTE : undefined;
   const interactivePOIs = active.id === "directions" ? [] : active.pois.filter(p => p.type !== "project");
+
+  // --- DYNAMIC CAMERA & ROUTE LOGIC ---
+  let mapCamera: Camera = active.camera;
+  let activeRoute: [number, number][] | undefined = active.id === "directions" ? DIRECTIONS_ROUTE : undefined;
+
+  if (selectedPOI) {
+    if (selectedPOI.type === "project" || selectedPOI.label === "Azurea") {
+      // Just zoom into Azurea
+      mapCamera = { longitude: AZUREA_LNG, latitude: AZUREA_LAT, zoom: 15.5, pitch: 50, bearing: 10 };
+    } else {
+      // Draw a curved line to Azurea
+      activeRoute = getCurvedRoute(
+        [selectedPOI.longitude, selectedPOI.latitude],
+        [AZUREA_LNG, AZUREA_LAT]
+      );
+      
+      // Calculate dynamic zoom based on distance
+      const dx = selectedPOI.longitude - AZUREA_LNG;
+      const dy = selectedPOI.latitude - AZUREA_LAT;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const dynamicZoom = dist > 0.05 ? 12.2 : 13.5; // Zoom out if it's far, zoom in if it's close
+
+      // Frame both points in the camera
+      mapCamera = {
+        longitude: (selectedPOI.longitude + AZUREA_LNG) / 2,
+        latitude: (selectedPOI.latitude + AZUREA_LAT) / 2,
+        zoom: dynamicZoom,
+        pitch: 35,
+        bearing: 0
+      };
+    }
+  }
 
   return (
     <section
@@ -271,11 +322,10 @@ export default function LocationSection() {
     >
 
       {/* ════════════════════════════════════════════════════════════════════
-          MOBILE LAYOUT (Reimagined App-like Interface)
+          MOBILE LAYOUT
       ════════════════════════════════════════════════════════════════════ */}
       <div className="flex flex-col lg:hidden w-full">
 
-        {/* 1. Header */}
         <div className="px-6 pt-16 pb-6">
           <motion.p
             initial={{ opacity: 0, x: -16 }}
@@ -300,7 +350,6 @@ export default function LocationSection() {
           </motion.h2>
         </div>
 
-        {/* 2. Scrollable Tabs (Pill style) */}
         <div className="w-full border-b border-cream/10 pb-5 mb-2">
           <div className="flex overflow-x-auto scrollbar-hide px-6 gap-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {SUBSECTIONS.map((s, i) => {
@@ -322,11 +371,9 @@ export default function LocationSection() {
           </div>
         </div>
 
-        {/* 3. The Interactive Map */}
         <div className="w-full h-[45vh] min-h-[350px] relative border-b border-cream/10 bg-[#111111]">
           <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
           
-          {/* Overlay Badges */}
           <div className="absolute top-4 left-4 z-10 bg-brand-black/80 backdrop-blur-md px-3 py-1.5 border border-white/10 rounded-sm">
             <span className="text-[9px] tracking-[0.2em] uppercase font-semibold" style={{ color: GOLD }}>
               {active.shortLabel}
@@ -349,7 +396,6 @@ export default function LocationSection() {
           </AnimatePresence>
         </div>
 
-        {/* 4. Content Area */}
         <div className="px-6 py-10 flex flex-col gap-6">
           <AnimatePresence mode="wait">
             <motion.div
@@ -369,7 +415,6 @@ export default function LocationSection() {
                 </p>
               </div>
 
-              {/* POI Interactive Buttons */}
               {interactivePOIs.length > 0 && (
                 <div className="flex flex-col gap-4 mt-2">
                   <p className="text-[9px] uppercase tracking-[0.3em] text-cream/40 border-b border-cream/10 pb-2">Points of Interest</p>
@@ -405,7 +450,6 @@ export default function LocationSection() {
           </AnimatePresence>
         </div>
 
-        {/* 5. Swipeable Image Gallery */}
         <div className="w-full pb-16">
           <div className="px-6 mb-5">
             <p className="text-[9px] uppercase tracking-[0.3em] text-cream/40 border-b border-cream/10 pb-2">Gallery</p>
@@ -431,39 +475,29 @@ export default function LocationSection() {
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════
-          DESKTOP LAYOUT (Unchanged)
+          DESKTOP LAYOUT
       ════════════════════════════════════════════════════════════════════ */}
       <div className="hidden lg:grid lg:grid-cols-12 relative">
 
-        {/* LEFT — 4× min-h-screen panels */}
         <div className="lg:col-span-4 relative bg-brand-black">
           
-          {/* ── STICKY BACKGROUND LAYER (Left column decor) ── */}
           <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none z-0">
-            
-            {/* Top Right Palm Tree (Pinned securely to top right of the text column) */}
             <div className="absolute top-0 -left-12 lg:-left-20 w-80 lg:w-96 h-80 opacity-20 drop-shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="/palm_tree_transparent_right.png" 
                 alt=""
-                /* CHANGED: object-left forces the image to stick to the left boundary */
                 className="w-full h-full object-contain object-top object-left"
               />
             </div>
             
-            {/* Massive Vertical Gold Waves (Sweeping down the left edge) */}
-            {/* ── Two Vertical Gold Lines (Sweeping down the right edge) ── */}
             <div className="absolute top-0 right-0 w-[400px] h-[120vh] opacity-40">
               <svg viewBox="0 0 400 1200" preserveAspectRatio="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <g stroke={GOLD} strokeWidth="1.5" fill="none">
-                  {/* Changed length to 2 for exactly two lines */}
                   {Array.from({ length: 7 }).map((_, i) => {
-                    // Lines start on the right side, curve left, then return right
                     const startX = 350 - (i * 20);
                     const peakX = 100 - (i * 30); 
                     const endX = 380 - (i * 20);
-                    
                     return (
                       <path 
                         key={i} 
@@ -477,7 +511,6 @@ export default function LocationSection() {
             </div>
           </div>
 
-          {/* ── SCROLLING TEXT CONTENT ── */}
           <div className="relative z-10 w-full h-full -mt-[100vh]">
             {SUBSECTIONS.map((s, i) => {
               const isActive = i === activeIdx;
@@ -561,11 +594,9 @@ export default function LocationSection() {
           </div>
         </div>
 
-        {/* RIGHT — sticky map + images */}
         <div className="lg:col-span-8">
           <div className="sticky top-0 h-screen flex flex-col border-l border-cream/5">
 
-            {/* Nav dots */}
             <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
               {SUBSECTIONS.map((_, i) => (
                 <button
@@ -586,7 +617,6 @@ export default function LocationSection() {
               ))}
             </div>
 
-            {/* Top 2/3 — map */}
             <div className="flex-[2] relative min-h-0">
               <MapboxMap camera={mapCamera} pois={mapPOIs} route={activeRoute} />
               <div className="absolute top-5 left-5 z-10 bg-brand-black/80 backdrop-blur-sm px-3 py-1.5 pointer-events-none border border-white/5">
@@ -612,7 +642,6 @@ export default function LocationSection() {
               </AnimatePresence>
             </div>
 
-            {/* Bottom 1/3 — image strip */}
             <div className="flex-1 relative min-h-0 overflow-hidden border-t border-cream/10">
               <AnimatePresence mode="sync">
                 <motion.div
